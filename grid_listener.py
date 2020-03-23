@@ -14,6 +14,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='calculate noise levels from cityIO.')
     parser.add_argument('--endpoint', type=int, default=-1,help="endpoint url to choose from config.ini/input_urls")
     args = parser.parse_args()
+    args.endpoint = 3
     print("endpoint",args.endpoint)
 
     try:
