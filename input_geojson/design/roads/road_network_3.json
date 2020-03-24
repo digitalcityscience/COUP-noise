@@ -16,8 +16,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 2000,
-        "truck_traffic_daily": 200,
+        "car_traffic_daily": 757,
+        "truck_traffic_daily": 67,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -32,11 +32,59 @@
           [
             567502.382852565031499,
             5931808.414777891710401
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1001,
+        "eisenbahn": 0,
+        "hauptverk": 0,
+        "hauptsaml": 1,
+        "anlieger": 0,
+        "car_traffic_daily": 461,
+        "truck_traffic_daily": 29,
+        "max_speed": 50,
+        "str_stairs": "false",
+        "name": "hauptsammelstrasse"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            567502.382852565031499,
+            5931808.414777891710401
           ],
           [
             567567.878434521844611,
             5931906.174193324521184
           ],
+          [
+            567493.671617526444606,
+            5931956.828411882743239
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1002,
+        "eisenbahn": 0,
+        "hauptverk": 0,
+        "hauptsaml": 1,
+        "anlieger": 0,
+        "car_traffic_daily": 308,
+        "truck_traffic_daily": 19,
+        "max_speed": 50,
+        "str_stairs": "false",
+        "name": "hauptsammelstrasse"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
           [
             567493.671617526444606,
             5931956.828411882743239
@@ -49,6 +97,30 @@
             567480.766084135975689,
             5931944.568155161105096
           ],
+          [
+            567381.070838694344275,
+            5932012.644843796268106
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1003,
+        "eisenbahn": 0,
+        "hauptverk": 0,
+        "hauptsaml": 1,
+        "anlieger": 0,
+        "car_traffic_daily": 161,
+        "truck_traffic_daily": 10,
+        "max_speed": 50,
+        "str_stairs": "false",
+        "name": "hauptsammelstrasse"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
           [
             567381.070838694344275,
             5932012.644843796268106
@@ -65,6 +137,30 @@
             567259.758824823540635,
             5932075.881957408040762
           ],
+          [
+            567250.079674780601636,
+            5932062.331147347576916
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1004,
+        "eisenbahn": 0,
+        "hauptverk": 0,
+        "hauptsaml": 1,
+        "anlieger": 0,
+        "car_traffic_daily": 42,
+        "truck_traffic_daily": 3,
+        "max_speed": 50,
+        "str_stairs": "false",
+        "name": "hauptsammelstrasse"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
           [
             567250.079674780601636,
             5932062.331147347576916
@@ -92,30 +188,6 @@
           [
             567064.562632292276248,
             5932131.375750987790525
-          ]
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "id": 1000,
-        "eisenbahn": 0,
-        "hauptverk": 0,
-        "hauptsaml": 1,
-        "anlieger": 0,
-        "car_traffic_daily": 500,
-        "truck_traffic_daily": 20,
-        "max_speed": 50,
-        "str_stairs": "false",
-        "name": "hauptsammelstrasse"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-           [
-            567064.562632292276248,
-            5932131.375750987790525
           ],
           [
             567038.428927176515572,
@@ -125,6 +197,30 @@
             567026.491308790282346,
             5932133.95685766544193
           ],
+          [
+            566978.740835245349444,
+            5932166.865967811085284
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1005,
+        "eisenbahn": 0,
+        "hauptverk": 0,
+        "hauptsaml": 1,
+        "anlieger": 0,
+        "car_traffic_daily": 74,
+        "truck_traffic_daily": 6,
+        "max_speed": 50,
+        "str_stairs": "false",
+        "name": "hauptsammelstrasse"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
           [
             566978.740835245349444,
             5932166.865967811085284
@@ -142,10 +238,38 @@
             5932144.926561046391726
           ],
           [
+            566893.564314868184738,
+            5932144.926561046391726
+          ],
+          [
             566803.225581134669483,
             5932195.258141268976033
           ],
           [
+            566659.974160500220023,
+            5931981.026286988519132
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1006,
+        "eisenbahn": 0,
+        "hauptverk": 0,
+        "hauptsaml": 1,
+        "anlieger": 0,
+        "car_traffic_daily": 31,
+        "truck_traffic_daily": 3,
+        "max_speed": 50,
+        "str_stairs": "false",
+        "name": "hauptsammelstrasse"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+           [
             566659.974160500220023,
             5931981.026286988519132
           ],
@@ -159,13 +283,13 @@
     {
       "type": "Feature",
       "properties": {
-        "id": 1000,
+        "id": 1007,
         "eisenbahn": 0,
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 2000,
-        "truck_traffic_daily": 200,
+        "car_traffic_daily": 96,
+        "truck_traffic_daily": 15,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -188,7 +312,55 @@
           [
             567154.256089356378652,
             5931551.917301752604544
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1008,
+        "eisenbahn": 0,
+        "hauptverk": 0,
+        "hauptsaml": 1,
+        "anlieger": 0,
+        "car_traffic_daily": 232,
+        "truck_traffic_daily": 109,
+        "max_speed": 50,
+        "str_stairs": "false",
+        "name": "hauptsammelstrasse"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            567154.256089356378652,
+            5931551.917301752604544
           ],
+          [
+            566984.54832527122926,
+            5931274.7709721904248
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1009,
+        "eisenbahn": 0,
+        "hauptverk": 0,
+        "hauptsaml": 1,
+        "anlieger": 0,
+        "car_traffic_daily": 117,
+        "truck_traffic_daily": 54,
+        "max_speed": 50,
+        "str_stairs": "false",
+        "name": "hauptsammelstrasse"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
           [
             566984.54832527122926,
             5931274.7709721904248
@@ -211,13 +383,13 @@
     {
       "type": "Feature",
       "properties": {
-        "id": 1001,
+        "id": 1010,
         "eisenbahn": 0,
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 2000,
-        "truck_traffic_daily": 200,
+        "car_traffic_daily": 496,
+        "truck_traffic_daily": 143,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -226,12 +398,35 @@
         "type": "LineString",
         "coordinates": [
           [
-            566832.263031263253652,
-            5930974.072044190950692
-          ],
-          [
             567416.238417183514684,
             5931409.633796120993793
+          ],
+          [
+            567348.384,
+            5931452.263
+          ]
+        ]
+      }},
+        {
+      "type": "Feature",
+      "properties": {
+        "id": 1011,
+        "eisenbahn": 0,
+        "hauptverk": 0,
+        "hauptsaml": 1,
+        "anlieger": 0,
+        "car_traffic_daily": 326,
+        "truck_traffic_daily": 121,
+        "max_speed": 50,
+        "str_stairs": "false",
+        "name": "hauptsammelstrasse"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            567348.384,
+            5931452.263
           ],
           [
             567159.418302712612785,
