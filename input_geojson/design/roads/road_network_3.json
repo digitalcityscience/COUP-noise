@@ -16,8 +16,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 757,
-        "truck_traffic_daily": 67,
+        "car_traffic_daily": 10810,
+        "truck_traffic_daily": 960,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -44,8 +44,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 461,
-        "truck_traffic_daily": 29,
+        "car_traffic_daily": 6580,
+        "truck_traffic_daily": 410,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -76,8 +76,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 308,
-        "truck_traffic_daily": 19,
+        "car_traffic_daily": 4400,
+        "truck_traffic_daily": 270,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -112,8 +112,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 161,
-        "truck_traffic_daily": 10,
+        "car_traffic_daily": 2300,
+        "truck_traffic_daily": 135,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -152,8 +152,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 42,
-        "truck_traffic_daily": 3,
+        "car_traffic_daily": 605,
+        "truck_traffic_daily": 40,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -212,8 +212,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 74,
-        "truck_traffic_daily": 6,
+        "car_traffic_daily": 1050,
+        "truck_traffic_daily": 85,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -260,8 +260,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 31,
-        "truck_traffic_daily": 3,
+        "car_traffic_daily": 445,
+        "truck_traffic_daily": 45,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -269,7 +269,7 @@
       "geometry": {
         "type": "LineString",
         "coordinates": [
-           [
+          [
             566659.974160500220023,
             5931981.026286988519132
           ],
@@ -288,8 +288,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 96,
-        "truck_traffic_daily": 15,
+        "car_traffic_daily": 1365,
+        "truck_traffic_daily": 210,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -324,8 +324,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 232,
-        "truck_traffic_daily": 109,
+        "car_traffic_daily": 3315,
+        "truck_traffic_daily": 1560,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -352,8 +352,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 117,
-        "truck_traffic_daily": 54,
+        "car_traffic_daily": 1665,
+        "truck_traffic_daily": 765,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -388,8 +388,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 496,
-        "truck_traffic_daily": 143,
+        "car_traffic_daily": 7085,
+        "truck_traffic_daily": 2040,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
@@ -406,8 +406,9 @@
             5931452.263
           ]
         ]
-      }},
-        {
+      }
+    },
+    {
       "type": "Feature",
       "properties": {
         "id": 1011,
@@ -415,8 +416,8 @@
         "hauptverk": 0,
         "hauptsaml": 1,
         "anlieger": 0,
-        "car_traffic_daily": 326,
-        "truck_traffic_daily": 121,
+        "car_traffic_daily": 4660,
+        "truck_traffic_daily": 1720,
         "max_speed": 50,
         "str_stairs": "false",
         "name": "hauptsammelstrasse"
