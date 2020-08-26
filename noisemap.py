@@ -15,7 +15,7 @@ def get_result_path():
 
     # export result from database to geojson
     # time_stamp = str(datetime.now()).split('.', 1)[0].replace(' ', '_').replace(':', '_')
-    name = 'noise_result'
+    name = 'noise_result' + "_" + settings_key
     results_folder = os.path.abspath(cwd + "/results/")
     if not os.path.exists(results_folder):
         os.makedirs(results_folder)
@@ -71,7 +71,7 @@ def calculate_noise_result(cursor):
         drop table if exists roads_geom;
         create table roads_geom ( the_geom GEOMETRY, NUM INTEGER, node_from INTEGER, node_to INTEGER, road_type INTEGER);
         """)
-    roads_queries = get_road_queries()
+    roads_queries = get_road_queries(settings_key)
     for road in roads_queries:
         print('road:', road)
         cursor.execute("""{0}""".format(road))
@@ -269,34 +269,45 @@ def boot_h2_database_in_subprocess():
                 p.terminate()
 
 
-def perform_noise_calculation_and_get_result(psyco):
-    conn, psycopg2_cursor = initiate_database_connection(psyco)
+def perform_noise_calculation_and_get_result():
 
     # get noise result as json
     noise_result = calculate_noise_result(psycopg2_cursor)
 
-    # close connections to database
-    print("closing cursor")
-    psycopg2_cursor.close()
-
-    print("closing database connection")
-    conn.close()
 
     return noise_result
 
 
 if __name__ == "__main__":
-    h2_subprocess, psycopg2 = boot_h2_database_in_subprocess()
+    import time
 
-    result = perform_noise_calculation_and_get_result(psycopg2)
+    from traffic_settings import traffic_settings
 
-    print("Result geojson save in ", get_result_path())
+    for settings_key in traffic_settings.keys():
+        h2_subprocess, psycopg2 = boot_h2_database_in_subprocess()
+        time.sleep(5)
 
+        conn, psycopg2_cursor = initiate_database_connection(psycopg2)
 
-    # terminate database process as it constantly blocks memory
-    h2_subprocess.terminate()
+        print(settings_key)
 
-    # Try to make noise computation even faster
-    # by adjustiong: https://github.com/Ifsttar/NoiseModelling/blob/master/noisemap-core/src/main/java/org/orbisgis/noisemap/core/jdbc/JdbcNoiseMap.java#L30
-    # by shifting to GB center
-    #   https: // github.com / Ifsttar / NoiseModelling / blob / master / noisemap - core / src / main / java / org / orbisgis / noisemap / core / jdbc / JdbcNoiseMap.java  # L68
+        result = perform_noise_calculation_and_get_result()
+
+        print("Result geojson save in ", get_result_path())
+
+        # close connections to database
+        print("closing cursor")
+        psycopg2_cursor.close()
+
+        print("closing database connection")
+        conn.close()
+
+        # terminate database process as it constantly blocks memory
+        h2_subprocess.terminate()
+
+        time.sleep(5)
+
+        # Try to make noise computation even faster
+        # by adjustiong: https://github.com/Ifsttar/NoiseModelling/blob/master/noisemap-core/src/main/java/org/orbisgis/noisemap/core/jdbc/JdbcNoiseMap.java#L30
+        # by shifting to GB center
+        #   https: // github.com / Ifsttar / NoiseModelling / blob / master / noisemap - core / src / main / java / org / orbisgis / noisemap / core / jdbc / JdbcNoiseMap.java  # L68

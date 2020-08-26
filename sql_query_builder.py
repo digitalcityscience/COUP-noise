@@ -75,8 +75,8 @@ def get_train_track_data(road_properties):
     return train_speed, train_per_hour, ground_type, has_anti_vibration
 
 
-def get_road_queries():
-    features = get_roads_features()
+def get_road_queries(traffic_settings_key):
+    features = get_roads_features(traffic_settings_key)
     add_third_dimension_to_features(features)
 
     for feature in features:
@@ -210,8 +210,12 @@ def get_building_queries():
 
 # merges the design input for roads and the static road features
 # returns a list of geojson features containing all relevant roads
-def get_roads_features():
-    road_network = open_geojson(cwd + "/" + road_network_json)['features']
+def get_roads_features(traffic_settings_key):
+    # save geojson
+    file_path = get_config()['NOISE_SETTINGS']['INPUT_JSON_ROAD_NETWORK'][:-5]
+    file_path += "_" + traffic_settings_key + ".json"
+
+    road_network = open_geojson(file_path)['features']
 
     if include_rail_road:
         for feature in open_geojson(railroad_multi_line_json)['features']:

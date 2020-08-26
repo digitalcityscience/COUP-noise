@@ -1,0 +1,1089 @@
+PG server running at pg://127.0.1.1:5435 (only local connections)
+Connect
+Connect
+Disconnect
+Disconnect
+Close
+Close
+Connect
+Init
+SSLRequest
+Init
+StartupMessage
+ version 196608 (3.0)
+ param user=sa
+ param database=/home/andre/grasbrook/modules/CSL_Hamburg_Noise/mydb
+PasswordMessage
+Query
+BEGIN;
+Query
+CREATE ALIAS IF NOT EXISTS H2GIS_SPATIAL FOR "org.h2gis.functions.factory.H2GISFunctions.load";
+check CommandComplete tag for command stat2
+Query
+CALL H2GIS_SPATIAL();
+Query
+CREATE ALIAS IF NOT EXISTS BR_PtGrid3D FOR "org.orbisgis.noisemap.h2.BR_PtGrid3D.noisePropagation";
+check CommandComplete tag for command stat7
+Query
+CREATE ALIAS IF NOT EXISTS BR_PtGrid FOR "org.orbisgis.noisemap.h2.BR_PtGrid.noisePropagation";
+check CommandComplete tag for command stat8
+Query
+CREATE ALIAS IF NOT EXISTS BR_SpectrumRepartition FOR "org.orbisgis.noisemap.h2.BR_SpectrumRepartition.spectrumRepartition";
+check CommandComplete tag for command stat9
+Query
+CREATE ALIAS IF NOT EXISTS BR_EvalSource FOR "org.orbisgis.noisemap.h2.BR_EvalSource.evalSource";
+check CommandComplete tag for command stat10
+Query
+CREATE ALIAS IF NOT EXISTS BTW_EvalSource FOR "org.orbisgis.noisemap.h2.BTW_EvalSource.evalSource";
+check CommandComplete tag for command stat11
+Query
+CREATE ALIAS IF NOT EXISTS BR_SpectrumRepartition FOR "org.orbisgis.noisemap.h2.BR_SpectrumRepartition.spectrumRepartition";
+check CommandComplete tag for command stat12
+Query
+CREATE ALIAS IF NOT EXISTS BR_TriGrid FOR "org.orbisgis.noisemap.h2.BR_TriGrid.noisePropagation";
+check CommandComplete tag for command stat13
+Query
+CREATE ALIAS IF NOT EXISTS BR_TriGrid3D FOR "org.orbisgis.noisemap.h2.BR_TriGrid3D.noisePropagation";
+check CommandComplete tag for command stat14
+Query
+
+    drop table if exists buildings;
+check CommandComplete tag for command stat15
+
+    create table buildings ( the_geom GEOMETRY );
+check CommandComplete tag for command stat16
+
+    ;
+check CommandComplete tag for command stat17
+Query
+
+        drop table if exists roads_geom;
+check CommandComplete tag for command stat18
+
+        create table roads_geom ( the_geom GEOMETRY, NUM INTEGER, node_from INTEGER, node_to INTEGER, road_type INTEGER);
+check CommandComplete tag for command stat19
+
+        ;
+check CommandComplete tag for command stat20
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567564 5931765 0, 567513 5931804 0)'),1000,0,1,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567513 5931804 0, 567561 5931912 0, 567492 5931948 0)'),1001,1,2,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567492 5931948 0, 567420 5931987 0, 567348 5932023 0)'),1002,3,4,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567348 5932023 0, 567303 5932047 0, 567255 5932065 0, 567183 5932092 0, 567174 5932095 0, 567138 5932110 0, 567126 5932113 0, 567072 5932131 0, 567063 5932131 0, 567045 5932137 0, 567030 5932143 0, 566979 5932155 0)'),1004,5,6,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566979 5932155 0, 566916 5932170 0, 566904 5932173 0, 566895 5932176 0, 566796 5932200 0, 566754 5932146 0, 566691 5932053 0, 566661 5932002 0)'),1005,7,8,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566661 5932002 0, 566880 5931846 0)'),1006,9,10,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566880 5931846 0, 567042 5931738 0, 567000 5931660 0, 567159 5931552 0)'),1007,10,11,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567159 5931552 0, 567021 5931291 0, 567000 5931282 0, 566991 5931279 0, 566973 5931270 0, 566961 5931228 0)'),1008,12,13,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566961 5931228 0, 566955 5931207 0, 566943 5931168 0, 566931 5931123 0, 566916 5931072 0, 566838 5930970 0)'),1009,14,15,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567399 5931426 0, 567186 5931540 0, 567159 5931552 0)'),1011,16,17,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567828 5932219 0, 567480 5931579 0)'),1,18,19,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566836 5930970 0, 565585 5931275 0)'),2,20,21,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567105 5930960 0, 567062 5930940 0, 567007 5930933 0, 566947 5930942 0, 566840 5930968 0, 566836 5930970 0)'),3,22,23,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567480 5931579 0, 567291 5931205 0, 567260 5931150 0, 567243 5931121 0, 567235 5931094 0, 567182 5931017 0, 567147 5930987 0, 567107 5930961 0, 567105 5930960 0)'),4,19,24,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567865 5932202 0, 567419 5931364 0, 567310 5931152 0, 567146 5930744 0)'),101,25,26,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567868 5932199 0, 567421 5931361 0, 567313 5931150 0, 567149 5930741 0)'),102,27,28,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567872 5932196 0, 567425 5931358 0, 567317 5931147 0, 567153 5930738 0)'),103,29,30,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567564 5931765 0, 567513 5931804 0)'),1000,0,1,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567513 5931804 0, 567561 5931912 0, 567492 5931948 0)'),1001,1,2,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567492 5931948 0, 567420 5931987 0, 567348 5932023 0)'),1002,3,4,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567348 5932023 0, 567303 5932047 0, 567255 5932065 0, 567183 5932092 0, 567174 5932095 0, 567138 5932110 0, 567126 5932113 0, 567072 5932131 0, 567063 5932131 0, 567045 5932137 0, 567030 5932143 0, 566979 5932155 0)'),1004,5,6,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566979 5932155 0, 566916 5932170 0, 566904 5932173 0, 566895 5932176 0, 566796 5932200 0, 566754 5932146 0, 566691 5932053 0, 566661 5932002 0)'),1005,7,8,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566661 5932002 0, 566880 5931846 0)'),1006,9,10,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566880 5931846 0, 567042 5931738 0, 567000 5931660 0, 567159 5931552 0)'),1007,10,11,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567159 5931552 0, 567021 5931291 0, 567000 5931282 0, 566991 5931279 0, 566973 5931270 0, 566961 5931228 0)'),1008,12,13,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566961 5931228 0, 566955 5931207 0, 566943 5931168 0, 566931 5931123 0, 566916 5931072 0, 566838 5930970 0)'),1009,14,15,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567399 5931426 0, 567186 5931540 0, 567159 5931552 0)'),1011,16,17,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567828 5932219 0, 567480 5931579 0)'),1,18,19,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566836 5930970 0, 565585 5931275 0)'),2,20,21,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567105 5930960 0, 567062 5930940 0, 567007 5930933 0, 566947 5930942 0, 566840 5930968 0, 566836 5930970 0)'),3,22,23,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567480 5931579 0, 567291 5931205 0, 567260 5931150 0, 567243 5931121 0, 567235 5931094 0, 567182 5931017 0, 567147 5930987 0, 567107 5930961 0, 567105 5930960 0)'),4,19,24,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567865 5932202 0, 567419 5931364 0, 567310 5931152 0, 567146 5930744 0)'),101,25,26,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567868 5932199 0, 567421 5931361 0, 567313 5931150 0, 567149 5930741 0)'),102,27,28,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567872 5932196 0, 567425 5931358 0, 567317 5931147 0, 567153 5930738 0)'),103,29,30,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567564 5931765 0, 567513 5931804 0)'),1000,0,1,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567513 5931804 0, 567561 5931912 0, 567492 5931948 0)'),1001,1,2,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567492 5931948 0, 567420 5931987 0, 567348 5932023 0)'),1002,3,4,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567348 5932023 0, 567303 5932047 0, 567255 5932065 0, 567183 5932092 0, 567174 5932095 0, 567138 5932110 0, 567126 5932113 0, 567072 5932131 0, 567063 5932131 0, 567045 5932137 0, 567030 5932143 0, 566979 5932155 0)'),1004,5,6,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566979 5932155 0, 566916 5932170 0, 566904 5932173 0, 566895 5932176 0, 566796 5932200 0, 566754 5932146 0, 566691 5932053 0, 566661 5932002 0)'),1005,7,8,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566661 5932002 0, 566880 5931846 0)'),1006,9,10,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566880 5931846 0, 567042 5931738 0, 567000 5931660 0, 567159 5931552 0)'),1007,10,11,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567159 5931552 0, 567021 5931291 0, 567000 5931282 0, 566991 5931279 0, 566973 5931270 0, 566961 5931228 0)'),1008,12,13,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566961 5931228 0, 566955 5931207 0, 566943 5931168 0, 566931 5931123 0, 566916 5931072 0, 566838 5930970 0)'),1009,14,15,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567399 5931426 0, 567186 5931540 0, 567159 5931552 0)'),1011,16,17,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567828 5932219 0, 567480 5931579 0)'),1,18,19,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566836 5930970 0, 565585 5931275 0)'),2,20,21,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567105 5930960 0, 567062 5930940 0, 567007 5930933 0, 566947 5930942 0, 566840 5930968 0, 566836 5930970 0)'),3,22,23,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567480 5931579 0, 567291 5931205 0, 567260 5931150 0, 567243 5931121 0, 567235 5931094 0, 567182 5931017 0, 567147 5930987 0, 567107 5930961 0, 567105 5930960 0)'),4,19,24,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567865 5932202 0, 567419 5931364 0, 567310 5931152 0, 567146 5930744 0)'),101,25,26,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567868 5932199 0, 567421 5931361 0, 567313 5931150 0, 567149 5930741 0)'),102,27,28,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567872 5932196 0, 567425 5931358 0, 567317 5931147 0, 567153 5930738 0)'),103,29,30,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567564 5931765 0, 567513 5931804 0)'),1000,0,1,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567513 5931804 0, 567561 5931912 0, 567492 5931948 0)'),1001,1,2,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567492 5931948 0, 567420 5931987 0, 567348 5932023 0)'),1002,3,4,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567348 5932023 0, 567303 5932047 0, 567255 5932065 0, 567183 5932092 0, 567174 5932095 0, 567138 5932110 0, 567126 5932113 0, 567072 5932131 0, 567063 5932131 0, 567045 5932137 0, 567030 5932143 0, 566979 5932155 0)'),1004,5,6,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566979 5932155 0, 566916 5932170 0, 566904 5932173 0, 566895 5932176 0, 566796 5932200 0, 566754 5932146 0, 566691 5932053 0, 566661 5932002 0)'),1005,7,8,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566661 5932002 0, 566880 5931846 0)'),1006,9,10,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566880 5931846 0, 567042 5931738 0, 567000 5931660 0, 567159 5931552 0)'),1007,10,11,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567159 5931552 0, 567021 5931291 0, 567000 5931282 0, 566991 5931279 0, 566973 5931270 0, 566961 5931228 0)'),1008,12,13,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566961 5931228 0, 566955 5931207 0, 566943 5931168 0, 566931 5931123 0, 566916 5931072 0, 566838 5930970 0)'),1009,14,15,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567399 5931426 0, 567186 5931540 0, 567159 5931552 0)'),1011,16,17,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567828 5932219 0, 567480 5931579 0)'),1,18,19,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566836 5930970 0, 565585 5931275 0)'),2,20,21,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567105 5930960 0, 567062 5930940 0, 567007 5930933 0, 566947 5930942 0, 566840 5930968 0, 566836 5930970 0)'),3,22,23,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567480 5931579 0, 567291 5931205 0, 567260 5931150 0, 567243 5931121 0, 567235 5931094 0, 567182 5931017 0, 567147 5930987 0, 567107 5930961 0, 567105 5930960 0)'),4,19,24,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567865 5932202 0, 567419 5931364 0, 567310 5931152 0, 567146 5930744 0)'),101,25,26,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567868 5932199 0, 567421 5931361 0, 567313 5931150 0, 567149 5930741 0)'),102,27,28,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567872 5932196 0, 567425 5931358 0, 567317 5931147 0, 567153 5930738 0)'),103,29,30,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567564 5931765 0, 567513 5931804 0)'),1000,0,1,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567513 5931804 0, 567561 5931912 0, 567492 5931948 0)'),1001,1,2,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567492 5931948 0, 567420 5931987 0, 567348 5932023 0)'),1002,3,4,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567348 5932023 0, 567303 5932047 0, 567255 5932065 0, 567183 5932092 0, 567174 5932095 0, 567138 5932110 0, 567126 5932113 0, 567072 5932131 0, 567063 5932131 0, 567045 5932137 0, 567030 5932143 0, 566979 5932155 0)'),1004,5,6,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566979 5932155 0, 566916 5932170 0, 566904 5932173 0, 566895 5932176 0, 566796 5932200 0, 566754 5932146 0, 566691 5932053 0, 566661 5932002 0)'),1005,7,8,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566661 5932002 0, 566880 5931846 0)'),1006,9,10,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566880 5931846 0, 567042 5931738 0, 567000 5931660 0, 567159 5931552 0)'),1007,10,11,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567159 5931552 0, 567021 5931291 0, 567000 5931282 0, 566991 5931279 0, 566973 5931270 0, 566961 5931228 0)'),1008,12,13,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566961 5931228 0, 566955 5931207 0, 566943 5931168 0, 566931 5931123 0, 566916 5931072 0, 566838 5930970 0)'),1009,14,15,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567399 5931426 0, 567186 5931540 0, 567159 5931552 0)'),1011,16,17,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567828 5932219 0, 567480 5931579 0)'),1,18,19,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566836 5930970 0, 565585 5931275 0)'),2,20,21,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567105 5930960 0, 567062 5930940 0, 567007 5930933 0, 566947 5930942 0, 566840 5930968 0, 566836 5930970 0)'),3,22,23,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567480 5931579 0, 567291 5931205 0, 567260 5931150 0, 567243 5931121 0, 567235 5931094 0, 567182 5931017 0, 567147 5930987 0, 567107 5930961 0, 567105 5930960 0)'),4,19,24,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567865 5932202 0, 567419 5931364 0, 567310 5931152 0, 567146 5930744 0)'),101,25,26,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567868 5932199 0, 567421 5931361 0, 567313 5931150 0, 567149 5930741 0)'),102,27,28,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567872 5932196 0, 567425 5931358 0, 567317 5931147 0, 567153 5930738 0)'),103,29,30,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567564 5931765 0, 567513 5931804 0)'),1000,0,1,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567513 5931804 0, 567561 5931912 0, 567492 5931948 0)'),1001,1,2,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567492 5931948 0, 567420 5931987 0, 567348 5932023 0)'),1002,3,4,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567348 5932023 0, 567303 5932047 0, 567255 5932065 0, 567183 5932092 0, 567174 5932095 0, 567138 5932110 0, 567126 5932113 0, 567072 5932131 0, 567063 5932131 0, 567045 5932137 0, 567030 5932143 0, 566979 5932155 0)'),1004,5,6,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566979 5932155 0, 566916 5932170 0, 566904 5932173 0, 566895 5932176 0, 566796 5932200 0, 566754 5932146 0, 566691 5932053 0, 566661 5932002 0)'),1005,7,8,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566661 5932002 0, 566880 5931846 0)'),1006,9,10,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566880 5931846 0, 567042 5931738 0, 567000 5931660 0, 567159 5931552 0)'),1007,10,11,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567159 5931552 0, 567021 5931291 0, 567000 5931282 0, 566991 5931279 0, 566973 5931270 0, 566961 5931228 0)'),1008,12,13,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566961 5931228 0, 566955 5931207 0, 566943 5931168 0, 566931 5931123 0, 566916 5931072 0, 566838 5930970 0)'),1009,14,15,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567399 5931426 0, 567186 5931540 0, 567159 5931552 0)'),1011,16,17,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567828 5932219 0, 567480 5931579 0)'),1,18,19,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566836 5930970 0, 565585 5931275 0)'),2,20,21,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567105 5930960 0, 567062 5930940 0, 567007 5930933 0, 566947 5930942 0, 566840 5930968 0, 566836 5930970 0)'),3,22,23,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567480 5931579 0, 567291 5931205 0, 567260 5931150 0, 567243 5931121 0, 567235 5931094 0, 567182 5931017 0, 567147 5930987 0, 567107 5930961 0, 567105 5930960 0)'),4,19,24,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567865 5932202 0, 567419 5931364 0, 567310 5931152 0, 567146 5930744 0)'),101,25,26,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567868 5932199 0, 567421 5931361 0, 567313 5931150 0, 567149 5930741 0)'),102,27,28,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567872 5932196 0, 567425 5931358 0, 567317 5931147 0, 567153 5930738 0)'),103,29,30,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567564 5931765 0, 567513 5931804 0)'),1000,0,1,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567513 5931804 0, 567561 5931912 0, 567492 5931948 0)'),1001,1,2,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567492 5931948 0, 567420 5931987 0, 567348 5932023 0)'),1002,3,4,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567348 5932023 0, 567303 5932047 0, 567255 5932065 0, 567183 5932092 0, 567174 5932095 0, 567138 5932110 0, 567126 5932113 0, 567072 5932131 0, 567063 5932131 0, 567045 5932137 0, 567030 5932143 0, 566979 5932155 0)'),1004,5,6,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566979 5932155 0, 566916 5932170 0, 566904 5932173 0, 566895 5932176 0, 566796 5932200 0, 566754 5932146 0, 566691 5932053 0, 566661 5932002 0)'),1005,7,8,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566661 5932002 0, 566880 5931846 0)'),1006,9,10,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566880 5931846 0, 567042 5931738 0, 567000 5931660 0, 567159 5931552 0)'),1007,10,11,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567159 5931552 0, 567021 5931291 0, 567000 5931282 0, 566991 5931279 0, 566973 5931270 0, 566961 5931228 0)'),1008,12,13,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566961 5931228 0, 566955 5931207 0, 566943 5931168 0, 566931 5931123 0, 566916 5931072 0, 566838 5930970 0)'),1009,14,15,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567399 5931426 0, 567186 5931540 0, 567159 5931552 0)'),1011,16,17,53);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567828 5932219 0, 567480 5931579 0)'),1,18,19,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (566836 5930970 0, 565585 5931275 0)'),2,20,21,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567105 5930960 0, 567062 5930940 0, 567007 5930933 0, 566947 5930942 0, 566840 5930968 0, 566836 5930970 0)'),3,22,23,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567480 5931579 0, 567291 5931205 0, 567260 5931150 0, 567243 5931121 0, 567235 5931094 0, 567182 5931017 0, 567147 5930987 0, 567107 5930961 0, 567105 5930960 0)'),4,19,24,56);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567865 5932202 0, 567419 5931364 0, 567310 5931152 0, 567146 5930744 0)'),101,25,26,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567868 5932199 0, 567421 5931361 0, 567313 5931150 0, 567149 5930741 0)'),102,27,28,99);
+Query
+INSERT INTO roads_geom (the_geom,NUM,node_from,node_to,road_type) VALUES (ST_GeomFromText('LINESTRING (567872 5932196 0, 567425 5931358 0, 567317 5931147 0, 567153 5930738 0)'),103,29,30,99);
+Query
+
+    drop table if exists roads_traffic;
+check CommandComplete tag for command stat140
+
+     create table roads_traffic ( 
+	node_from INTEGER,
+	node_to INTEGER,
+	load_speed DOUBLE,
+	junction_speed DOUBLE,
+	max_speed DOUBLE,
+	lightVehicleCount DOUBLE,
+	heavyVehicleCount DOUBLE,
+	train_speed DOUBLE,
+	trains_per_hour DOUBLE,
+	ground_type INTEGER,
+	has_anti_vibration BOOLEAN
+	);
+check CommandComplete tag for command stat141
+
+    ;
+check CommandComplete tag for command stat142
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (0,1,45.0,42.5,50,594,38);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (1,2,45.0,42.5,50,361,16);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (3,4,45.0,42.5,50,242,10);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (5,6,45.0,42.5,50,33,1);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (7,8,45.0,42.5,50,57,3);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (9,10,45.0,42.5,50,24,1);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (10,11,45.0,42.5,50,75,8);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (12,13,45.0,42.5,50,182,62);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (14,15,45.0,42.5,50,91,30);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (16,17,45.0,42.5,50,256,68);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (18,19,54.0,51.0,60,1294,76);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (20,21,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (22,23,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (19,24,54.0,51.0,60,1003,163);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (25,26,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (27,28,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (29,30,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (0,1,27.0,25.5,30,594,38);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (1,2,27.0,25.5,30,361,16);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (3,4,27.0,25.5,30,242,10);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (5,6,27.0,25.5,30,33,1);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (7,8,27.0,25.5,30,57,3);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (9,10,27.0,25.5,30,24,1);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (10,11,27.0,25.5,30,75,8);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (12,13,27.0,25.5,30,182,62);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (14,15,27.0,25.5,30,91,30);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (16,17,27.0,25.5,30,256,68);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (18,19,54.0,51.0,60,1294,76);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (20,21,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (22,23,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (19,24,54.0,51.0,60,1003,163);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (25,26,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (27,28,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (29,30,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (0,1,27.0,25.5,30,0,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (1,2,27.0,25.5,30,0,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (3,4,27.0,25.5,30,0,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (5,6,27.0,25.5,30,0,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (7,8,27.0,25.5,30,0,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (9,10,27.0,25.5,30,0,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (10,11,27.0,25.5,30,0,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (12,13,27.0,25.5,30,0,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (14,15,27.0,25.5,30,0,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (16,17,27.0,25.5,30,0,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (18,19,54.0,51.0,60,1294,76);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (20,21,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (22,23,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (19,24,54.0,51.0,60,1003,163);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (25,26,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (27,28,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (29,30,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (0,1,45.0,42.5,50,891,57);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (1,2,45.0,42.5,50,542,24);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (3,4,45.0,42.5,50,363,16);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (5,6,45.0,42.5,50,49,2);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (7,8,45.0,42.5,50,86,5);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (9,10,45.0,42.5,50,36,2);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (10,11,45.0,42.5,50,112,12);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (12,13,45.0,42.5,50,273,93);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (14,15,45.0,42.5,50,137,45);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (16,17,45.0,42.5,50,384,103);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (18,19,54.0,51.0,60,1294,76);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (20,21,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (22,23,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (19,24,54.0,51.0,60,1003,163);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (25,26,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (27,28,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (29,30,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (0,1,27.0,25.5,30,297,19);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (1,2,27.0,25.5,30,180,8);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (3,4,27.0,25.5,30,121,5);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (5,6,27.0,25.5,30,16,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (7,8,27.0,25.5,30,28,1);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (9,10,27.0,25.5,30,12,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (10,11,27.0,25.5,30,37,4);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (12,13,27.0,25.5,30,91,31);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (14,15,27.0,25.5,30,45,15);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (16,17,27.0,25.5,30,128,34);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (18,19,54.0,51.0,60,1294,76);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (20,21,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (22,23,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (19,24,54.0,51.0,60,1003,163);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (25,26,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (27,28,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (29,30,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (0,1,27.0,25.5,30,891,57);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (1,2,27.0,25.5,30,542,24);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (3,4,27.0,25.5,30,363,16);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (5,6,27.0,25.5,30,49,2);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (7,8,27.0,25.5,30,86,5);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (9,10,27.0,25.5,30,36,2);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (10,11,27.0,25.5,30,112,12);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (12,13,27.0,25.5,30,273,93);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (14,15,27.0,25.5,30,137,45);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (16,17,27.0,25.5,30,384,103);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (18,19,54.0,51.0,60,1294,76);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (20,21,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (22,23,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (19,24,54.0,51.0,60,1003,163);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (25,26,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (27,28,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (29,30,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (0,1,45.0,42.5,50,297,19);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (1,2,45.0,42.5,50,180,8);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (3,4,45.0,42.5,50,121,5);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (5,6,45.0,42.5,50,16,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (7,8,45.0,42.5,50,28,1);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (9,10,45.0,42.5,50,12,0);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (10,11,45.0,42.5,50,37,4);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (12,13,45.0,42.5,50,91,31);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (14,15,45.0,42.5,50,45,15);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (16,17,45.0,42.5,50,128,34);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (18,19,54.0,51.0,60,1294,76);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (20,21,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (22,23,54.0,51.0,60,287,63);
+Query
+INSERT INTO roads_traffic (node_from,node_to,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount) VALUES (19,24,54.0,51.0,60,1003,163);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (25,26,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (27,28,80,26,1,False);
+Query
+INSERT INTO roads_traffic (node_from,node_to, train_speed, trains_per_hour, ground_type, has_anti_vibration) VALUES (29,30,80,26,1,False);
+Query
+
+    drop table if exists roads_dir_one;
+check CommandComplete tag for command stat262
+
+    drop table if exists roads_dir_two;
+check CommandComplete tag for command stat263
+
+    CREATE TABLE roads_dir_one AS SELECT the_geom,road_type,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount, train_speed, trains_per_hour, ground_type, has_anti_vibration FROM roads_geom as geo,roads_traffic traff WHERE geo.node_from=traff.node_from AND geo.node_to=traff.node_to;
+check CommandComplete tag for command stat264
+
+    CREATE TABLE roads_dir_two AS SELECT the_geom,road_type,load_speed,junction_speed,max_speed,lightVehicleCount,heavyVehicleCount, train_speed, trains_per_hour, ground_type, has_anti_vibration FROM roads_geom as geo,roads_traffic traff WHERE geo.node_to=traff.node_from AND geo.node_from=traff.node_to;
+check CommandComplete tag for command stat265
+
+    -- Collapse two direction in one table
+    drop table if exists roads_geo_and_traffic;
+check CommandComplete tag for command stat266
+
+    CREATE TABLE roads_geo_and_traffic AS select * from roads_dir_one UNION select * from roads_dir_two;
+check CommandComplete tag for command stat267
+Query
+
+    drop table if exists roads_src_global;
+check CommandComplete tag for command stat268
+
+    CREATE TABLE roads_src_global AS SELECT the_geom, 
+    CASEWHEN(
+        road_type = 99,
+        BTW_EvalSource(train_speed, trains_per_hour, ground_type, has_anti_vibration),
+        BR_EvalSource(load_speed,lightVehicleCount,heavyVehicleCount,junction_speed,max_speed,road_type,ST_Z(ST_GeometryN(ST_ToMultiPoint(the_geom),1)),ST_Z(ST_GeometryN(ST_ToMultiPoint(the_geom),2)),ST_Length(the_geom),False)
+        ) as db_m from roads_geo_and_traffic;
+check CommandComplete tag for command stat269
+
+	;
+check CommandComplete tag for command stat270
+Query
+
+    drop table if exists roads_src;
+check CommandComplete tag for command stat271
+
+    CREATE TABLE roads_src AS SELECT the_geom,
+    BR_SpectrumRepartition(100,1,db_m) as db_m100,
+    BR_SpectrumRepartition(125,1,db_m) as db_m125,
+    BR_SpectrumRepartition(160,1,db_m) as db_m160,
+    BR_SpectrumRepartition(200,1,db_m) as db_m200,
+    BR_SpectrumRepartition(250,1,db_m) as db_m250,
+    BR_SpectrumRepartition(315,1,db_m) as db_m315,
+    BR_SpectrumRepartition(400,1,db_m) as db_m400,
+    BR_SpectrumRepartition(500,1,db_m) as db_m500,
+    BR_SpectrumRepartition(630,1,db_m) as db_m630,
+    BR_SpectrumRepartition(800,1,db_m) as db_m800,
+    BR_SpectrumRepartition(1000,1,db_m) as db_m1000,
+    BR_SpectrumRepartition(1250,1,db_m) as db_m1250,
+    BR_SpectrumRepartition(1600,1,db_m) as db_m1600,
+    BR_SpectrumRepartition(2000,1,db_m) as db_m2000,
+    BR_SpectrumRepartition(2500,1,db_m) as db_m2500,
+    BR_SpectrumRepartition(3150,1,db_m) as db_m3150,
+    BR_SpectrumRepartition(4000,1,db_m) as db_m4000,
+    BR_SpectrumRepartition(5000,1,db_m) as db_m5000 from roads_src_global;
+check CommandComplete tag for command stat272
+Query
+drop table if exists tri_lvl;
+check CommandComplete tag for command stat273
+ create table tri_lvl as SELECT * from BR_TriGrid((select 
+    st_expand(st_envelope(st_accum(the_geom)), 750, 750) the_geom from ROADS_SRC),'buildings','roads_src','DB_M','',
+    750,50,1.5,2.8,275,
+    0,0,0.23);
+06:07:26.755 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  g.c.o.noisemap.h2.BR_TriGrid3D - Evaluate cell 1/4
+06:07:26.758 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  o.o.n.core.jdbc.TriangleNoiseMap - Begin processing of cell 1,1 of the 2x2  grid..
+06:07:26.938 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  o.o.n.core.jdbc.TriangleNoiseMap - Begin delaunay
+06:07:27.714 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  o.o.n.core.jdbc.TriangleNoiseMap - End delaunay
+06:07:27.824 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 1 %
+06:07:28.148 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 2 %
+06:07:28.311 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 3 %
+06:07:28.545 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 4 %
+06:07:28.707 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 5 %
+06:07:28.831 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 6 %
+06:07:28.962 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 7 %
+06:07:29.149 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 8 %
+06:07:29.217 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 9 %
+06:07:29.381 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 10 %
+06:07:29.463 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 11 %
+06:07:29.681 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 12 %
+06:07:29.776 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 13 %
+06:07:29.850 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 14 %
+06:07:29.958 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 15 %
+06:07:30.038 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 16 %
+06:07:30.138 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 17 %
+06:07:30.286 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 18 %
+06:07:30.344 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 19 %
+06:07:30.481 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 20 %
+06:07:30.572 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 21 %
+06:07:30.708 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 22 %
+06:07:30.796 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 23 %
+06:07:30.907 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 24 %
+06:07:31.014 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 25 %
+06:07:31.093 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 26 %
+06:07:31.214 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 27 %
+06:07:31.363 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 28 %
+06:07:31.454 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 29 %
+06:07:31.547 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 30 %
+06:07:31.657 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 31 %
+06:07:31.749 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 32 %
+06:07:31.831 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 33 %
+06:07:31.943 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 34 %
+06:07:32.027 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 35 %
+06:07:32.085 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 36 %
+06:07:32.132 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 37 %
+06:07:32.172 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 38 %
+06:07:32.213 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 39 %
+06:07:32.250 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 40 %
+06:07:32.296 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 41 %
+06:07:32.345 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 42 %
+06:07:32.398 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 43 %
+06:07:32.444 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 44 %
+06:07:32.486 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 45 %
+06:07:32.522 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 46 %
+06:07:32.564 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 47 %
+06:07:32.625 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 48 %
+06:07:32.670 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 49 %
+06:07:32.708 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 50 %
+06:07:32.773 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 51 %
+06:07:32.865 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 52 %
+06:07:32.903 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 53 %
+06:07:32.942 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 54 %
+06:07:32.976 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 55 %
+06:07:33.016 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 56 %
+06:07:33.051 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 57 %
+06:07:33.093 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 58 %
+06:07:33.134 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 59 %
+06:07:33.173 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 60 %
+06:07:33.213 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 61 %
+06:07:33.258 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 62 %
+06:07:33.294 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 63 %
+06:07:33.331 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 64 %
+06:07:33.372 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 65 %
+06:07:33.404 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 66 %
+06:07:33.437 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 67 %
+06:07:33.476 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 68 %
+06:07:33.515 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 69 %
+06:07:33.546 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 70 %
+06:07:33.583 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 71 %
+06:07:33.620 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 72 %
+06:07:33.656 [pool-1-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 73 %
+06:07:33.687 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 74 %
+06:07:33.726 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 75 %
+06:07:33.765 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 76 %
+06:07:33.802 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 77 %
+06:07:33.846 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 78 %
+06:07:33.884 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 79 %
+06:07:33.926 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 80 %
+06:07:33.970 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 81 %
+06:07:34.013 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 82 %
+06:07:34.058 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 83 %
+06:07:34.101 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 84 %
+06:07:34.154 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 85 %
+06:07:34.197 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 86 %
+06:07:34.242 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 87 %
+06:07:34.288 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 88 %
+06:07:34.329 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 89 %
+06:07:34.365 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 90 %
+06:07:34.421 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 91 %
+06:07:34.462 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 92 %
+06:07:34.507 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 93 %
+06:07:34.557 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 94 %
+06:07:34.599 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 95 %
+06:07:34.646 [pool-1-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 96 %
+06:07:34.691 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 97 %
+06:07:34.743 [pool-1-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 98 %
+06:07:34.823 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 99 %
+06:07:34.915 [pool-1-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 100 %
+06:07:35.010 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  g.c.o.noisemap.h2.BR_TriGrid3D - Evaluate cell 2/4
+06:07:35.010 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  o.o.n.core.jdbc.TriangleNoiseMap - Begin processing of cell 2,1 of the 2x2  grid..
+06:07:35.082 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  o.o.n.core.jdbc.TriangleNoiseMap - Begin delaunay
+06:07:37.579 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  o.o.n.core.jdbc.TriangleNoiseMap - End delaunay
+06:07:37.782 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 1 %
+06:07:37.976 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 2 %
+06:07:38.135 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 3 %
+06:07:38.314 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 4 %
+06:07:38.474 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 5 %
+06:07:38.586 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 6 %
+06:07:38.702 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 7 %
+06:07:38.803 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 8 %
+06:07:38.909 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 9 %
+06:07:38.996 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 10 %
+06:07:39.078 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 11 %
+06:07:39.211 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 12 %
+06:07:39.307 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 13 %
+06:07:39.415 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 14 %
+06:07:39.510 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 15 %
+06:07:39.610 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 16 %
+06:07:39.705 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 17 %
+06:07:39.799 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 18 %
+06:07:39.897 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 19 %
+06:07:39.995 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 20 %
+06:07:40.092 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 21 %
+06:07:40.186 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 22 %
+06:07:40.295 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 23 %
+06:07:40.393 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 24 %
+06:07:40.494 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 25 %
+06:07:40.593 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 26 %
+06:07:40.709 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 27 %
+06:07:40.820 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 28 %
+06:07:40.923 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 29 %
+06:07:41.024 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 30 %
+06:07:41.121 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 31 %
+06:07:41.220 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 32 %
+06:07:41.327 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 33 %
+06:07:41.421 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 34 %
+06:07:41.522 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 35 %
+06:07:41.629 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 36 %
+06:07:41.720 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 37 %
+06:07:41.833 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 38 %
+06:07:41.944 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 39 %
+06:07:42.041 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 40 %
+06:07:42.151 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 41 %
+06:07:42.272 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 42 %
+06:07:42.413 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 43 %
+06:07:42.534 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 44 %
+06:07:42.676 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 45 %
+06:07:42.815 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 46 %
+06:07:42.938 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 47 %
+06:07:43.062 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 48 %
+06:07:43.197 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 49 %
+06:07:43.330 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 50 %
+06:07:43.461 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 51 %
+06:07:43.593 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 52 %
+06:07:43.715 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 53 %
+06:07:43.838 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 54 %
+06:07:43.976 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 55 %
+06:07:44.099 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 56 %
+06:07:44.214 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 57 %
+06:07:44.356 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 58 %
+06:07:44.478 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 59 %
+06:07:44.604 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 60 %
+06:07:44.728 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 61 %
+06:07:44.839 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 62 %
+06:07:44.960 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 63 %
+06:07:45.081 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 64 %
+06:07:45.197 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 65 %
+06:07:45.308 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 66 %
+06:07:45.431 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 67 %
+06:07:45.576 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 68 %
+06:07:45.721 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 69 %
+06:07:45.853 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 70 %
+06:07:45.963 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 71 %
+06:07:46.070 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 72 %
+06:07:46.188 [pool-2-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 73 %
+06:07:46.313 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 74 %
+06:07:46.437 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 75 %
+06:07:46.560 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 76 %
+06:07:46.674 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 77 %
+06:07:46.818 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 78 %
+06:07:46.973 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 79 %
+06:07:47.149 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 80 %
+06:07:47.305 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 81 %
+06:07:47.464 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 82 %
+06:07:47.618 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 83 %
+06:07:47.773 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 84 %
+06:07:47.937 [pool-2-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 85 %
+06:07:48.109 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 86 %
+06:07:48.275 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 87 %
+06:07:48.421 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 88 %
+06:07:48.584 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 89 %
+06:07:48.778 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 90 %
+06:07:48.961 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 91 %
+06:07:49.137 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 92 %
+06:07:49.307 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 93 %
+06:07:49.487 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 94 %
+06:07:49.659 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 95 %
+06:07:49.848 [pool-2-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 96 %
+06:07:50.013 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 97 %
+06:07:50.191 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 98 %
+06:07:50.519 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 99 %
+06:07:50.850 [pool-2-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 100 %
+06:07:50.898 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  g.c.o.noisemap.h2.BR_TriGrid3D - Evaluate cell 3/4
+06:07:50.898 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  o.o.n.core.jdbc.TriangleNoiseMap - Begin processing of cell 1,2 of the 2x2  grid..
+06:07:50.943 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  o.o.n.core.jdbc.TriangleNoiseMap - Begin delaunay
+06:07:51.178 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  o.o.n.core.jdbc.TriangleNoiseMap - End delaunay
+06:07:51.297 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 1 %
+06:07:51.352 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 2 %
+06:07:51.428 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 3 %
+06:07:51.468 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 4 %
+06:07:51.495 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 5 %
+06:07:51.543 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 6 %
+06:07:51.584 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 7 %
+06:07:51.616 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 8 %
+06:07:51.654 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 9 %
+06:07:51.687 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 10 %
+06:07:51.714 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 11 %
+06:07:51.751 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 12 %
+06:07:51.808 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 13 %
+06:07:51.844 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 14 %
+06:07:51.881 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 15 %
+06:07:51.910 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 16 %
+06:07:51.945 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 17 %
+06:07:51.969 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 18 %
+06:07:52.010 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 19 %
+06:07:52.042 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 20 %
+06:07:52.076 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 21 %
+06:07:52.110 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 22 %
+06:07:52.150 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 23 %
+06:07:52.185 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 24 %
+06:07:52.220 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 25 %
+06:07:52.254 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 26 %
+06:07:52.296 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 27 %
+06:07:52.325 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 28 %
+06:07:52.357 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 29 %
+06:07:52.385 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 30 %
+06:07:52.418 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 31 %
+06:07:52.450 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 32 %
+06:07:52.481 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 33 %
+06:07:52.514 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 34 %
+06:07:52.559 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 35 %
+06:07:52.593 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 36 %
+06:07:52.635 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 37 %
+06:07:52.673 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 38 %
+06:07:52.694 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 39 %
+06:07:52.725 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 40 %
+06:07:52.746 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 41 %
+06:07:52.778 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 42 %
+06:07:52.813 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 43 %
+06:07:52.841 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 44 %
+06:07:52.884 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 45 %
+06:07:52.922 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 46 %
+06:07:52.956 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 47 %
+06:07:53.004 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 48 %
+06:07:53.033 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 49 %
+06:07:53.072 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 50 %
+06:07:53.099 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 51 %
+06:07:53.127 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 52 %
+06:07:53.160 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 53 %
+06:07:53.202 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 54 %
+06:07:53.221 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 55 %
+06:07:53.243 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 56 %
+06:07:53.296 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 57 %
+06:07:53.310 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 58 %
+06:07:53.311 [pool-3-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 59 %
+06:07:53.329 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 60 %
+06:07:53.384 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 61 %
+06:07:53.435 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 62 %
+06:07:53.484 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 63 %
+06:07:53.530 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 64 %
+06:07:53.586 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 65 %
+06:07:53.618 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 66 %
+06:07:53.650 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 67 %
+06:07:53.682 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 68 %
+06:07:53.734 [pool-3-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 69 %
+06:07:53.779 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 70 %
+06:07:53.817 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 71 %
+06:07:53.866 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 72 %
+06:07:53.940 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 73 %
+06:07:53.976 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 74 %
+06:07:54.043 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 75 %
+06:07:54.087 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 76 %
+06:07:54.148 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 77 %
+06:07:54.205 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 78 %
+06:07:54.254 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 79 %
+06:07:54.296 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 80 %
+06:07:54.348 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 81 %
+06:07:54.396 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 82 %
+06:07:54.446 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 83 %
+06:07:54.500 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 84 %
+06:07:54.552 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 85 %
+06:07:54.600 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 86 %
+06:07:54.648 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 87 %
+06:07:54.685 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 88 %
+06:07:54.728 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 89 %
+06:07:54.765 [pool-3-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 90 %
+06:07:54.832 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 91 %
+06:07:54.936 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 92 %
+06:07:55.043 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 93 %
+06:07:55.154 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 94 %
+06:07:55.280 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 95 %
+06:07:55.392 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 96 %
+06:07:55.505 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 97 %
+06:07:55.615 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 98 %
+06:07:55.716 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 99 %
+06:07:55.818 [pool-3-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 100 %
+06:07:55.837 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  g.c.o.noisemap.h2.BR_TriGrid3D - Evaluate cell 4/4
+06:07:55.838 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  o.o.n.core.jdbc.TriangleNoiseMap - Begin processing of cell 2,2 of the 2x2  grid..
+06:07:55.884 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  o.o.n.core.jdbc.TriangleNoiseMap - Begin delaunay
+06:07:58.034 [H2 PG Server (pg://127.0.1.1:5435) thread] INFO  o.o.n.core.jdbc.TriangleNoiseMap - End delaunay
+06:07:58.324 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 1 %
+06:07:58.544 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 2 %
+06:07:58.702 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 3 %
+06:07:58.821 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 4 %
+06:07:58.948 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 5 %
+06:07:59.082 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 6 %
+06:07:59.222 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 7 %
+06:07:59.366 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 8 %
+06:07:59.507 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 9 %
+06:07:59.652 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 10 %
+06:07:59.813 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 11 %
+06:07:59.958 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 12 %
+06:08:00.090 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 13 %
+06:08:00.231 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 14 %
+06:08:00.376 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 15 %
+06:08:00.511 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 16 %
+06:08:00.660 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 17 %
+06:08:00.800 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 18 %
+06:08:00.946 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 19 %
+06:08:01.086 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 20 %
+06:08:01.250 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 21 %
+06:08:01.417 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 22 %
+06:08:01.599 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 23 %
+06:08:01.745 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 24 %
+06:08:01.903 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 25 %
+06:08:02.032 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 26 %
+06:08:02.174 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 27 %
+06:08:02.331 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 28 %
+06:08:02.484 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 29 %
+06:08:02.649 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 30 %
+06:08:02.807 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 31 %
+06:08:02.976 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 32 %
+06:08:03.148 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 33 %
+06:08:03.278 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 34 %
+06:08:03.433 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 35 %
+06:08:03.585 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 36 %
+06:08:03.751 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 37 %
+06:08:03.933 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 38 %
+06:08:04.082 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 39 %
+06:08:04.239 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 40 %
+06:08:04.379 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 41 %
+06:08:04.539 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 42 %
+06:08:04.710 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 43 %
+06:08:04.858 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 44 %
+06:08:05.010 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 45 %
+06:08:05.171 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 46 %
+06:08:05.318 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 47 %
+06:08:05.464 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 48 %
+06:08:05.623 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 49 %
+06:08:05.768 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 50 %
+06:08:05.920 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 51 %
+06:08:06.075 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 52 %
+06:08:06.243 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 53 %
+06:08:06.382 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 54 %
+06:08:06.541 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 55 %
+06:08:06.697 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 56 %
+06:08:06.829 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 57 %
+06:08:06.947 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 58 %
+06:08:07.064 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 59 %
+06:08:07.189 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 60 %
+06:08:07.311 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 61 %
+06:08:07.439 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 62 %
+06:08:07.562 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 63 %
+06:08:07.684 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 64 %
+06:08:07.812 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 65 %
+06:08:07.934 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 66 %
+06:08:08.053 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 67 %
+06:08:08.176 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 68 %
+06:08:08.308 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 69 %
+06:08:08.444 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 70 %
+06:08:08.576 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 71 %
+06:08:08.705 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 72 %
+06:08:08.837 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 73 %
+06:08:08.963 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 74 %
+06:08:09.097 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 75 %
+06:08:09.207 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 76 %
+06:08:09.351 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 77 %
+06:08:09.470 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 78 %
+06:08:09.560 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 79 %
+06:08:09.605 [pool-4-thread-4] INFO  g.c.o.noisemap.h2.ProgressLogger - 80 %
+06:08:09.707 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 81 %
+06:08:09.834 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 82 %
+06:08:09.959 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 83 %
+06:08:10.105 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 84 %
+06:08:10.242 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 85 %
+06:08:10.379 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 86 %
+06:08:10.498 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 87 %
+06:08:10.639 [pool-4-thread-3] INFO  g.c.o.noisemap.h2.ProgressLogger - 88 %
+06:08:10.821 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 89 %
+06:08:11.044 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 90 %
+06:08:11.280 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 91 %
+06:08:11.475 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 92 %
+06:08:11.680 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 93 %
+06:08:11.874 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 94 %
+06:08:12.049 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 95 %
+06:08:12.256 [pool-4-thread-2] INFO  g.c.o.noisemap.h2.ProgressLogger - 96 %
+06:08:12.526 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 97 %
+06:08:12.916 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 98 %
+06:08:13.263 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 99 %
+06:08:13.625 [pool-4-thread-1] INFO  g.c.o.noisemap.h2.ProgressLogger - 100 %
+check CommandComplete tag for command stat274
+ ;
+check CommandComplete tag for command stat435
+Query
+
+    drop table if exists tricontouring_noise_map;
+check CommandComplete tag for command stat436
+
+    -- create table tricontouring_noise_map AS SELECT * from ST_SimplifyPreserveTopology(ST_TriangleContouring('tri_lvl','w_v1','w_v2','w_v3',31622, 100000, 316227, 1000000, 3162277, 1e+7, 31622776, 1e+20));
+    create table tricontouring_noise_map AS SELECT * from ST_TriangleContouring('tri_lvl','w_v1','w_v2','w_v3',31622, 100000, 316227, 1000000, 3162277, 1e+7, 31622776, 1e+20);
+check CommandComplete tag for command stat437
+
+    -- Merge adjacent triangle into polygons (multiple polygon by row, for unique isoLevel and cellId key)
+    drop table if exists multipolygon_iso;
+check CommandComplete tag for command stat459
+
+    create table multipolygon_iso as select ST_UNION(ST_ACCUM(the_geom)) the_geom ,idiso, CELL_ID from tricontouring_noise_map GROUP BY IDISO, CELL_ID;
+check CommandComplete tag for command stat460
+
+    -- Explode each row to keep only a polygon by row
+    drop table if exists simple_noise_map;
+check CommandComplete tag for command stat461
+
+    -- example form internet : CREATE TABLE roads2 AS SELECT id_way, ST_PRECISIONREDUCER(ST_SIMPLIFYPRESERVETOPOLOGY(THE_GEOM),0.1),1) the_geom, highway_type t FROM roads; 
+    -- ST_SimplifyPreserveTopology(geometry geomA, float tolerance);
+    -- create table simple_noise_map as select ST_SIMPLIFYPRESERVETOPOLOGY(the_geom, 2) the_geom, idiso, CELL_ID from multipolygon_iso;
+    drop table if exists contouring_noise_map;
+check CommandComplete tag for command stat462
+
+    -- create table CONTOURING_NOISE_MAP as select ST_Transform(ST_SETSRID(the_geom,25832),4326),idiso, CELL_ID from ST_Explode('simple_noise_map'); 
+    create table CONTOURING_NOISE_MAP as select ST_Transform(ST_SETSRID(the_geom,25832),4326),idiso, CELL_ID from ST_Explode('multipolygon_iso');
+check CommandComplete tag for command stat463
+ 
+    drop table multipolygon_iso;
+check CommandComplete tag for command stat487
+Query
+CALL GeoJsonWrite('/home/andre/grasbrook/modules/CSL_Hamburg_Noise/results/noise_result_limited_traffic_50.geojson', 'CONTOURING_NOISE_MAP');
+Terminate
+Close
+Disconnect
+Close
