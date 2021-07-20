@@ -6,11 +6,12 @@ import os
 from time import sleep
 import shlex, subprocess
 
-from sql_query_builder import get_building_queries, get_road_queries, get_traffic_queries
+from sql_query_builder import get_building_queries, get_road_queries, get_traffic_queries, reset_all_roads
 from config_loader import get_config
 
 
 def get_result_path():
+    global settings_key
     cwd = get_cwd()
 
     # export result from database to geojson
@@ -52,6 +53,10 @@ def calculate_noise_result(cursor):
 
     print("make buildings table ..")
 
+    reset_all_roads()
+
+    global settings_key
+
     cursor.execute("""
     drop table if exists buildings;
     create table buildings ( the_geom GEOMETRY );
@@ -59,7 +64,7 @@ def calculate_noise_result(cursor):
 
     buildings_queries = get_building_queries()
     for building in buildings_queries:
-        print('building:', building)
+        # print('building:', building)
         # Inserting building into database
         cursor.execute("""
         -- Insert 1 building from automated string
@@ -73,7 +78,7 @@ def calculate_noise_result(cursor):
         """)
     roads_queries = get_road_queries(settings_key)
     for road in roads_queries:
-        print('road:', road)
+        # print('road:', road)
         cursor.execute("""{0}""".format(road))
 
     print("Make traffic information table..")
@@ -96,6 +101,7 @@ def calculate_noise_result(cursor):
 
     traffic_queries = get_traffic_queries()
     for traffic_query in traffic_queries:
+        print(traffic_query)
         cursor.execute("""{0}""".format(traffic_query))
 
     print("Duplicate geometries to give sound level for each traffic direction..")
@@ -183,6 +189,10 @@ def calculate_noise_result(cursor):
 
     geojson_path = get_result_path()
     cursor.execute("CALL GeoJsonWrite('" + geojson_path + "', 'CONTOURING_NOISE_MAP');")
+
+    print("*********")
+    print(settings_key, traffic_queries)
+    print("*********")
 
     with open(geojson_path) as f:
         resultdata = json.load(f)

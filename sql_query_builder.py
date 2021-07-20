@@ -6,6 +6,7 @@ import numpy
 from geomet import wkt
 import RoadInfo
 from config_loader import get_config
+from city_scope.parse_city_scope_table import merge_adjacent_buildings
 
 cwd = os.path.dirname(os.path.abspath(__file__))
 
@@ -34,6 +35,10 @@ noise_road_types = {
 }
 
 all_roads = []
+
+def reset_all_roads():
+    global all_roads
+    all_roads = []
 
 
 # opens a json from path
@@ -157,6 +162,7 @@ def get_traffic_queries():
 def get_building_queries():
     # A multipolygon containing all buildings
     data = open_geojson(cwd + "/" + config['NOISE_SETTINGS']['INPUT_JSON_BUILDINGS'])
+    data = merge_adjacent_buildings(data)
     sql_insert_strings_all_buildings = []
 
     for feature in data['features']:
@@ -164,7 +170,7 @@ def get_building_queries():
             continue
         for polygon in feature['geometry']['coordinates']:
             polygon_string = ''
-            if len(polygon[0]) > 2:
+            if not isinstance(polygon[0][0], float):
                 # multiple line strings in polygon (i.e. has holes)
                 for coordinates_list in polygon:
                     line_string_coordinates = ''
@@ -178,7 +184,9 @@ def get_building_queries():
                     except Exception as e:
                         print("invalid json")
                         print(e)
+                        print(coordinates_list, coordinate_pair, len(polygon[0]), polygon[0])
                         print(feature)
+                        exit()
                         return ""
                     # create a string containing a list of coordinates lists per linestring
                     #   ('PolygonWithHole', 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0),(1 1, 1 2, 2 2, 2 1, 1 1))'),
