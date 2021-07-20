@@ -3,6 +3,14 @@ from config_loader import get_config
 
 
 traffic_settings = {
+    "full_traffic_50": {
+        "max_speed": 50,
+        "traffic_percent": 0.75
+    },
+    "full_traffic_30": {
+        "max_speed": 30,
+        "traffic_percent": 0.75
+    },
     "reduced_traffic_50": {
         "max_speed": 50,
         "traffic_percent": 0.75

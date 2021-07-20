@@ -1,0 +1,5266 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "0",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567500.49,
+              5931937.54,
+              26.5
+            ],
+            [
+              567482.717,
+              5931946.713,
+              26.5
+            ],
+            [
+              567466.068,
+              5931914.457,
+              26.5
+            ],
+            [
+              567483.841,
+              5931905.284,
+              26.5
+            ],
+            [
+              567500.49,
+              5931937.54,
+              26.5
+            ],
+            [
+              567500.49,
+              5931937.54,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2528566.0,
+        "plot_id": 17.0,
+        "building_id": "Q1-17-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567481.089,
+              5931899.952,
+              26.5
+            ],
+            [
+              567463.316,
+              5931909.125,
+              26.5
+            ],
+            [
+              567452.309,
+              5931887.798,
+              26.5
+            ],
+            [
+              567470.081,
+              5931878.625,
+              26.5
+            ],
+            [
+              567481.089,
+              5931899.952,
+              26.5
+            ],
+            [
+              567481.089,
+              5931899.952,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2528573.0,
+        "plot_id": 17.0,
+        "building_id": "Q1-17-06",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567357.506,
+              5931951.696,
+              26.5
+            ],
+            [
+              567381.815,
+              5931998.793,
+              26.5
+            ],
+            [
+              567364.042,
+              5932007.966,
+              26.5
+            ],
+            [
+              567339.734,
+              5931960.869,
+              26.5
+            ],
+            [
+              567357.506,
+              5931951.696,
+              26.5
+            ],
+            [
+              567357.506,
+              5931951.696,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2528858.0,
+        "plot_id": 16.0,
+        "building_id": "Q1-16-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567415.486,
+              5931963.408,
+              29.5
+            ],
+            [
+              567422.824,
+              5931977.626,
+              29.5
+            ],
+            [
+              567392.611,
+              5931993.22,
+              29.5
+            ],
+            [
+              567385.273,
+              5931979.003,
+              29.5
+            ],
+            [
+              567415.486,
+              5931963.408,
+              29.5
+            ],
+            [
+              567415.486,
+              5931963.408,
+              29.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 29.5,
+        "number_of_stories": 9,
+        "element_id": 2528882.0,
+        "plot_id": 16.0,
+        "building_id": "Q1-16-02",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567451.002,
+              5931942.827,
+              32.5
+            ],
+            [
+              567459.258,
+              5931958.822,
+              32.5
+            ],
+            [
+              567428.156,
+              5931974.874,
+              32.5
+            ],
+            [
+              567419.9,
+              5931958.879,
+              32.5
+            ],
+            [
+              567451.002,
+              5931942.827,
+              32.5
+            ],
+            [
+              567451.002,
+              5931942.827,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2528892.0,
+        "plot_id": 16.0,
+        "building_id": "Q1-16-03",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567560.901,
+              5931937.04,
+              29.5
+            ],
+            [
+              567578.799,
+              5931927.822,
+              29.5
+            ],
+            [
+              567591.04,
+              5931946.101,
+              29.5
+            ],
+            [
+              567574.423,
+              5931957.23,
+              29.5
+            ],
+            [
+              567560.901,
+              5931937.04,
+              29.5
+            ],
+            [
+              567560.901,
+              5931937.04,
+              29.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 29.5,
+        "number_of_stories": 9,
+        "element_id": 2528925.0,
+        "plot_id": 10.0,
+        "building_id": "Q1-10-04",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567543.003,
+              5931946.256,
+              29.5
+            ],
+            [
+              567560.888,
+              5931937.021,
+              29.5
+            ],
+            [
+              567573.143,
+              5931955.319,
+              29.5
+            ],
+            [
+              567556.525,
+              5931966.448,
+              29.5
+            ],
+            [
+              567543.003,
+              5931946.256,
+              29.5
+            ],
+            [
+              567543.003,
+              5931946.256,
+              29.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 29.5,
+        "number_of_stories": 9,
+        "element_id": 2529003.0,
+        "plot_id": 10.0,
+        "building_id": "Q1-10-03",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567525.106,
+              5931955.475,
+              29.5
+            ],
+            [
+              567543.003,
+              5931946.257,
+              29.5
+            ],
+            [
+              567555.245,
+              5931964.537,
+              29.5
+            ],
+            [
+              567538.627,
+              5931975.666,
+              29.5
+            ],
+            [
+              567525.106,
+              5931955.475,
+              29.5
+            ],
+            [
+              567525.106,
+              5931955.475,
+              29.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 29.5,
+        "number_of_stories": 9,
+        "element_id": 2529032.0,
+        "plot_id": 10.0,
+        "building_id": "Q1-10-02",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567507.22,
+              5931964.711,
+              29.5
+            ],
+            [
+              567525.106,
+              5931955.475,
+              29.5
+            ],
+            [
+              567537.348,
+              5931973.755,
+              29.5
+            ],
+            [
+              567520.73,
+              5931984.883,
+              29.5
+            ],
+            [
+              567507.22,
+              5931964.711,
+              29.5
+            ],
+            [
+              567507.22,
+              5931964.711,
+              29.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 29.5,
+        "number_of_stories": 9,
+        "element_id": 2529061.0,
+        "plot_id": 10.0,
+        "building_id": "Q1-10-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567265.717,
+              5932055.611,
+              26.5
+            ],
+            [
+              567247.247,
+              5932063.284,
+              26.5
+            ],
+            [
+              567231.901,
+              5932026.345,
+              26.5
+            ],
+            [
+              567250.371,
+              5932018.672,
+              26.5
+            ],
+            [
+              567265.717,
+              5932055.611,
+              26.5
+            ],
+            [
+              567265.717,
+              5932055.611,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2530407.0,
+        "plot_id": 15.0,
+        "building_id": "Q1-15-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "10",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567310.306,
+              5932035.044,
+              29.5
+            ],
+            [
+              567277.671,
+              5932050.241,
+              29.5
+            ],
+            [
+              567270.916,
+              5932035.736,
+              29.5
+            ],
+            [
+              567303.551,
+              5932020.539,
+              29.5
+            ],
+            [
+              567310.306,
+              5932035.044,
+              29.5
+            ],
+            [
+              567310.306,
+              5932035.044,
+              29.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 29.5,
+        "number_of_stories": 9,
+        "element_id": 2530433.0,
+        "plot_id": 15.0,
+        "building_id": "Q1-15-02",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "11",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567334.276,
+              5932002.623,
+              32.5
+            ],
+            [
+              567342.532,
+              5932018.618,
+              32.5
+            ],
+            [
+              567316.318,
+              5932032.148,
+              32.5
+            ],
+            [
+              567308.062,
+              5932016.153,
+              32.5
+            ],
+            [
+              567334.276,
+              5932002.623,
+              32.5
+            ],
+            [
+              567334.276,
+              5932002.623,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2530444.0,
+        "plot_id": 15.0,
+        "building_id": "Q1-15-03",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567593.745,
+              5931908.769,
+              29.5
+            ],
+            [
+              567536.841,
+              5931798.518,
+              29.5
+            ],
+            [
+              567549.325,
+              5931790.002,
+              29.5
+            ],
+            [
+              567607.074,
+              5931901.889,
+              29.5
+            ],
+            [
+              567593.745,
+              5931908.769,
+              29.5
+            ],
+            [
+              567593.745,
+              5931908.769,
+              29.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 29.5,
+        "number_of_stories": 9,
+        "element_id": 2532056.0,
+        "plot_id": 18.0,
+        "building_id": "Q1-18-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "13",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567601.433,
+              5931943.287,
+              32.5
+            ],
+            [
+              567590.426,
+              5931921.961,
+              32.5
+            ],
+            [
+              567611.753,
+              5931910.953,
+              32.5
+            ],
+            [
+              567622.76,
+              5931932.28,
+              32.5
+            ],
+            [
+              567601.433,
+              5931943.287,
+              32.5
+            ],
+            [
+              567601.433,
+              5931943.287,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2532102.0,
+        "plot_id": 11.0,
+        "building_id": "Q1-11-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "14",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567011.196,
+              5932195.731,
+              44.5
+            ],
+            [
+              567004.984,
+              5932172.549,
+              44.5
+            ],
+            [
+              567028.167,
+              5932166.337,
+              44.5
+            ],
+            [
+              567034.378,
+              5932189.52,
+              44.5
+            ],
+            [
+              567011.196,
+              5932195.731,
+              44.5
+            ],
+            [
+              567011.196,
+              5932195.731,
+              44.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 44.5,
+        "number_of_stories": 14,
+        "element_id": 2532210.0,
+        "plot_id": 3.0,
+        "building_id": "Q1-03-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "15",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567243.793,
+              5932120.653,
+              44.5
+            ],
+            [
+              567234.585,
+              5932098.49,
+              44.5
+            ],
+            [
+              567256.749,
+              5932089.282,
+              44.5
+            ],
+            [
+              567265.956,
+              5932111.446,
+              44.5
+            ],
+            [
+              567243.793,
+              5932120.653,
+              44.5
+            ],
+            [
+              567243.793,
+              5932120.653,
+              44.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 44.5,
+        "number_of_stories": 14,
+        "element_id": 2532217.0,
+        "plot_id": 6.0,
+        "building_id": "Q1-06-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "16",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567483.903,
+              5932003.954,
+              44.5
+            ],
+            [
+              567472.895,
+              5931982.627,
+              44.5
+            ],
+            [
+              567494.222,
+              5931971.62,
+              44.5
+            ],
+            [
+              567505.23,
+              5931992.947,
+              44.5
+            ],
+            [
+              567483.903,
+              5932003.954,
+              44.5
+            ],
+            [
+              567483.903,
+              5932003.954,
+              44.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 44.5,
+        "number_of_stories": 14,
+        "element_id": 2532224.0,
+        "plot_id": 9.0,
+        "building_id": "Q1-09-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "17",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566925.074,
+              5932164.182,
+              20.5
+            ],
+            [
+              566922.559,
+              5932153.627,
+              20.5
+            ],
+            [
+              566953.285,
+              5932140.204,
+              20.5
+            ],
+            [
+              566957.176,
+              5932156.534,
+              20.5
+            ],
+            [
+              566925.074,
+              5932164.182,
+              20.5
+            ],
+            [
+              566925.074,
+              5932164.182,
+              20.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 20.5,
+        "number_of_stories": 6,
+        "element_id": 2533010.0,
+        "plot_id": 12.0,
+        "building_id": "Q1-12-02",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "18",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567132.567,
+              5932106.679,
+              26.5
+            ],
+            [
+              567125.46,
+              5932084.805,
+              26.5
+            ],
+            [
+              567144.481,
+              5932078.625,
+              26.5
+            ],
+            [
+              567151.588,
+              5932100.499,
+              26.5
+            ],
+            [
+              567132.567,
+              5932106.679,
+              26.5
+            ],
+            [
+              567132.567,
+              5932106.679,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2533208.0,
+        "plot_id": 14.0,
+        "building_id": "Q1-14-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "19",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566977.408,
+              5932151.544,
+              26.5
+            ],
+            [
+              566972.092,
+              5932131.704,
+              26.5
+            ],
+            [
+              566990.526,
+              5932123.226,
+              26.5
+            ],
+            [
+              566996.727,
+              5932146.368,
+              26.5
+            ],
+            [
+              566977.408,
+              5932151.544,
+              26.5
+            ],
+            [
+              566977.408,
+              5932151.544,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2533233.0,
+        "plot_id": 12.0,
+        "building_id": "Q1-12-03",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567022.244,
+              5932139.598,
+              26.5
+            ],
+            [
+              567014.796,
+              5932111.803,
+              26.5
+            ],
+            [
+              567033.137,
+              5932102.977,
+              26.5
+            ],
+            [
+              567041.563,
+              5932134.422,
+              26.5
+            ],
+            [
+              567022.244,
+              5932139.598,
+              26.5
+            ],
+            [
+              567022.244,
+              5932139.598,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2533240.0,
+        "plot_id": 13.0,
+        "building_id": "Q1-13-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "21",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567090.695,
+              5932120.196,
+              26.5
+            ],
+            [
+              567077.871,
+              5932080.73,
+              26.5
+            ],
+            [
+              567095.891,
+              5932071.469,
+              26.5
+            ],
+            [
+              567109.716,
+              5932114.016,
+              26.5
+            ],
+            [
+              567090.695,
+              5932120.196,
+              26.5
+            ],
+            [
+              567090.695,
+              5932120.196,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2533254.0,
+        "plot_id": 13.0,
+        "building_id": "Q1-13-03",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "22",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567163.451,
+              5932096.371,
+              29.5
+            ],
+            [
+              567157.979,
+              5932081.335,
+              29.5
+            ],
+            [
+              567183.351,
+              5932072.101,
+              29.5
+            ],
+            [
+              567188.823,
+              5932087.136,
+              29.5
+            ],
+            [
+              567163.451,
+              5932096.371,
+              29.5
+            ],
+            [
+              567163.451,
+              5932096.371,
+              29.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 29.5,
+        "number_of_stories": 9,
+        "element_id": 2533288.0,
+        "plot_id": 14.0,
+        "building_id": "Q1-14-02",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "23",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567188.157,
+              5932068.058,
+              32.5
+            ],
+            [
+              567215.861,
+              5932056.548,
+              32.5
+            ],
+            [
+              567222.767,
+              5932073.171,
+              32.5
+            ],
+            [
+              567195.063,
+              5932084.68,
+              32.5
+            ],
+            [
+              567188.157,
+              5932068.058,
+              32.5
+            ],
+            [
+              567188.157,
+              5932068.058,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2533333.0,
+        "plot_id": 14.0,
+        "building_id": "Q1-14-03",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567052.574,
+              5932131.283,
+              32.5
+            ],
+            [
+              567047.553,
+              5932113.998,
+              32.5
+            ],
+            [
+              567074.441,
+              5932106.186,
+              32.5
+            ],
+            [
+              567079.463,
+              5932123.471,
+              32.5
+            ],
+            [
+              567052.574,
+              5932131.283,
+              32.5
+            ],
+            [
+              567052.574,
+              5932131.283,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2533340.0,
+        "plot_id": 13.0,
+        "building_id": "Q1-13-02",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "25",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567489.669,
+              5931798.219,
+              23.5
+            ],
+            [
+              567437.697,
+              5931720.614,
+              23.5
+            ],
+            [
+              567450.16,
+              5931712.268,
+              23.5
+            ],
+            [
+              567502.132,
+              5931789.872,
+              23.5
+            ],
+            [
+              567489.669,
+              5931798.219,
+              23.5
+            ],
+            [
+              567489.669,
+              5931798.219,
+              23.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 23.5,
+        "number_of_stories": 7,
+        "element_id": 2533424.0,
+        "plot_id": 20.0,
+        "building_id": "Q1-20-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "26",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567577.75,
+              5931917.024,
+              29.5
+            ],
+            [
+              567521.859,
+              5931808.738,
+              29.5
+            ],
+            [
+              567534.344,
+              5931800.222,
+              29.5
+            ],
+            [
+              567591.079,
+              5931910.145,
+              29.5
+            ],
+            [
+              567577.75,
+              5931917.024,
+              29.5
+            ],
+            [
+              567577.75,
+              5931917.024,
+              29.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 29.5,
+        "number_of_stories": 9,
+        "element_id": 2533438.0,
+        "plot_id": 18.0,
+        "building_id": "Q1-18-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "27",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567521.782,
+              5931863.532,
+              29.5
+            ],
+            [
+              567533.706,
+              5931886.636,
+              29.5
+            ],
+            [
+              567517.711,
+              5931894.891,
+              29.5
+            ],
+            [
+              567505.786,
+              5931871.787,
+              29.5
+            ],
+            [
+              567521.782,
+              5931863.532,
+              29.5
+            ],
+            [
+              567521.782,
+              5931863.532,
+              29.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 29.5,
+        "number_of_stories": 9,
+        "element_id": 2533517.0,
+        "plot_id": 17.0,
+        "building_id": "Q1-17-03",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "28",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567502.777,
+              5931916.104,
+              32.5
+            ],
+            [
+              567539.21,
+              5931897.299,
+              32.5
+            ],
+            [
+              567547.466,
+              5931913.294,
+              32.5
+            ],
+            [
+              567511.033,
+              5931932.099,
+              32.5
+            ],
+            [
+              567502.777,
+              5931916.104,
+              32.5
+            ],
+            [
+              567502.777,
+              5931916.104,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2533606.0,
+        "plot_id": 17.0,
+        "building_id": "Q1-17-02",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "29",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566896.397,
+              5932165.058,
+              5.5
+            ],
+            [
+              566922.559,
+              5932153.627,
+              5.5
+            ],
+            [
+              566925.074,
+              5932164.182,
+              5.5
+            ],
+            [
+              566897.553,
+              5932170.738,
+              5.5
+            ],
+            [
+              566896.397,
+              5932165.058,
+              5.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 5.5,
+        "number_of_stories": 1,
+        "element_id": 2534218.0,
+        "plot_id": 12.0,
+        "building_id": "Q1-12-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "30",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567203.376,
+              5931761.863,
+              89.5
+            ],
+            [
+              567183.901,
+              5931732.782,
+              89.5
+            ],
+            [
+              567204.673,
+              5931718.871,
+              89.5
+            ],
+            [
+              567224.148,
+              5931747.952,
+              89.5
+            ],
+            [
+              567203.376,
+              5931761.863,
+              89.5
+            ],
+            [
+              567203.376,
+              5931761.863,
+              89.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 89.5,
+        "number_of_stories": 29,
+        "element_id": 2534550.0,
+        "plot_id": 3.0,
+        "building_id": "Q3-03-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "31",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567414.218,
+              5931766.427,
+              89.5
+            ],
+            [
+              567400.307,
+              5931745.654,
+              89.5
+            ],
+            [
+              567429.388,
+              5931726.179,
+              89.5
+            ],
+            [
+              567443.299,
+              5931746.951,
+              89.5
+            ],
+            [
+              567414.218,
+              5931766.427,
+              89.5
+            ],
+            [
+              567414.218,
+              5931766.427,
+              89.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 89.5,
+        "number_of_stories": 29,
+        "element_id": 2534557.0,
+        "plot_id": 21.0,
+        "building_id": "Q1-21-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "32",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567180.018,
+              5931533.624,
+              89.5
+            ],
+            [
+              567168.316,
+              5931511.532,
+              89.5
+            ],
+            [
+              567199.244,
+              5931495.149,
+              89.5
+            ],
+            [
+              567210.947,
+              5931517.241,
+              89.5
+            ],
+            [
+              567180.018,
+              5931533.624,
+              89.5
+            ],
+            [
+              567180.018,
+              5931533.624,
+              89.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 89.5,
+        "number_of_stories": 29,
+        "element_id": 2534564.0,
+        "plot_id": 11.0,
+        "building_id": "Q3-11-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "33",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567082.739,
+              5931766.831,
+              23.5
+            ],
+            [
+              567063.82,
+              5931738.581,
+              23.5
+            ],
+            [
+              567137.769,
+              5931689.058,
+              23.5
+            ],
+            [
+              567156.688,
+              5931717.308,
+              23.5
+            ],
+            [
+              567082.739,
+              5931766.831,
+              23.5
+            ],
+            [
+              567082.739,
+              5931766.831,
+              23.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 23.5,
+        "number_of_stories": 7,
+        "element_id": 2534678.0,
+        "plot_id": 6.0,
+        "building_id": "Q3-06-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "34",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566918.224,
+              5931877.006,
+              23.5
+            ],
+            [
+              566899.305,
+              5931848.756,
+              23.5
+            ],
+            [
+              567043.879,
+              5931751.935,
+              23.5
+            ],
+            [
+              567062.798,
+              5931780.186,
+              23.5
+            ],
+            [
+              566918.224,
+              5931877.006,
+              23.5
+            ],
+            [
+              566918.224,
+              5931877.006,
+              23.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 23.5,
+        "number_of_stories": 7,
+        "element_id": 2534685.0,
+        "plot_id": 5.0,
+        "building_id": "Q3-05-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "35",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566789.595,
+              5932038.971,
+              17.5
+            ],
+            [
+              566770.676,
+              5932010.72,
+              17.5
+            ],
+            [
+              566901.125,
+              5931923.359,
+              17.5
+            ],
+            [
+              566920.044,
+              5931951.609,
+              17.5
+            ],
+            [
+              566789.595,
+              5932038.971,
+              17.5
+            ],
+            [
+              566789.595,
+              5932038.971,
+              17.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 17.5,
+        "number_of_stories": 5,
+        "element_id": 2534780.0,
+        "plot_id": 1.0,
+        "building_id": "Q3-01-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "36",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566707.178,
+              5932018.342,
+              20.5
+            ],
+            [
+              566688.259,
+              5931990.092,
+              20.5
+            ],
+            [
+              566877.702,
+              5931863.223,
+              20.5
+            ],
+            [
+              566896.621,
+              5931891.473,
+              20.5
+            ],
+            [
+              566707.178,
+              5932018.342,
+              20.5
+            ],
+            [
+              566707.178,
+              5932018.342,
+              20.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 20.5,
+        "number_of_stories": 6,
+        "element_id": 2534798.0,
+        "plot_id": 4.0,
+        "building_id": "Q3-04-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "37",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567153.967,
+              5931510.079,
+              14.5
+            ],
+            [
+              567104.35,
+              5931416.409,
+              14.5
+            ],
+            [
+              567145.883,
+              5931394.409,
+              14.5
+            ],
+            [
+              567195.5,
+              5931488.079,
+              14.5
+            ],
+            [
+              567153.967,
+              5931510.079,
+              14.5
+            ],
+            [
+              567153.967,
+              5931510.079,
+              14.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 14.5,
+        "number_of_stories": 4,
+        "element_id": 2534850.0,
+        "plot_id": 12.0,
+        "building_id": "Q3-12-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "38",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567050.187,
+              5931718.224,
+              20.5
+            ],
+            [
+              567014.575,
+              5931665.047,
+              20.5
+            ],
+            [
+              567088.524,
+              5931615.524,
+              20.5
+            ],
+            [
+              567124.136,
+              5931668.701,
+              20.5
+            ],
+            [
+              567050.187,
+              5931718.224,
+              20.5
+            ],
+            [
+              567050.187,
+              5931718.224,
+              20.5
+            ]
+          ],
+          [
+            [
+              567099.164,
+              5931663.761,
+              20.5
+            ],
+            [
+              567055.127,
+              5931693.252,
+              20.5
+            ],
+            [
+              567039.547,
+              5931669.987,
+              20.5
+            ],
+            [
+              567083.584,
+              5931640.496,
+              20.5
+            ],
+            [
+              567099.164,
+              5931663.761,
+              20.5
+            ],
+            [
+              567099.164,
+              5931663.761,
+              20.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 20.5,
+        "number_of_stories": 6,
+        "element_id": 2534925.0,
+        "plot_id": 8.0,
+        "building_id": "Q3-08-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "39",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567504.625,
+              5931788.203,
+              23.5
+            ],
+            [
+              567452.653,
+              5931710.598,
+              23.5
+            ],
+            [
+              567456.787,
+              5931707.829,
+              23.5
+            ],
+            [
+              567533.16,
+              5931769.093,
+              23.5
+            ],
+            [
+              567504.625,
+              5931788.203,
+              23.5
+            ],
+            [
+              567504.625,
+              5931788.203,
+              23.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 23.5,
+        "number_of_stories": 7,
+        "element_id": 2535074.0,
+        "plot_id": 20.0,
+        "building_id": "Q1-20-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "40",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567440.24,
+              5931864.415,
+              20.5
+            ],
+            [
+              567476.622,
+              5931839.597,
+              20.5
+            ],
+            [
+              567485.638,
+              5931852.815,
+              20.5
+            ],
+            [
+              567447.633,
+              5931878.74,
+              20.5
+            ],
+            [
+              567440.24,
+              5931864.415,
+              20.5
+            ],
+            [
+              567440.24,
+              5931864.415,
+              20.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 20.5,
+        "number_of_stories": 6,
+        "element_id": 2535720.0,
+        "plot_id": 17.0,
+        "building_id": "Q1-17-05",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "41",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567379.425,
+              5931923.548,
+              20.5
+            ],
+            [
+              567370.687,
+              5931910.144,
+              20.5
+            ],
+            [
+              567389.955,
+              5931897.584,
+              20.5
+            ],
+            [
+              567398.692,
+              5931910.987,
+              20.5
+            ],
+            [
+              567379.425,
+              5931923.548,
+              20.5
+            ],
+            [
+              567379.425,
+              5931923.548,
+              20.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 20.5,
+        "number_of_stories": 6,
+        "element_id": 2535727.0,
+        "plot_id": 16.0,
+        "building_id": "Q1-16-05",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "42",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567327.703,
+              5931937.56,
+              20.5
+            ],
+            [
+              567365.684,
+              5931913.456,
+              20.5
+            ],
+            [
+              567374.257,
+              5931926.965,
+              20.5
+            ],
+            [
+              567335.071,
+              5931951.834,
+              20.5
+            ],
+            [
+              567327.703,
+              5931937.56,
+              20.5
+            ],
+            [
+              567327.703,
+              5931937.56,
+              20.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 20.5,
+        "number_of_stories": 6,
+        "element_id": 2535734.0,
+        "plot_id": 16.0,
+        "building_id": "Q1-16-06",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "43",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567251.871,
+              5931984.135,
+              20.5
+            ],
+            [
+              567260.064,
+              5931997.878,
+              20.5
+            ],
+            [
+              567228.013,
+              5932016.984,
+              20.5
+            ],
+            [
+              567221.81,
+              5932002.055,
+              20.5
+            ],
+            [
+              567251.871,
+              5931984.135,
+              20.5
+            ],
+            [
+              567251.871,
+              5931984.135,
+              20.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 20.5,
+        "number_of_stories": 6,
+        "element_id": 2535759.0,
+        "plot_id": 15.0,
+        "building_id": "Q1-15-06",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "44",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567257.033,
+              5931981.075,
+              20.5
+            ],
+            [
+              567279.366,
+              5931967.762,
+              20.5
+            ],
+            [
+              567287.559,
+              5931981.505,
+              20.5
+            ],
+            [
+              567265.226,
+              5931994.819,
+              20.5
+            ],
+            [
+              567257.033,
+              5931981.075,
+              20.5
+            ],
+            [
+              567257.033,
+              5931981.075,
+              20.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 20.5,
+        "number_of_stories": 6,
+        "element_id": 2535766.0,
+        "plot_id": 15.0,
+        "building_id": "Q1-15-05",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "45",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567518.892,
+              5931857.933,
+              26.5
+            ],
+            [
+              567502.897,
+              5931866.189,
+              26.5
+            ],
+            [
+              567485.904,
+              5931833.265,
+              26.5
+            ],
+            [
+              567500.885,
+              5931823.046,
+              26.5
+            ],
+            [
+              567518.892,
+              5931857.933,
+              26.5
+            ],
+            [
+              567518.892,
+              5931857.933,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2535826.0,
+        "plot_id": 17.0,
+        "building_id": "Q1-17-04",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "46",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567445.269,
+              5931931.719,
+              26.5
+            ],
+            [
+              567427.492,
+              5931940.894,
+              26.5
+            ],
+            [
+              567401.303,
+              5931890.155,
+              26.5
+            ],
+            [
+              567418.116,
+              5931879.111,
+              26.5
+            ],
+            [
+              567445.269,
+              5931931.719,
+              26.5
+            ],
+            [
+              567445.269,
+              5931931.719,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2535833.0,
+        "plot_id": 16.0,
+        "building_id": "Q1-16-04",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "47",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567328.773,
+              5931991.96,
+              26.5
+            ],
+            [
+              567311.0,
+              5932001.133,
+              26.5
+            ],
+            [
+              567290.298,
+              5931961.023,
+              26.5
+            ],
+            [
+              567307.359,
+              5931950.47,
+              26.5
+            ],
+            [
+              567328.773,
+              5931991.96,
+              26.5
+            ],
+            [
+              567328.773,
+              5931991.96,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2535840.0,
+        "plot_id": 15.0,
+        "building_id": "Q1-15-04",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "48",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567158.015,
+              5932056.552,
+              20.5
+            ],
+            [
+              567150.161,
+              5932042.612,
+              20.5
+            ],
+            [
+              567168.456,
+              5932032.303,
+              20.5
+            ],
+            [
+              567176.311,
+              5932046.243,
+              20.5
+            ],
+            [
+              567158.015,
+              5932056.552,
+              20.5
+            ],
+            [
+              567158.015,
+              5932056.552,
+              20.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 20.5,
+        "number_of_stories": 6,
+        "element_id": 2536008.0,
+        "plot_id": 14.0,
+        "building_id": "Q1-14-05",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "49",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567192.711,
+              5932052.955,
+              26.5
+            ],
+            [
+              567181.193,
+              5932025.23,
+              26.5
+            ],
+            [
+              567198.715,
+              5932015.276,
+              26.5
+            ],
+            [
+              567211.181,
+              5932045.282,
+              26.5
+            ],
+            [
+              567192.711,
+              5932052.955,
+              26.5
+            ],
+            [
+              567192.711,
+              5932052.955,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2536034.0,
+        "plot_id": 14.0,
+        "building_id": "Q1-14-04",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "50",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567122.481,
+              5932075.637,
+              20.5
+            ],
+            [
+              567117.457,
+              5932060.175,
+              20.5
+            ],
+            [
+              567144.884,
+              5932045.469,
+              20.5
+            ],
+            [
+              567152.445,
+              5932059.57,
+              20.5
+            ],
+            [
+              567122.481,
+              5932075.637,
+              20.5
+            ],
+            [
+              567122.481,
+              5932075.637,
+              20.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 20.5,
+        "number_of_stories": 6,
+        "element_id": 2536041.0,
+        "plot_id": 14.0,
+        "building_id": "Q1-14-06",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "51",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567003.389,
+              5931521.401,
+              20.5
+            ],
+            [
+              567009.313,
+              5931481.836,
+              20.5
+            ],
+            [
+              567016.833,
+              5931456.089,
+              20.5
+            ],
+            [
+              567024.837,
+              5931414.592,
+              20.5
+            ],
+            [
+              567040.402,
+              5931406.347,
+              20.5
+            ],
+            [
+              567102.28,
+              5931523.165,
+              20.5
+            ],
+            [
+              567003.389,
+              5931521.401,
+              20.5
+            ],
+            [
+              567003.389,
+              5931521.401,
+              20.5
+            ]
+          ],
+          [
+            [
+              567069.715,
+              5931500.141,
+              20.5
+            ],
+            [
+              567022.899,
+              5931500.48,
+              20.5
+            ],
+            [
+              567025.191,
+              5931490.916,
+              20.5
+            ],
+            [
+              567032.709,
+              5931465.177,
+              20.5
+            ],
+            [
+              567038.653,
+              5931441.501,
+              20.5
+            ],
+            [
+              567069.715,
+              5931500.141,
+              20.5
+            ],
+            [
+              567069.715,
+              5931500.141,
+              20.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 20.5,
+        "number_of_stories": 6,
+        "element_id": 2536150.0,
+        "plot_id": 10.0,
+        "building_id": "Q3-10-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "52",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567016.818,
+              5931251.16,
+              11.5
+            ],
+            [
+              566969.073,
+              5931161.024,
+              11.5
+            ],
+            [
+              567010.607,
+              5931139.024,
+              11.5
+            ],
+            [
+              567058.351,
+              5931229.16,
+              11.5
+            ],
+            [
+              567016.818,
+              5931251.16,
+              11.5
+            ],
+            [
+              567016.818,
+              5931251.16,
+              11.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 11.5,
+        "number_of_stories": 3,
+        "element_id": 2536273.0,
+        "plot_id": 14.0,
+        "building_id": "Q3-14-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "53",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566937.712,
+              5931101.817,
+              11.5
+            ],
+            [
+              566979.245,
+              5931079.817,
+              11.5
+            ],
+            [
+              567010.607,
+              5931139.024,
+              11.5
+            ],
+            [
+              566969.073,
+              5931161.024,
+              11.5
+            ],
+            [
+              566937.712,
+              5931101.817,
+              11.5
+            ],
+            [
+              566937.712,
+              5931101.817,
+              11.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "daycare",
+        "height": 11.5,
+        "number_of_stories": 3,
+        "element_id": 2536280.0,
+        "plot_id": "S2",
+        "building_id": "Q3-S2-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "54",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567100.137,
+              5931408.456,
+              14.5
+            ],
+            [
+              567020.563,
+              5931258.229,
+              14.5
+            ],
+            [
+              567062.096,
+              5931236.229,
+              14.5
+            ],
+            [
+              567141.67,
+              5931386.456,
+              14.5
+            ],
+            [
+              567100.137,
+              5931408.456,
+              14.5
+            ],
+            [
+              567100.137,
+              5931408.456,
+              14.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 14.5,
+        "number_of_stories": 4,
+        "element_id": 2536291.0,
+        "plot_id": 13.0,
+        "building_id": "Q3-13-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "55",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566918.907,
+              5931806.142,
+              17.5
+            ],
+            [
+              566910.284,
+              5931793.266,
+              17.5
+            ],
+            [
+              566939.245,
+              5931755.469,
+              17.5
+            ],
+            [
+              566967.005,
+              5931720.094,
+              17.5
+            ],
+            [
+              566993.28,
+              5931676.38,
+              17.5
+            ],
+            [
+              567030.246,
+              5931731.579,
+              17.5
+            ],
+            [
+              566918.907,
+              5931806.142,
+              17.5
+            ],
+            [
+              566918.907,
+              5931806.142,
+              17.5
+            ]
+          ],
+          [
+            [
+              566963.737,
+              5931758.066,
+              17.5
+            ],
+            [
+              566947.119,
+              5931769.195,
+              17.5
+            ],
+            [
+              566941.555,
+              5931760.886,
+              17.5
+            ],
+            [
+              566958.173,
+              5931749.757,
+              17.5
+            ],
+            [
+              566963.737,
+              5931758.066,
+              17.5
+            ],
+            [
+              566963.737,
+              5931758.066,
+              17.5
+            ]
+          ],
+          [
+            [
+              566988.664,
+              5931741.373,
+              17.5
+            ],
+            [
+              566972.046,
+              5931752.502,
+              17.5
+            ],
+            [
+              566963.699,
+              5931740.039,
+              17.5
+            ],
+            [
+              566980.317,
+              5931728.91,
+              17.5
+            ],
+            [
+              566988.664,
+              5931741.373,
+              17.5
+            ],
+            [
+              566988.664,
+              5931741.373,
+              17.5
+            ]
+          ],
+          [
+            [
+              566996.973,
+              5931735.809,
+              17.5
+            ],
+            [
+              566986.4,
+              5931720.022,
+              17.5
+            ],
+            [
+              566998.033,
+              5931712.232,
+              17.5
+            ],
+            [
+              567008.605,
+              5931728.018,
+              17.5
+            ],
+            [
+              566996.973,
+              5931735.809,
+              17.5
+            ],
+            [
+              566996.973,
+              5931735.809,
+              17.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 17.5,
+        "number_of_stories": 5,
+        "element_id": 2536428.0,
+        "plot_id": 7.0,
+        "building_id": "Q3-07-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "56",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567004.652,
+              5931642.808,
+              17.5
+            ],
+            [
+              567007.784,
+              5931575.102,
+              17.5
+            ],
+            [
+              567004.576,
+              5931551.311,
+              17.5
+            ],
+            [
+              567121.427,
+              5931559.312,
+              17.5
+            ],
+            [
+              567123.496,
+              5931563.219,
+              17.5
+            ],
+            [
+              567004.652,
+              5931642.808,
+              17.5
+            ],
+            [
+              567004.652,
+              5931642.808,
+              17.5
+            ]
+          ],
+          [
+            [
+              567047.007,
+              5931595.187,
+              17.5
+            ],
+            [
+              567034.543,
+              5931603.533,
+              17.5
+            ],
+            [
+              567023.415,
+              5931586.916,
+              17.5
+            ],
+            [
+              567035.878,
+              5931578.569,
+              17.5
+            ],
+            [
+              567047.007,
+              5931595.187,
+              17.5
+            ],
+            [
+              567047.007,
+              5931595.187,
+              17.5
+            ]
+          ],
+          [
+            [
+              567080.242,
+              5931572.929,
+              17.5
+            ],
+            [
+              567063.624,
+              5931584.058,
+              17.5
+            ],
+            [
+              567054.721,
+              5931570.764,
+              17.5
+            ],
+            [
+              567071.339,
+              5931559.635,
+              17.5
+            ],
+            [
+              567080.242,
+              5931572.929,
+              17.5
+            ],
+            [
+              567080.242,
+              5931572.929,
+              17.5
+            ]
+          ],
+          [
+            [
+              567032.227,
+              5931556.943,
+              17.5
+            ],
+            [
+              567037.792,
+              5931565.252,
+              17.5
+            ],
+            [
+              567025.328,
+              5931573.599,
+              17.5
+            ],
+            [
+              567019.764,
+              5931565.29,
+              17.5
+            ],
+            [
+              567032.227,
+              5931556.943,
+              17.5
+            ],
+            [
+              567032.227,
+              5931556.943,
+              17.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 17.5,
+        "number_of_stories": 5,
+        "element_id": 2536437.0,
+        "plot_id": 9.0,
+        "building_id": "Q3-09-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "57",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567188.578,
+              5931152.42,
+              26.5
+            ],
+            [
+              567151.599,
+              5931082.609,
+              26.5
+            ],
+            [
+              567169.273,
+              5931073.248,
+              26.5
+            ],
+            [
+              567206.251,
+              5931143.059,
+              26.5
+            ],
+            [
+              567188.578,
+              5931152.42,
+              26.5
+            ],
+            [
+              567188.578,
+              5931152.42,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2536789.0,
+        "plot_id": 5.0,
+        "building_id": "Q2-05-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "58",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567237.727,
+              5931245.207,
+              26.5
+            ],
+            [
+              567197.939,
+              5931170.094,
+              26.5
+            ],
+            [
+              567215.613,
+              5931160.732,
+              26.5
+            ],
+            [
+              567255.4,
+              5931235.846,
+              26.5
+            ],
+            [
+              567237.727,
+              5931245.207,
+              26.5
+            ],
+            [
+              567237.727,
+              5931245.207,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2536796.0,
+        "plot_id": 4.0,
+        "building_id": "Q2-04-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "59",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567321.628,
+              5931332.034,
+              26.5
+            ],
+            [
+              567277.16,
+              5931248.084,
+              26.5
+            ],
+            [
+              567294.833,
+              5931238.722,
+              26.5
+            ],
+            [
+              567339.301,
+              5931322.672,
+              26.5
+            ],
+            [
+              567321.628,
+              5931332.034,
+              26.5
+            ],
+            [
+              567321.628,
+              5931332.034,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2536803.0,
+        "plot_id": 3.0,
+        "building_id": "Q2-03-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "60",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567358.637,
+              5931422.198,
+              26.5
+            ],
+            [
+              567324.467,
+              5931357.689,
+              26.5
+            ],
+            [
+              567342.14,
+              5931348.327,
+              26.5
+            ],
+            [
+              567376.311,
+              5931412.836,
+              26.5
+            ],
+            [
+              567358.637,
+              5931422.198,
+              26.5
+            ],
+            [
+              567358.637,
+              5931422.198,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2536810.0,
+        "plot_id": 2.0,
+        "building_id": "Q2-02-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "61",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567466.554,
+              5931617.387,
+              26.5
+            ],
+            [
+              567384.172,
+              5931461.859,
+              26.5
+            ],
+            [
+              567397.427,
+              5931454.837,
+              26.5
+            ],
+            [
+              567479.81,
+              5931610.366,
+              26.5
+            ],
+            [
+              567466.554,
+              5931617.387,
+              26.5
+            ],
+            [
+              567466.554,
+              5931617.387,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2536817.0,
+        "plot_id": 1.0,
+        "building_id": "Q2-01-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "62",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567303.954,
+              5931341.395,
+              26.5
+            ],
+            [
+              567259.486,
+              5931257.445,
+              26.5
+            ],
+            [
+              567277.16,
+              5931248.084,
+              26.5
+            ],
+            [
+              567321.628,
+              5931332.034,
+              26.5
+            ],
+            [
+              567303.954,
+              5931341.395,
+              26.5
+            ],
+            [
+              567303.954,
+              5931341.395,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2536824.0,
+        "plot_id": 3.0,
+        "building_id": "Q2-03-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "63",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567340.963,
+              5931431.56,
+              26.5
+            ],
+            [
+              567306.793,
+              5931367.051,
+              26.5
+            ],
+            [
+              567324.467,
+              5931357.689,
+              26.5
+            ],
+            [
+              567358.637,
+              5931422.198,
+              26.5
+            ],
+            [
+              567340.963,
+              5931431.56,
+              26.5
+            ],
+            [
+              567340.963,
+              5931431.56,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2536831.0,
+        "plot_id": 2.0,
+        "building_id": "Q2-02-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "64",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567453.299,
+              5931624.408,
+              26.5
+            ],
+            [
+              567370.916,
+              5931468.88,
+              26.5
+            ],
+            [
+              567384.172,
+              5931461.859,
+              26.5
+            ],
+            [
+              567466.554,
+              5931617.387,
+              26.5
+            ],
+            [
+              567453.299,
+              5931624.408,
+              26.5
+            ],
+            [
+              567453.299,
+              5931624.408,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2536838.0,
+        "plot_id": 1.0,
+        "building_id": "Q2-01-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "65",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567206.251,
+              5931143.059,
+              26.5
+            ],
+            [
+              567196.89,
+              5931125.385,
+              26.5
+            ],
+            [
+              567209.703,
+              5931118.598,
+              26.5
+            ],
+            [
+              567191.448,
+              5931084.134,
+              26.5
+            ],
+            [
+              567178.634,
+              5931090.921,
+              26.5
+            ],
+            [
+              567169.273,
+              5931073.248,
+              26.5
+            ],
+            [
+              567198.876,
+              5931057.567,
+              26.5
+            ],
+            [
+              567235.855,
+              5931127.378,
+              26.5
+            ],
+            [
+              567206.251,
+              5931143.059,
+              26.5
+            ],
+            [
+              567206.251,
+              5931143.059,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2536845.0,
+        "plot_id": 5.0,
+        "building_id": "Q2-05-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "66",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567255.4,
+              5931235.846,
+              26.5
+            ],
+            [
+              567246.039,
+              5931218.172,
+              26.5
+            ],
+            [
+              567258.852,
+              5931211.385,
+              26.5
+            ],
+            [
+              567237.788,
+              5931171.619,
+              26.5
+            ],
+            [
+              567224.975,
+              5931178.406,
+              26.5
+            ],
+            [
+              567215.613,
+              5931160.732,
+              26.5
+            ],
+            [
+              567245.216,
+              5931145.052,
+              26.5
+            ],
+            [
+              567285.004,
+              5931220.165,
+              26.5
+            ],
+            [
+              567255.4,
+              5931235.846,
+              26.5
+            ],
+            [
+              567255.4,
+              5931235.846,
+              26.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 26.5,
+        "number_of_stories": 8,
+        "element_id": 2536851.0,
+        "plot_id": 4.0,
+        "building_id": "Q2-04-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "67",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566958.711,
+              5932041.286,
+              5.5
+            ],
+            [
+              566944.8,
+              5932020.514,
+              5.5
+            ],
+            [
+              566973.881,
+              5932001.039,
+              5.5
+            ],
+            [
+              566987.792,
+              5932021.811,
+              5.5
+            ],
+            [
+              566958.711,
+              5932041.286,
+              5.5
+            ],
+            [
+              566958.711,
+              5932041.286,
+              5.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "daycare",
+        "height": 5.5,
+        "number_of_stories": 1,
+        "element_id": 2536897.0,
+        "plot_id": 1.0,
+        "building_id": "Q1-01-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "68",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567059.616,
+              5931973.709,
+              8.5
+            ],
+            [
+              567048.487,
+              5931957.092,
+              8.5
+            ],
+            [
+              567069.259,
+              5931943.181,
+              8.5
+            ],
+            [
+              567080.388,
+              5931959.798,
+              8.5
+            ],
+            [
+              567059.616,
+              5931973.709,
+              8.5
+            ],
+            [
+              567059.616,
+              5931973.709,
+              8.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "daycare",
+        "height": 8.5,
+        "number_of_stories": 2,
+        "element_id": 2536909.0,
+        "plot_id": 19.0,
+        "building_id": "Q1-19-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "69",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567442.552,
+              5931998.152,
+              32.5
+            ],
+            [
+              567460.438,
+              5931988.916,
+              32.5
+            ],
+            [
+              567472.68,
+              5932007.196,
+              32.5
+            ],
+            [
+              567456.062,
+              5932018.325,
+              32.5
+            ],
+            [
+              567442.552,
+              5931998.152,
+              32.5
+            ],
+            [
+              567442.552,
+              5931998.152,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539190.0,
+        "plot_id": 8.0,
+        "building_id": "Q1-08-05",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567424.655,
+              5932007.37,
+              32.5
+            ],
+            [
+              567442.54,
+              5931998.134,
+              32.5
+            ],
+            [
+              567454.782,
+              5932016.414,
+              32.5
+            ],
+            [
+              567438.164,
+              5932027.542,
+              32.5
+            ],
+            [
+              567424.655,
+              5932007.37,
+              32.5
+            ],
+            [
+              567424.655,
+              5932007.37,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539197.0,
+        "plot_id": 8.0,
+        "building_id": "Q1-08-04",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "71",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567406.757,
+              5932016.587,
+              32.5
+            ],
+            [
+              567424.643,
+              5932007.352,
+              32.5
+            ],
+            [
+              567436.884,
+              5932025.631,
+              32.5
+            ],
+            [
+              567420.267,
+              5932036.76,
+              32.5
+            ],
+            [
+              567406.757,
+              5932016.587,
+              32.5
+            ],
+            [
+              567406.757,
+              5932016.587,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539204.0,
+        "plot_id": 8.0,
+        "building_id": "Q1-08-03",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "72",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567388.86,
+              5932025.805,
+              32.5
+            ],
+            [
+              567406.745,
+              5932016.57,
+              32.5
+            ],
+            [
+              567418.987,
+              5932034.849,
+              32.5
+            ],
+            [
+              567402.369,
+              5932045.978,
+              32.5
+            ],
+            [
+              567388.86,
+              5932025.805,
+              32.5
+            ],
+            [
+              567388.86,
+              5932025.805,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539211.0,
+        "plot_id": 8.0,
+        "building_id": "Q1-08-02",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "73",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567370.962,
+              5932035.023,
+              32.5
+            ],
+            [
+              567388.848,
+              5932025.787,
+              32.5
+            ],
+            [
+              567401.089,
+              5932044.067,
+              32.5
+            ],
+            [
+              567384.472,
+              5932055.196,
+              32.5
+            ],
+            [
+              567370.962,
+              5932035.023,
+              32.5
+            ],
+            [
+              567370.962,
+              5932035.023,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539218.0,
+        "plot_id": 8.0,
+        "building_id": "Q1-08-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "74",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567341.961,
+              5932049.495,
+              32.5
+            ],
+            [
+              567359.965,
+              5932040.437,
+              32.5
+            ],
+            [
+              567372.206,
+              5932058.716,
+              32.5
+            ],
+            [
+              567355.588,
+              5932069.845,
+              32.5
+            ],
+            [
+              567341.961,
+              5932049.495,
+              32.5
+            ],
+            [
+              567341.961,
+              5932049.495,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539225.0,
+        "plot_id": 7.0,
+        "building_id": "Q1-07-05",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "75",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567323.72,
+              5932058.201,
+              32.5
+            ],
+            [
+              567341.956,
+              5932049.488,
+              32.5
+            ],
+            [
+              567354.197,
+              5932067.768,
+              32.5
+            ],
+            [
+              567337.58,
+              5932078.896,
+              32.5
+            ],
+            [
+              567323.72,
+              5932058.201,
+              32.5
+            ],
+            [
+              567323.72,
+              5932058.201,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539232.0,
+        "plot_id": 7.0,
+        "building_id": "Q1-07-04",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "76",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567305.324,
+              5932066.674,
+              32.5
+            ],
+            [
+              567323.724,
+              5932058.207,
+              32.5
+            ],
+            [
+              567335.966,
+              5932076.487,
+              32.5
+            ],
+            [
+              567319.348,
+              5932087.616,
+              32.5
+            ],
+            [
+              567305.324,
+              5932066.674,
+              32.5
+            ],
+            [
+              567305.324,
+              5932066.674,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539239.0,
+        "plot_id": 7.0,
+        "building_id": "Q1-07-03",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "77",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567286.876,
+              5932075.07,
+              32.5
+            ],
+            [
+              567305.326,
+              5932066.677,
+              32.5
+            ],
+            [
+              567317.568,
+              5932084.957,
+              32.5
+            ],
+            [
+              567300.95,
+              5932096.086,
+              32.5
+            ],
+            [
+              567286.876,
+              5932075.07,
+              32.5
+            ],
+            [
+              567286.876,
+              5932075.07,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539246.0,
+        "plot_id": 7.0,
+        "building_id": "Q1-07-02",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "78",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567268.432,
+              5932083.472,
+              32.5
+            ],
+            [
+              567286.872,
+              5932075.064,
+              32.5
+            ],
+            [
+              567299.114,
+              5932093.344,
+              32.5
+            ],
+            [
+              567282.496,
+              5932104.473,
+              32.5
+            ],
+            [
+              567268.432,
+              5932083.472,
+              32.5
+            ],
+            [
+              567268.432,
+              5932083.472,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539253.0,
+        "plot_id": 7.0,
+        "building_id": "Q1-07-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "79",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567196.688,
+              5932111.128,
+              32.5
+            ],
+            [
+              567215.875,
+              5932103.835,
+              32.5
+            ],
+            [
+              567228.117,
+              5932122.115,
+              32.5
+            ],
+            [
+              567211.499,
+              5932133.244,
+              32.5
+            ],
+            [
+              567196.688,
+              5932111.128,
+              32.5
+            ],
+            [
+              567196.688,
+              5932111.128,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539260.0,
+        "plot_id": 5.0,
+        "building_id": "Q1-05-04",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "80",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567177.215,
+              5932117.994,
+              32.5
+            ],
+            [
+              567196.67,
+              5932111.101,
+              32.5
+            ],
+            [
+              567208.911,
+              5932129.38,
+              32.5
+            ],
+            [
+              567192.294,
+              5932140.509,
+              32.5
+            ],
+            [
+              567177.215,
+              5932117.994,
+              32.5
+            ],
+            [
+              567177.215,
+              5932117.994,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539267.0,
+        "plot_id": 5.0,
+        "building_id": "Q1-05-03",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "81",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567157.704,
+              5932124.801,
+              32.5
+            ],
+            [
+              567177.214,
+              5932117.992,
+              32.5
+            ],
+            [
+              567189.456,
+              5932136.271,
+              32.5
+            ],
+            [
+              567172.838,
+              5932147.4,
+              32.5
+            ],
+            [
+              567157.704,
+              5932124.801,
+              32.5
+            ],
+            [
+              567157.704,
+              5932124.801,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539274.0,
+        "plot_id": 5.0,
+        "building_id": "Q1-05-02",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "82",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567138.207,
+              5932131.631,
+              32.5
+            ],
+            [
+              567157.703,
+              5932124.8,
+              32.5
+            ],
+            [
+              567169.945,
+              5932143.08,
+              32.5
+            ],
+            [
+              567153.327,
+              5932154.208,
+              32.5
+            ],
+            [
+              567138.207,
+              5932131.631,
+              32.5
+            ],
+            [
+              567138.207,
+              5932131.631,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539281.0,
+        "plot_id": 5.0,
+        "building_id": "Q1-05-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "83",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567098.785,
+              5932143.303,
+              32.5
+            ],
+            [
+              567118.847,
+              5932137.318,
+              32.5
+            ],
+            [
+              567131.089,
+              5932155.597,
+              32.5
+            ],
+            [
+              567114.471,
+              5932166.726,
+              32.5
+            ],
+            [
+              567098.785,
+              5932143.303,
+              32.5
+            ],
+            [
+              567098.785,
+              5932143.303,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539288.0,
+        "plot_id": 4.0,
+        "building_id": "Q1-04-04",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "84",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567078.653,
+              5932149.184,
+              32.5
+            ],
+            [
+              567098.78,
+              5932143.295,
+              32.5
+            ],
+            [
+              567111.021,
+              5932161.575,
+              32.5
+            ],
+            [
+              567094.404,
+              5932172.703,
+              32.5
+            ],
+            [
+              567078.653,
+              5932149.184,
+              32.5
+            ],
+            [
+              567078.653,
+              5932149.184,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539295.0,
+        "plot_id": 4.0,
+        "building_id": "Q1-04-03",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "85",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567058.401,
+              5932154.887,
+              32.5
+            ],
+            [
+              567078.656,
+              5932149.189,
+              32.5
+            ],
+            [
+              567090.898,
+              5932167.469,
+              32.5
+            ],
+            [
+              567074.28,
+              5932178.598,
+              32.5
+            ],
+            [
+              567058.401,
+              5932154.887,
+              32.5
+            ],
+            [
+              567058.401,
+              5932154.887,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539302.0,
+        "plot_id": 4.0,
+        "building_id": "Q1-04-02",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "86",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567038.16,
+              5932160.605,
+              32.5
+            ],
+            [
+              567058.394,
+              5932154.876,
+              32.5
+            ],
+            [
+              567070.636,
+              5932173.155,
+              32.5
+            ],
+            [
+              567054.018,
+              5932184.284,
+              32.5
+            ],
+            [
+              567038.16,
+              5932160.605,
+              32.5
+            ],
+            [
+              567038.16,
+              5932160.605,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539309.0,
+        "plot_id": 4.0,
+        "building_id": "Q1-04-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "87",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566938.486,
+              5932213.739,
+              32.5
+            ],
+            [
+              566922.062,
+              5932189.214,
+              32.5
+            ],
+            [
+              566942.862,
+              5932184.331,
+              32.5
+            ],
+            [
+              566955.104,
+              5932202.611,
+              32.5
+            ],
+            [
+              566938.486,
+              5932213.739,
+              32.5
+            ],
+            [
+              566938.486,
+              5932213.739,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539316.0,
+        "plot_id": 2.0,
+        "building_id": "Q1-02-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "88",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566959.277,
+              5932208.842,
+              32.5
+            ],
+            [
+              566942.864,
+              5932184.333,
+              32.5
+            ],
+            [
+              566963.653,
+              5932179.434,
+              32.5
+            ],
+            [
+              566975.895,
+              5932197.713,
+              32.5
+            ],
+            [
+              566959.277,
+              5932208.842,
+              32.5
+            ],
+            [
+              566959.277,
+              5932208.842,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539323.0,
+        "plot_id": 2.0,
+        "building_id": "Q1-02-02",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "89",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566963.654,
+              5932179.435,
+              32.5
+            ],
+            [
+              566984.389,
+              5932174.453,
+              32.5
+            ],
+            [
+              566996.631,
+              5932192.733,
+              32.5
+            ],
+            [
+              566980.013,
+              5932203.862,
+              32.5
+            ],
+            [
+              566963.654,
+              5932179.435,
+              32.5
+            ],
+            [
+              566963.654,
+              5932179.435,
+              32.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "residential",
+        "height": 32.5,
+        "number_of_stories": 10,
+        "element_id": 2539330.0,
+        "plot_id": 2.0,
+        "building_id": "Q1-02-03",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "90",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566953.279,
+              5931929.352,
+              5.5
+            ],
+            [
+              566934.36,
+              5931901.102,
+              5.5
+            ],
+            [
+              567098.876,
+              5931790.927,
+              5.5
+            ],
+            [
+              567117.795,
+              5931819.177,
+              5.5
+            ],
+            [
+              566953.279,
+              5931929.352,
+              5.5
+            ],
+            [
+              566953.279,
+              5931929.352,
+              5.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "commercialOffice",
+        "height": 5.5,
+        "number_of_stories": 1,
+        "element_id": 2539352.0,
+        "plot_id": 2.0,
+        "building_id": "Q3-02-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "91",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567098.876,
+              5931790.927,
+              5.5
+            ],
+            [
+              567172.825,
+              5931741.403,
+              5.5
+            ],
+            [
+              567191.744,
+              5931769.654,
+              5.5
+            ],
+            [
+              567117.795,
+              5931819.177,
+              5.5
+            ],
+            [
+              567098.876,
+              5931790.927,
+              5.5
+            ],
+            [
+              567098.876,
+              5931790.927,
+              5.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "daycare",
+        "height": 5.5,
+        "number_of_stories": 1,
+        "element_id": 2539359.0,
+        "plot_id": "S1",
+        "building_id": "Q3-S1-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "94",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566912.603,
+              5932219.632,
+              17.5
+            ],
+            [
+              566814.61,
+              5932239.569,
+              17.5
+            ],
+            [
+              566809.726,
+              5932215.561,
+              17.5
+            ],
+            [
+              566907.718,
+              5932195.624,
+              17.5
+            ],
+            [
+              566912.603,
+              5932219.632,
+              17.5
+            ],
+            [
+              566912.603,
+              5932219.632,
+              17.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "daycare",
+        "height": 17.5,
+        "number_of_stories": 5,
+        "element_id": 2541296.0,
+        "plot_id": "S1",
+        "building_id": "Q1-S1-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "95",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              567417.412,
+              5931846.609,
+              14.5
+            ],
+            [
+              567385.138,
+              5931798.417,
+              14.5
+            ],
+            [
+              567418.374,
+              5931776.16,
+              14.5
+            ],
+            [
+              567450.647,
+              5931824.351,
+              14.5
+            ],
+            [
+              567417.412,
+              5931846.609,
+              14.5
+            ],
+            [
+              567417.412,
+              5931846.609,
+              14.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "daycare",
+        "height": 14.5,
+        "number_of_stories": 4,
+        "element_id": 2541307.0,
+        "plot_id": "S3",
+        "building_id": "Q1-S3-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "96",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              566863.606,
+              5932229.6,
+              14.5
+            ],
+            [
+              566858.722,
+              5932205.592,
+              14.5
+            ],
+            [
+              566907.718,
+              5932195.624,
+              14.5
+            ],
+            [
+              566912.603,
+              5932219.632,
+              14.5
+            ],
+            [
+              566863.606,
+              5932229.6,
+              14.5
+            ],
+            [
+              566863.606,
+              5932229.6,
+              14.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "land_use_detailed_type": "public",
+        "height": 14.5,
+        "number_of_stories": 4,
+        "element_id": 2541458.0,
+        "plot_id": "S1",
+        "building_id": "Q1-S1-01",
+        "building_part": "roof",
+        "building_part_type": "exteriorElement",
+        "area_planning_type": "unknown land use type"
+      }
+    }
+  ]
+}
