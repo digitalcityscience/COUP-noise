@@ -251,7 +251,7 @@ def create_nodes(all_roads):
 
 def get_node_for_point(point, nodes):
     dict_of_nodes = {i: nodes[i] for i in range(0, len(nodes))}
-    for node_id, node in dict_of_nodes.iteritems():
+    for node_id, node in dict_of_nodes.items():
         if point == node:
             return node_id
     print('could not find node for point', point)
