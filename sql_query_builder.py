@@ -6,7 +6,8 @@ import numpy
 from geomet import wkt
 import RoadInfo
 from config_loader import get_config
-from city_scope.parse_city_scope_table import merge_adjacent_buildings
+from shapely.geometry import Polygon, mapping
+from shapely.ops import cascaded_union
 
 cwd = os.path.dirname(os.path.abspath(__file__))
 
@@ -21,17 +22,18 @@ upper_main_road_as_multi_line = config['NOISE_SETTINGS'].getboolean('UPPER_MAIN_
 
 # dynamic input data from designer
 buildings_json = config['NOISE_SETTINGS']['INPUT_JSON_BUILDINGS']
+design_roads_json = config['NOISE_SETTINGS']['INPUT_JSON_DESIGN_ROADS']
 
 # static input data
-road_network_json = config['NOISE_SETTINGS']['INPUT_JSON_ROAD_NETWORK']
+regional_roads_json = config['NOISE_SETTINGS']['INPUT_JSON_REGIONAL_ROADS']
 railroad_multi_line_json = os.path.abspath(cwd + '/input_geojson/static/roads/railroads.json')
 
-# road names from julias shapefile : road_type_ids from IffStar NoiseModdeling
-noise_road_types = {
-    "hauptverkehrsstrasse": 56,  # in boulevard 70km/h
-    "hauptsammelstrasse": 53,  # extra boulevard Street 50km/h
-    "anliegerstrasse": 54,  # extra boulevard Street <50km/,
-    "eisenbahn": 99  # railroad
+# road_type_ids from IffStar NoiseModdeling
+road_types_iffstar_noise_modelling = {
+    "boulevard": 56,  # in boulevard 70km/h
+    "street": 53,  # extra boulevard Street 50km/h
+    "alley": 54,  # extra boulevard Street <50km/,
+    "railroad": 99  # railroad
 }
 
 all_roads = []
@@ -58,7 +60,7 @@ def get_car_traffic_data(road_properties):
 
     # Sources daily traffic: HafenCity GmbH , Standortanalyse, S. 120
 
-    if road_properties['eisenbahn']:
+    if road_properties['road_type'] == "railroad":
         return None, None, None
 
     car_traffic = int(int(road_properties['car_traffic_daily']) * 0.11)
@@ -69,7 +71,7 @@ def get_car_traffic_data(road_properties):
 
 # source for train track data = http://laermkartierung1.eisenbahn-bundesamt.de/mb3/app.php/application/eba
 def get_train_track_data(road_properties):
-    if not road_properties['eisenbahn']:
+    if not road_properties['road_type'] == "railroad":
         return None, None, None, None
 
     train_speed = road_properties['train_speed']
@@ -80,11 +82,31 @@ def get_train_track_data(road_properties):
     return train_speed, train_per_hour, ground_type, has_anti_vibration
 
 
-def get_road_queries(traffic_settings_key):
-    features = get_roads_features(traffic_settings_key)
-    add_third_dimension_to_features(features)
+def apply_traffic_settings_to_design_roads(design_roads, traffic_settings):
+    max_speed = traffic_settings["max_speed"]
+    traffic_quota = traffic_settings["traffic_volume_percent"] / 100
 
-    for feature in features:
+
+    for road in design_roads["features"]:
+        road["properties"]["max_speed"] = traffic_settings["max_speed"]
+        road["properties"]["truck_traffic_daily"] = road["properties"]["truck_traffic_daily"] * traffic_quota
+        road["properties"]["car_traffic_daily"] = road["properties"]["car_traffic_daily"] * traffic_quota
+
+    return design_roads
+
+
+def get_road_queries(traffic_settings):
+    design_roads = apply_traffic_settings_to_design_roads(open_geojson(design_roads_json), traffic_settings)["features"]
+    regional_roads = open_geojson(regional_roads_json)["features"]
+    if include_rail_road:
+        railroads = open_geojson(railroad_multi_line_json)["features"]
+    else:
+        railroads = []
+
+    road_features = design_roads + regional_roads + railroads
+    add_third_dimension_to_features(road_features)
+
+    for feature in road_features:
         id = feature['properties']['id']
         road_type = get_road_type(feature['properties'])
         coordinates = feature['geometry']['coordinates']
@@ -109,6 +131,7 @@ def get_road_queries(traffic_settings_key):
         max_speed, car_traffic, truck_traffic = get_car_traffic_data(feature['properties'])
         train_speed, train_per_hour, ground_type, has_anti_vibration = get_train_track_data(feature['properties'])
 
+        # init new RoadInfo object
         road_info = RoadInfo.RoadInfo(id, geom, road_type, start_point, end_point, max_speed, car_traffic,
                                       truck_traffic,
                                       train_speed, train_per_hour, ground_type, has_anti_vibration)
@@ -131,7 +154,7 @@ def get_traffic_queries():
         node_from = get_node_for_point(road.get_start_point(), nodes)
         node_to = get_node_for_point(road.get_end_point(), nodes)
 
-        if road.get_road_type_for_query() == noise_road_types['eisenbahn']:
+        if road.get_road_type_for_query() == road_types_iffstar_noise_modelling['railroad']:
             # train traffic
             train_speed = road.get_train_speed()
             trains_per_hour = road.get_train_per_hour()
@@ -216,20 +239,21 @@ def get_building_queries():
     return sql_insert_strings_all_buildings
 
 
-# merges the design input for roads and the static road features
-# returns a list of geojson features containing all relevant roads
-def get_roads_features(traffic_settings_key):
-    # save geojson
-    file_path = get_config()['NOISE_SETTINGS']['INPUT_JSON_ROAD_NETWORK'][:-5]
-    file_path += "_" + traffic_settings_key + ".json"
+# merges adjacent buildings and creates a multipolygon containing all buildings
+def merge_adjacent_buildings(geo_json):
+    polygons = []
+    for feature in geo_json['features']:
+        polygons.append(Polygon(feature['geometry']['coordinates'][0]))
 
-    road_network = open_geojson(file_path)['features']
-
-    if include_rail_road:
-        for feature in open_geojson(railroad_multi_line_json)['features']:
-            road_network.append(feature)
-
-    return road_network
+    return {
+        "type": "FeatureCollection",
+        "features": [
+            {
+                "geometry": mapping(cascaded_union(polygons)),
+                "properties": {}
+            }
+        ]
+    }
 
 
 # create nodes for all roads - nodes are connection points of roads
@@ -260,11 +284,11 @@ def get_node_for_point(point, nodes):
 
 def get_road_type(road_properties):
     # if not in road types continue
-    for output_road_type in noise_road_types.keys():
-        if road_properties['name'] == output_road_type:
-            return noise_road_types[output_road_type]
+    for output_road_type in road_types_iffstar_noise_modelling.keys():
+        if road_properties['road_type'] == output_road_type:
+            return road_types_iffstar_noise_modelling[output_road_type]
 
-    print('no matching noise road_type_found for', road_properties['name'])
+    print('no matching noise road_type_found for', road_properties['road_type'])
     return 0
 
 
