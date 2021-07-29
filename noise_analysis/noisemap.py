@@ -8,7 +8,7 @@ import shlex, subprocess
 
 from noise_analysis.sql_query_builder import get_building_queries, get_road_queries, get_traffic_queries, reset_all_roads
 from noise_analysis.config_loader import get_config
-
+from noise_analysis.geojson_to_png import convert_result_to_png
 
 def get_result_path():
     cwd = get_cwd()
@@ -274,16 +274,14 @@ def boot_h2_database_in_subprocess():
                 p.terminate()
 
 
-def perform_noise_calculation(traffic_settings):
+def perform_noise_calculation(calculation_settings):
 
     h2_subprocess, psycopg2 = boot_h2_database_in_subprocess()
-
-    sleep(5)
 
     conn, psycopg2_cursor = initiate_database_connection(psycopg2)
 
     # get noise result as json
-    noise_result = calculate_noise_result(psycopg2_cursor, traffic_settings)
+    noise_result = calculate_noise_result(psycopg2_cursor, calculation_settings["traffic_settings"])
 
     print("Result geojson save in ", get_result_path())
 
@@ -297,12 +295,13 @@ def perform_noise_calculation(traffic_settings):
     # terminate database process as it constantly blocks memory
     h2_subprocess.terminate()
 
-    sleep(5)
-
     # Try to make noise computation even faster
     # by adjustiong: https://github.com/Ifsttar/NoiseModelling/blob/master/noisemap-core/src/main/java/org/orbisgis/noisemap/core/jdbc/JdbcNoiseMap.java#L30
     # by shifting to GB center
     #   https: // github.com / Ifsttar / NoiseModelling / blob / master / noisemap - core / src / main / java / org / orbisgis / noisemap / core / jdbc / JdbcNoiseMap.java  # L68
+
+    if calculation_settings["result_format"] == "png":
+        return convert_result_to_png(noise_result)
 
     return noise_result
 

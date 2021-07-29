@@ -11,3 +11,10 @@ aenum
 certifi
 chardet
 idna
+
+matplotlib
+geopandas
+rasterio
+icecream
+rioxarray
+pygeos
