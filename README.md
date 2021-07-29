@@ -1,103 +1,111 @@
-# CityScope NoiseModelling
+# Celery Example
 
-This project is a fork of https://github.com/Ifsttar/NoiseModelling
+## Description
+This sample project shows how to use Celery to process task batches asynchronously. 
+For simplicity, the sum of two integers are computed here. In order to simulate the 
+complexity, a random duration (3-10 seconds are put on the processing).
+Using Celery, this tech stack offers high scalability. For ease of installation, 
+Redis is used here. Through Redis the tasks are distributed to the workers and also 
+the results are stored on Redis.
 
-## Requirementsvisvalingamwyatt
-- pyshp
-- geomet
-- shapely
-- psycopg2
-- numpy
-- requests
+Wrapped with an API (Flask), the stack provides an interface for other services. 
+The whole thing is then deployed with Docker.
 
-For conversion of shapefiles into geoJson
-- ogr, from GDAL pip install GDAL==2.2.2 
-(troubles installing = https://gis.stackexchange.com/questions/28966/python-gdal-package-missing-header-file-when-installing-via-pip)
+## Design
+The task batches are commissioned via a endpoint (```POST, /grouptasks```) (see Usage). 
+The client receives a response with a Group-Task-Id and a list of TaskIds. 
+Using polling, the client can query the status of the GroupTask 
+(```GET, /grouptasks/<grouptask_id>```) or the status of a Task 
+(```GET, /tasks/<task_id>```).
 
-## Input data
-The computation is based on the geojson files in the `input_geojson` directory. 
-Geojsons can be derived from the shapefiles in the `input_shape` directory using the `shp_to_geojson.py` script.
-## The input data is classified into 2 categories
-- 1 static input data in input_geosjon/static/roads: roads_network.json, railroads.json
-   these are fix inputs of the noise environment that cannot be changed in competition entries
-- 2 design input data: The proposed buildings as geojson. Will be generated from cityScope grid
-    
-## Run as noise module as docker 
-If not installed yet: run ' sh ./install_docker.sh'
-If already installed run ' sh ./docker/run_docker.sh'
+## Caching
+After a task has been successfully processed, the result is cached on Redis along with 
+the input parameters. The result is then returned when a (different) task has the same 
+input parameters and is requested.
 
-## Start the CityScope noise module without docker
+## TechStack
+- Python
+- Celery
+- Redis
+- Flask
+- Docker
 
-Run 'start_noise_module.sh'
-
-## Config.ini
-Chose the option of input detail
-include_rail_road = False
-include_lower_main_road = False
-upper_main_road_as_multi_line = False # MultiLineStrings seems to deliver more accurate results but need more computation time
-
-Chose your usage_mode 
-city_scope : Reads the grid of a cityIO endpoint and calculates results for the grid, posts results
-tuio: Reads the input file in for the buildings.json 
-
-## Computation
-Start the computation by executing `noisemap.py`
-The noise propgation will be computed based on the input files in the the `input_geojson directory`
-The computation results will be saved in the `results` directory. Currently the output format is as shapefile.
-Use QGis to view results (output style: choose categorize, magma (inverted) for best view)
-Or drag and drop into https://mapshaper.org/
-
-# Increase computation speed?
-we should investigate whether we can provide a static information on sound sources from traffic data 
-(or a set of options) so that this part doesn't have to be recomputed every time
-https://github.com/Ifsttar/NoiseModelling/wiki/02-Quick-Start#compute-the-global-sound-level-of-light-and-heavy-vehicles
-
-## Further help
-
-https://github.com/Ifsttar/NoiseModelling/wiki
+## Start
+1. ```docker-compose build```
+2. ```docker-compose up -d```
 
 
-## Input & Output illustration
-The input is divided into static inputs and design inputs. 
-Static inputs are globally set and not possible to be altered by city scope user
-Design inputs are expected from city scope user.
-###The input is divided into static inputs 
-1) upper main road 
-    a) detailed version of upper main road as MultiLineString (red) [more detailed restuls, longer computation]
-    b) simple version of upper main road as LineString (green) [slighty less detailed results, faster compfutation]
-2) lower main road (blue)
-3) railroad (red dots)
+## Usage
+### Create a GroupTask
+Request:
+```bash
+curl -X POST http://localhost:5000/grouptasks -H 'Content-type: application/json' \
+    -d '{"tasks": [{"paramB" : 5, "paramA": 1}, {"paramB" : 10, "paramA": 9}, \
+    {"paramB" : 13, "paramA": 12}, {"paramB" : 1, "paramA": 8}]}'
+```
 
-Choose your input options in the sql_query_builder
+Response:
+```json
+{
+    "grouptaskId" : "858c8724-03c4-4027-b1e9-4185545aa54d",
+    "taskIds" : [
+        "55de4727-c7ad-4c5d-9c72-242a6558d65a",
+        "12ae3364-f69b-41b9-ad82-c1b8a3e077b8",
+        "4012aa3e-d5a0-4654-8290-00537de97eaf",
+        "16fbda42-a4c4-4022-b373-e2fc7f13cbcd"
+    ]
+}
+```
 
-![static inputs](https://github.com/CityScope/CSL_Hamburg_Noise/blob/master/documentation/static_input_options.png)
+### Get GroupTask-Result
+Request:
+```
+curl -X GET http://localhost:5000/grouptasks/858c8724-03c4-4027-b1e9-4185545aa54d
+```
 
-###Design inputs
-those are the inputs we are expectiong from the architect user. 
-Road network (not mandatory) and buildings
+**Hint**: This request can be used for polling. The poll abort condition can be set to "groupTaskProcessed != True". 
+While processing the results of processed tasks are published in "results" and can be used to display the progress.
 
-![static and design inputs](https://github.com/CityScope/CSL_Hamburg_Noise/blob/master/documentation/static_and_design_input.png)
 
-###Results
-*Results example with mock-traffic input*
-Result interpretation:
- 
-EU treshold for "relevant" noise is 55db
+Response:
+```json
+{
+    "grouptaskId" : "858c8724-03c4-4027-b1e9-4185545aa54d",
+    "grouptaskProcessed" : false,
+    "grouptaskSucceeded" : false,
+    "results": [
+      6,
+      19,
+      25
+    ],
+    "tasksCompleted" : 3,
+    "tasksTotal" : 5
+}
+```
+### Get single Task-Result
+Request:
+```
+curl -X GET http://localhost:5000/tasks/55de4727-c7ad-4c5d-9c72-242a6558d65a
+```
+Response:
+```json
+{
+    "result" : 6,
+    "resultReady" : true,
+    "taskId" : "55de4727-c7ad-4c5d-9c72-242a6558d65a",
+    "taskState" : "SUCCESS",
+    "taskSucceeded" : true
+}
+```
 
- < 45 dB(A) ’ WHERE IDISO=0
+## Commands
+### Start worker
+```celery -A tasks worker --loglevel=info```
 
- 45 <> 50 dB(A) ’ WHERE IDISO=1
- 
- 50 <> 55 dB(A) ’ WHERE IDISO=2
- 
- 55 <> 60 dB(A) ’ WHERE IDISO=3
- 
- 60 <> 65 dB(A) ’ WHERE IDISO=4
- 
- 65 <> 70 dB(A) ’ WHERE IDISO=5
- 
- 70 <> 75 dB(A) ’ WHERE IDISO=6
- 
- '>' 75 dB(A) ’ WHERE IDISO=7
- 
- ![results](https://github.com/CityScope/CSL_Hamburg_Noise/blob/master/documentation/results.png)
+### Monitoring Redis
+
+List Tasks:
+- ```redis-cli -h HOST -p PORT -n DATABASE_NUMBER llen QUEUE_NAME```
+
+List Queues:
+- ```redis-cli -h HOST -p PORT -n DATABASE_NUMBER keys \*```

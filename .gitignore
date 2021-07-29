@@ -10,6 +10,9 @@
 project_log_andre
 access_token.txt
 
+#redis data
+redis
+
 # tokens
 tokens.json
 token.txt

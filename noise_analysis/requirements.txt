@@ -1,0 +1,13 @@
+visvalingamwyatt
+pyshp
+geomet
+shapely
+psycopg2-binary
+numpy
+requests
+configparser
+pyproj
+aenum
+certifi
+chardet
+idna

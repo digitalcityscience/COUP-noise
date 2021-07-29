@@ -4,10 +4,13 @@ import json
 import os
 import numpy
 from geomet import wkt
-import RoadInfo
-from config_loader import get_config
 from shapely.geometry import Polygon, mapping
 from shapely.ops import cascaded_union
+
+from noise_analysis.config_loader import get_config
+from noise_analysis.RoadInfo import RoadInfo
+
+
 
 cwd = os.path.dirname(os.path.abspath(__file__))
 
@@ -21,11 +24,11 @@ include_lower_main_road = config['NOISE_SETTINGS'].getboolean('INCLUDE_LOWER_MAI
 upper_main_road_as_multi_line = config['NOISE_SETTINGS'].getboolean('UPPER_MAIN_ROAD_AS_MULTI_LINE')
 
 # dynamic input data from designer
-buildings_json = config['NOISE_SETTINGS']['INPUT_JSON_BUILDINGS']
-design_roads_json = config['NOISE_SETTINGS']['INPUT_JSON_DESIGN_ROADS']
+buildings_json = cwd + '/' + config['NOISE_SETTINGS']['INPUT_JSON_BUILDINGS']
+design_roads_json = cwd + '/' + config['NOISE_SETTINGS']['INPUT_JSON_DESIGN_ROADS']
 
 # static input data
-regional_roads_json = config['NOISE_SETTINGS']['INPUT_JSON_REGIONAL_ROADS']
+regional_roads_json = cwd + '/' + config['NOISE_SETTINGS']['INPUT_JSON_REGIONAL_ROADS']
 railroad_multi_line_json = os.path.abspath(cwd + '/input_geojson/static/roads/railroads.json')
 
 # road_type_ids from IffStar NoiseModdeling
@@ -132,7 +135,7 @@ def get_road_queries(traffic_settings):
         train_speed, train_per_hour, ground_type, has_anti_vibration = get_train_track_data(feature['properties'])
 
         # init new RoadInfo object
-        road_info = RoadInfo.RoadInfo(id, geom, road_type, start_point, end_point, max_speed, car_traffic,
+        road_info = RoadInfo(id, geom, road_type, start_point, end_point, max_speed, car_traffic,
                                       truck_traffic,
                                       train_speed, train_per_hour, ground_type, has_anti_vibration)
         all_roads.append(road_info)

@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    restart: "always"
+    command: redis-server --requirepass G0rDkQtRcl!E --appendonly yes
+    volumes:
+      - "./redis/data:/data"
+
+  api:
+    build:
+      context: .
+      dockerfile: dockerfile_noise
+    ports:
+      - 5000:5000
+    restart: "always"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASS=G0rDkQtRcl!E
+
+  worker_1:
+    build:
+      context: .
+      dockerfile: dockerfile_noise
+    restart: "always"
+    command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker1@%h
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASS=G0rDkQtRcl!E
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+
+  worker_2:
+    build:
+      context: .
+      dockerfile: dockerfile_noise
+    restart: "always"
+    command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker2@%h
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASS=G0rDkQtRcl!E
+    deploy:
+      resources:
+        limits:
+          cpus: '1'

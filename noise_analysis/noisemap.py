@@ -6,8 +6,8 @@ import os
 from time import sleep
 import shlex, subprocess
 
-from sql_query_builder import get_building_queries, get_road_queries, get_traffic_queries, reset_all_roads
-from config_loader import get_config
+from noise_analysis.sql_query_builder import get_building_queries, get_road_queries, get_traffic_queries, reset_all_roads
+from noise_analysis.config_loader import get_config
 
 
 def get_result_path():
@@ -238,7 +238,8 @@ def initiate_database_connection(psycopg2):
 
 
 def boot_h2_database_in_subprocess():
-    orbisgis_dir = get_cwd() + '/orbisgis_java/'
+    noise_analysis_dir = os.path.dirname(os.path.realpath(__file__))
+    orbisgis_dir = noise_analysis_dir + '/orbisgis_java/'
 
     java_command = 'java -cp "bin/*:bundle/*:sys-bundle/*" org.h2.tools.Server -pg -trace'
 
@@ -273,11 +274,11 @@ def boot_h2_database_in_subprocess():
                 p.terminate()
 
 
-def perform_noise_calculation_and_get_result(traffic_settings={"max_speed": 50,
-        "traffic_volume_percent": 100}):
+def perform_noise_calculation(traffic_settings):
 
     h2_subprocess, psycopg2 = boot_h2_database_in_subprocess()
-    time.sleep(5)
+
+    sleep(5)
 
     conn, psycopg2_cursor = initiate_database_connection(psycopg2)
 
@@ -296,7 +297,7 @@ def perform_noise_calculation_and_get_result(traffic_settings={"max_speed": 50,
     # terminate database process as it constantly blocks memory
     h2_subprocess.terminate()
 
-    time.sleep(5)
+    sleep(5)
 
     # Try to make noise computation even faster
     # by adjustiong: https://github.com/Ifsttar/NoiseModelling/blob/master/noisemap-core/src/main/java/org/orbisgis/noisemap/core/jdbc/JdbcNoiseMap.java#L30
@@ -308,6 +309,7 @@ def perform_noise_calculation_and_get_result(traffic_settings={"max_speed": 50,
 
 if __name__ == "__main__":
     import time
-    perform_noise_calculation_and_get_result()
+    perform_noise_calculation({"max_speed": 50,
+        "traffic_volume_percent": 100, "hash":"123yxz"})
 
 

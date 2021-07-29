@@ -16,5 +16,4 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python2", "-u", "grid_listener.py"]
 CMD []
