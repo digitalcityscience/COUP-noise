@@ -9,7 +9,12 @@ import json
 import rasterio.features
 import rasterio.warp
 import geopandas
+
+from shapely.geometry import Polygon, Point
 from pyproj import Transformer
+from shapely.ops import transform
+
+transformer_to_wgs = Transformer.from_crs(25832, 4326, always_xy=False).transform
 
 
 def geojson_to_png(geojson, property_to_burn, resolution):
@@ -17,10 +22,10 @@ def geojson_to_png(geojson, property_to_burn, resolution):
 
     image_data = rasterio.features.rasterize(shapes=geom_value_pairs, fill=0, dtype='float64', out_shape=resolution)
 
-    # map image data to ints from 0-255 (for png), idiso value has 8 steps
+    # map image data to ints from 0-255 (for png), idiso value has 8 steps, including 0
     # set NaN as 0
     image_data = [
-        [int(round(x * (255/8))) if not math.isnan(x) else 0 for x in image_line]
+        [int(round(x * (255/7))) if not math.isnan(x) else 0 for x in image_line]
         for image_line in image_data
     ]
     # create a np array from image data
@@ -61,6 +66,22 @@ def reproject_coords(input_coords):
     return output_coords
 
 
+def get_bounds_coordinates(gdf_bounds):
+    left, bottom, right, top = gdf_bounds
+    bounds_utm = Polygon([
+        [left, bottom],
+        [right, bottom],
+        [right, top],
+        [left, top],
+        [left, bottom]
+    ]
+    )
+
+    bound_wgs = transform(transformer_to_wgs, bounds_utm)
+
+    return list(bound_wgs.exterior.coords)
+
+
 def convert_result_to_png(geojson=None):
     cwd = os.path.dirname(os.path.abspath(__file__))
 
@@ -78,8 +99,13 @@ def convert_result_to_png(geojson=None):
     # clip input dataset to project area
     gdf = geopandas.clip(gdf, project_area_gdf)
 
-    #  Translate geometry to start at 0,0
+    # get total bounds of original dataset (to position image on cityScope later)
     gdf_total_bounds = gdf.total_bounds
+    bounds_coordinates = get_bounds_coordinates(gdf_total_bounds)
+    south_west_corner_pt = transform(transformer_to_wgs, Point([gdf_total_bounds[0], gdf_total_bounds[1]]))
+    south_west_corner_coords = list(south_west_corner_pt.coords)
+
+    #  Translate geometry to start at 0,0
     gdf.geometry = gdf.translate(-gdf_total_bounds[0], -gdf_total_bounds[1])
 
     # calculate resolution of picture
@@ -89,14 +115,12 @@ def convert_result_to_png(geojson=None):
     # rasterize data
     base64_string, img_width, img_height = geojson_to_png(json.loads(gdf.to_json()), "idiso",
                                                              [resolution_x, resolution_y])
-    print(base64_string, img_width, img_height)
-
-    south_west_corner = reproject_coords([gdf_total_bounds[0], gdf_total_bounds[1]])
 
     return [{
-        "bbox_sw_corner": south_west_corner,
+        "bbox_sw_corner": south_west_corner_coords,
         "img_width": img_width,
         "img_height": img_height,
+        "bbox_coordinates": bounds_coordinates,
         "image_base64_string": base64_string
     }]
 
