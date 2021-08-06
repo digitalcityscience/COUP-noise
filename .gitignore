@@ -10,6 +10,13 @@
 project_log_andre
 access_token.txt
 
+
+#results
+noise_analysis/results
+
+#cityPyo logins
+cityPyoUser.json
+
 #redis data
 redis
 

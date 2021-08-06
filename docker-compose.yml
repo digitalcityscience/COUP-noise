@@ -12,7 +12,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: dockerfile_noise
+      dockerfile: dockerfile_celery
     ports:
       - 5000:5000
     restart: "always"
@@ -24,7 +24,7 @@ services:
   worker_1:
     build:
       context: .
-      dockerfile: dockerfile_noise
+      dockerfile: dockerfile_celery
     restart: "always"
     command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker1@%h
     environment:
@@ -39,7 +39,7 @@ services:
   worker_2:
     build:
       context: .
-      dockerfile: dockerfile_noise
+      dockerfile: dockerfile_celery
     restart: "always"
     command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker2@%h
     environment:

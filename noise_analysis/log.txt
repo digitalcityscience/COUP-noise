@@ -1,7 +1,71 @@
-PG server running at pg://127.0.1.1:38737 (only local connections)
+PG server running at pg://127.0.1.1:5435 (only local connections)
 Connect
 Connect
 Disconnect
 Disconnect
 Close
 Close
+Connect
+Init
+SSLRequest
+Init
+StartupMessage
+ version 196608 (3.0)
+ param user=sa
+ param database=/home/andre/grasbrook/modules/noise/noise_analysis/mydb
+PasswordMessage
+Query
+BEGIN;
+Query
+CREATE ALIAS IF NOT EXISTS H2GIS_SPATIAL FOR "org.h2gis.functions.factory.H2GISFunctions.load";
+check CommandComplete tag for command stat2
+Query
+CALL H2GIS_SPATIAL();
+Query
+CREATE ALIAS IF NOT EXISTS BR_PtGrid3D FOR "org.orbisgis.noisemap.h2.BR_PtGrid3D.noisePropagation";
+check CommandComplete tag for command stat7
+Query
+CREATE ALIAS IF NOT EXISTS BR_PtGrid FOR "org.orbisgis.noisemap.h2.BR_PtGrid.noisePropagation";
+check CommandComplete tag for command stat8
+Query
+CREATE ALIAS IF NOT EXISTS BR_SpectrumRepartition FOR "org.orbisgis.noisemap.h2.BR_SpectrumRepartition.spectrumRepartition";
+check CommandComplete tag for command stat9
+Query
+CREATE ALIAS IF NOT EXISTS BR_EvalSource FOR "org.orbisgis.noisemap.h2.BR_EvalSource.evalSource";
+check CommandComplete tag for command stat10
+Query
+CREATE ALIAS IF NOT EXISTS BTW_EvalSource FOR "org.orbisgis.noisemap.h2.BTW_EvalSource.evalSource";
+check CommandComplete tag for command stat11
+Query
+CREATE ALIAS IF NOT EXISTS BR_SpectrumRepartition FOR "org.orbisgis.noisemap.h2.BR_SpectrumRepartition.spectrumRepartition";
+check CommandComplete tag for command stat12
+Query
+CREATE ALIAS IF NOT EXISTS BR_TriGrid FOR "org.orbisgis.noisemap.h2.BR_TriGrid.noisePropagation";
+check CommandComplete tag for command stat13
+Query
+CREATE ALIAS IF NOT EXISTS BR_TriGrid3D FOR "org.orbisgis.noisemap.h2.BR_TriGrid3D.noisePropagation";
+check CommandComplete tag for command stat14
+Query
+
+    drop table if exists buildings;
+check CommandComplete tag for command stat15
+
+    create table buildings ( the_geom GEOMETRY );
+check CommandComplete tag for command stat16
+
+    ;
+check CommandComplete tag for command stat17
+Query
+
+        -- Insert 1 building from automated string
+        INSERT INTO buildings (the_geom) VALUES (ST_GeomFromText('POLYGON ((567541.9940103228 5931846.124568633 0,567551.126589517 5931841.55800524 0,567541.994038612 5931846.125052693 0,567582.4685445164 5931924.548800853 0,567582.9999899818 5931925.571886177 0,567587.65 5931934.582999999 0,567594.0505613594 5931946.94109761 0,567625.1379946885 5931930.902996173 0,567613.6713975215 5931908.686209177 0,567613.5294943624 5931908.758348473 0,567613.6713600844 5931908.686176838 0,567573.504999341 5931830.687972567 0,567573.4320601304 5931830.723710928 0,567560.5891252422 5931805.841065435 0,567531.3191779511 5931825.443371414 0,567541.9940103228 5931846.124568633 0),(567551.126589517 5931841.55800524 0,567573.0856060456 5931830.893464631 0,567563.1667831189 5931835.753435975 0,567574.7576300064 5931858.7145903185 0,567563.2678319885 5931864.761852434 0,567551.126589517 5931841.55800524 0),(567591.7786867928 5931919.815804631 0,567579.8978028041 5931896.585569311 0,567591.4631915984 5931890.689488748 0,567603.4700864601 5931913.872248797 0,567591.7786867928 5931919.815804631 0))'));
+
+        ;
+check CommandComplete tag for command stat19
+Query
+
+        -- Insert 1 building from automated string
+        INSERT INTO buildings (the_geom) VALUES (ST_GeomFromText('POLYGON ((567399.029 5931730.130999999 0,567388.228 5931737.365 0,567365.794 5931752.389 0,567401.963 5931806.395999999 0,567424.397 5931791.372 0,567435.1979999999 5931784.138 0,567399.029 5931730.130999999 0),(567424.397 5931791.372 0,567417.163 5931780.5709999995 0,567405.531 5931788.361 0,567383.829 5931755.955999999 0,567395.4616769799 5931748.166216308 0,567424.397 5931791.372 0))'));
+
+        ;
+check CommandComplete tag for command stat21
