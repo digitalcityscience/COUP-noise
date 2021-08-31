@@ -66,7 +66,7 @@ def reproject_coords(input_coords):
 
 # gets [x,y] of the south west corner of the bbox.
 # might only work for european quadrant of the world
-def get_south_west_corner_coords(gdf_bounds):
+def get_south_west_corner_coords_gdf(gdf_bounds):
     left, bottom, right, top = gdf_bounds
     
     sw_point = transform(transformer_to_wgs, Point([left, bottom]))
@@ -111,7 +111,7 @@ def convert_result_to_png(geojson=None):
     gdf_total_bounds = gdf.total_bounds
     
     bounds_coordinates = get_bounds_coordinates_wgs(gdf_total_bounds)
-    south_west_corner_coords = get_south_west_corner_coords(gdf_total_bounds)
+    south_west_corner_coords = get_south_west_corner_coords_gdf(gdf_total_bounds)
     
     #  Translate geometry to start at 0,0
     gdf.geometry = gdf.translate(-gdf_total_bounds[0], -gdf_total_bounds[1])
