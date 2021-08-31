@@ -125,13 +125,13 @@ def convert_result_to_png(geojson=None):
     # rasterize data
     base64_string, img_width, img_height = geojson_to_png(json.loads(gdf.to_json()), "idiso", [resolution_x, resolution_y])
 
-    return [{
+    return {
         "bbox_sw_corner": south_west_corner_coords,
         "img_width": img_width,
         "img_height": img_height,
         "bbox_coordinates": bounds_coordinates,
         "image_base64_string": base64_string
-    }]
+    }
 
 
 # rasterize geojson  https://gis.stackexchange.com/questions/316626/rasterio-features-rastersize
