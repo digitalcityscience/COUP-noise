@@ -185,13 +185,12 @@ def get_traffic_queries():
 
 
 # get sql queries for the buildings
-def get_building_queries():
+def make_building_queries(buildings_geojson):
     # A multipolygon containing all buildings
-    data = open_geojson(cwd + "/" + config['NOISE_SETTINGS']['INPUT_JSON_BUILDINGS'])
-    data = merge_adjacent_buildings(data)
+    buildings = merge_adjacent_buildings(buildings_geojson)
     sql_insert_strings_all_buildings = []
 
-    for feature in data['features']:
+    for feature in buildings['features']:
         if not "coordinates" in feature['geometry']:
             continue
         for polygon in feature['geometry']['coordinates']:
@@ -245,7 +244,7 @@ def get_building_queries():
 # merges adjacent buildings and creates a multipolygon containing all buildings
 def merge_adjacent_buildings(geo_json):
     polygons = []
-    for feature in geo_json['features']:
+    for feature in geo_json["features"]:
         polygons.append(Polygon(feature['geometry']['coordinates'][0]))
 
     return {
