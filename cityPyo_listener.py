@@ -8,7 +8,8 @@ from noise_analysis.noisemap import perform_noise_calculation
 known_hashes = {}
 
 cwd = os.path.dirname(os.path.abspath(__file__))
-cityPyoUrl = 'http://localhost:5000/'
+# cityPyoUrl = 'http://localhost:5000/'
+cityPyoUrl = 'https://nc.hcu-hamburg.de/cityPyo/'
 
 
 # login to cityPyo using the local user_cred_file
