@@ -54,7 +54,7 @@ def send_response_to_cityPyo(scenario_hash, res):
     print("\n sending to cityPyo")
 
     try:
-        query = scenario_hash
+        query = "noise_" + scenario_hash
         data = {
             "userid": user_id,
             "data": res
