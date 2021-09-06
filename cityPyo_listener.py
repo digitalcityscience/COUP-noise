@@ -109,7 +109,12 @@ if __name__ == "__main__":
 
                 if compute:
                     # TODO: get buildings json from cityPyo!!
-                    result = perform_noise_calculation(scenarios[scenario_id], buildings_geojson)
+                    try:
+                        result = perform_noise_calculation(scenarios[scenario_id], buildings_geojson)
+                    except Exception as e:
+                        # Error occured - write error as result for debugging (until we publish a proper API)
+                        print("error occured during calculation")
+                        result = "Error \n " + e
                     send_response_to_cityPyo(scenarios[scenario_id]["hash"], result)
                     known_hashes[user_id][scenario_id] = scenarios[scenario_id]["hash"]
 
