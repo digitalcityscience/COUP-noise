@@ -245,8 +245,11 @@ def make_building_queries(buildings_geojson):
 def merge_adjacent_buildings(geo_json):
     polygons = []
     for feature in geo_json["features"]:
-        polygons.append(Polygon(feature['geometry']['coordinates'][0]))
-
+        if feature["geometry"]["type"] == "MultiPolygon":
+            for polygon in feature['geometry']['coordinates'][0]:
+                polygons.append(Polygon(polygon))
+        else:
+            polygons.append(Polygon(feature['geometry']['coordinates'][0]))
     return {
         "type": "FeatureCollection",
         "features": [
