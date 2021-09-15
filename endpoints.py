@@ -24,11 +24,13 @@ def bad_request(message: str):
         400
     )
 
-
 @app.route("/grouptasks", methods=['POST'])
 def process_grouptask():
     # Validate request
-    if not request.json and not 'tasks' in request.json:
+
+    print("request json received : %s" % request.json)
+
+    if not request.json: # and not 'tasks' in request.json:
         abort(400)
 
     # Parse requests
@@ -43,7 +45,14 @@ def process_grouptask():
             jsonify(response),
             HTTPStatus.OK,
         )
-    except KeyError:
+    except KeyError as e:
+        print("THIS IS THE ERROR %s " % e)
+        print("THIS IS THE request %s " % request)
+
+        return make_response(
+            jsonify(e),
+            HTTPStatus.OK,
+        )
         return bad_request("Payload not correctly structured.")
 
 
