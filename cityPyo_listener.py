@@ -8,7 +8,8 @@ from noise_analysis.noisemap import perform_noise_calculation
 known_hashes = {}
 
 cwd = os.path.dirname(os.path.abspath(__file__))
-cityPyoUrl = 'http://localhost:5000/'
+# cityPyoUrl = 'http://localhost:5000/'
+cityPyoUrl = 'https://nc.hcu-hamburg.de/cityPyo/'
 
 
 # login to cityPyo using the local user_cred_file
@@ -20,10 +21,10 @@ def get_city_pyo_user_id(user_cred):
     return response.json()['user_id']
 
 # get the noise scenarios from cityPyo
-def get_noise_scenarios():
+def get_data_from_cityPyo(layerName: str, fallbackLayerName: str = None):
     data = {
         "userid":user_id,
-        "layer":"noise_scenario"
+        "layer":layerName
         }
 
     try:
@@ -32,7 +33,11 @@ def get_noise_scenarios():
         if not response.status_code == 200:
             print("could not get from cityPyo")
             print("Error code", response.status_code)
-            # todo raise error and return error
+            
+            # try fallback
+            if fallbackLayerName:
+                return get_data_from_cityPyo(fallbackLayerName)
+            
             return {}
     # exit on request execption (cityIO down)
     except requests.exceptions.RequestException as e:
@@ -49,7 +54,7 @@ def send_response_to_cityPyo(scenario_hash, res):
     print("\n sending to cityPyo")
 
     try:
-        query = scenario_hash
+        query = "noise_" + scenario_hash
         data = {
             "userid": user_id,
             "data": res
@@ -88,7 +93,9 @@ if __name__ == "__main__":
     while True:
         for user_id in user_ids:
             # compute results for each scenario
-            scenarios = get_noise_scenarios()
+            scenarios = get_data_from_cityPyo("noise_scenario")
+            buildings_geojson = get_data_from_cityPyo("buildings", "upperfloor")
+
             for scenario_id in scenarios.keys():
                 compute = False
                 try:
@@ -101,7 +108,13 @@ if __name__ == "__main__":
                     compute = True
 
                 if compute:
-                    result = perform_noise_calculation(scenarios[scenario_id])
+                    # TODO: get buildings json from cityPyo!!
+                    try:
+                        result = perform_noise_calculation(scenarios[scenario_id], buildings_geojson)
+                    except Exception as e:
+                        # Error occured - write error as result for debugging (until we publish a proper API)
+                        print("error occured during calculation")
+                        result = "Error \n " + e
                     send_response_to_cityPyo(scenarios[scenario_id]["hash"], result)
                     known_hashes[user_id][scenario_id] = scenarios[scenario_id]["hash"]
 
