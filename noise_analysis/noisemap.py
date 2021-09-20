@@ -274,7 +274,7 @@ def boot_h2_database_in_subprocess():
                 p.terminate()
 
 
-def perform_noise_calculation(calculation_settings, buildings_geojson):
+def noise_calculation(calculation_settings, buildings_geojson):
 
     h2_subprocess, psycopg2 = boot_h2_database_in_subprocess()
 
@@ -308,7 +308,7 @@ def perform_noise_calculation(calculation_settings, buildings_geojson):
 
 if __name__ == "__main__":
     import time
-    perform_noise_calculation({"max_speed": 50,
+    noise_calculation({"max_speed": 50,
         "traffic_volume_percent": 100, "hash":"123yxz"})
 
 

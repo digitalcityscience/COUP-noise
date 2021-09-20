@@ -12,9 +12,8 @@ services:
   api:
     build:
       context: .
-      dockerfile: dockerfile_celery
     ports:
-      - 5000:5000
+      - 5001:5000
     restart: "always"
     environment:
       - REDIS_HOST=redis
@@ -24,10 +23,10 @@ services:
   worker_1:
     build:
       context: .
-      dockerfile: dockerfile_celery
     restart: "always"
     command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker1@%h
     environment:
+      # - CITY_PYO=http://cityPyo:5000/
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASS=G0rDkQtRcl!E
@@ -39,10 +38,10 @@ services:
   worker_2:
     build:
       context: .
-      dockerfile: dockerfile_celery
     restart: "always"
     command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker2@%h
     environment:
+      # - CITY_PYO=http://cityPyo:5000/
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASS=G0rDkQtRcl!E
