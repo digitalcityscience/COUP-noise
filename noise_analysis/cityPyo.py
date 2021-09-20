@@ -46,7 +46,7 @@ class CityPyo:
                 print("could not get from cityPyo")
                 print("wanted to get layer: ", layer_name)
                 print("Error code", response.status_code)
-                raise FileNotFoundError(layer_name + "delivered " + response.status_code)
+                raise FileNotFoundError(layer_name + " delivered " + str(response.status_code))
         # exit on request exception (cityIO down)
         except requests.exceptions.RequestException as e:
             print("CityPyo error. " + str(e))
