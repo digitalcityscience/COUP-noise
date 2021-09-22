@@ -26,7 +26,7 @@ services:
     restart: "always"
     command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker1@%h
     environment:
-      # - CITY_PYO=http://cityPyo:5000/
+      # - CITY_PYO="YOUR_CITY_PYO_ENDPOINT"
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASS=G0rDkQtRcl!E
@@ -41,7 +41,7 @@ services:
     restart: "always"
     command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker2@%h
     environment:
-      # - CITY_PYO=http://cityPyo:5000/
+      # - CITY_PYO="YOUR_CITY_PYO_ENDPOINT"
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASS=G0rDkQtRcl!E
