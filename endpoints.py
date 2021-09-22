@@ -4,7 +4,8 @@ from celery.result import AsyncResult, GroupResult
 from flask import Flask, request, abort, make_response, jsonify
 
 from mycelery import app as celery_app
-from tasks import receive_task
+from tasks import compute_task
+from services import get_calculation_input
 
 app = Flask(__name__)
 
@@ -31,9 +32,9 @@ def process_noisetask():
     if not request.json:
         abort(400)
 
-    # Parse requests
+    # Handle requests
     try:
-        single_result = receive_task.delay(request.json)
+        single_result = compute_task.delay(*get_calculation_input(request.json))
         response = {'taskId': single_result.id}
 
         # return jsonify(response), HTTPStatus.OK

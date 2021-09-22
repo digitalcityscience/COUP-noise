@@ -306,9 +306,5 @@ def noise_calculation(calculation_settings, buildings_geojson):
     return noise_result
 
 
-if __name__ == "__main__":
-    import time
-    noise_calculation({"max_speed": 50,
-        "traffic_volume_percent": 100, "hash":"123yxz"})
 
 

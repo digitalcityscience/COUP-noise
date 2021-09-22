@@ -87,14 +87,15 @@ def get_train_track_data(road_properties):
 
 def apply_traffic_settings_to_design_roads(design_roads, traffic_settings):
     max_speed = traffic_settings["max_speed"]
-    traffic_quota = traffic_settings["traffic_volume_percent"] / 100
+    traffic_quota = traffic_settings["traffic_quota"]
 
 
     for road in design_roads["features"]:
-        road["properties"]["max_speed"] = traffic_settings["max_speed"]
+        road["properties"]["max_speed"] = max_speed
         road["properties"]["truck_traffic_daily"] = road["properties"]["truck_traffic_daily"] * traffic_quota
         road["properties"]["car_traffic_daily"] = road["properties"]["car_traffic_daily"] * traffic_quota
 
+    
     return design_roads
 
 

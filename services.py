@@ -1,6 +1,7 @@
 import json
 import hashlib
 import re
+import geopandas
 
 from noise_analysis.cityPyo import CityPyo
 from celery import group
@@ -12,13 +13,26 @@ from noise_analysis.noisemap import noise_calculation
 cityPyo = cp.CityPyo() ## put cityPyo container here
 
 
-def get_result(scenario, buildings):
+def get_calculation_input(complex_task):
+    # hash noise scenario settings
+    calculation_settings = get_calculation_settings(complex_task)
+    scenario_hash = hash_dict(calculation_settings)
+
+    # hash buildings geojson
+    buildings = get_buildings_geojson_from_cityPyo(complex_task["city_pyo_user"])
+    buildings_hash = hash_dict(buildings)
+
+    return scenario_hash, buildings_hash, calculation_settings, buildings
+
+def calculate_and_return_result(scenario, buildings):
     return noise_calculation(scenario, buildings)
 
 
-def get_calculation_input(scenario):
+def get_calculation_settings(scenario):
+    print("scenario", scenario)
+
     return {
-        "traffic_settings": scenario["traffic_settings"],
+        "traffic_settings": {"max_speed": scenario["max_speed"], "traffic_quota": scenario["traffic_quota"]},
         "result_format": scenario["result_format"]
     }
 
