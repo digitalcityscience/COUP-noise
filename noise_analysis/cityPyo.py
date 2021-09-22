@@ -15,6 +15,8 @@ class CityPyo:
     """
     def __init__(self):
         self.url = os.getenv('CITY_PYO')
+        if not self.url:
+            raise Exception("Please specify CITY_PYO environment variable")
         
 
     # login to cityPyo using the local user_cred_file

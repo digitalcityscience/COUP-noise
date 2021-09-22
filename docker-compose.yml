@@ -14,8 +14,10 @@ services:
       context: .
     ports:
       - 5001:5000
+    command: ["python", "entrypoint.py"]
     restart: "always"
     environment:
+      # - CITY_PYO=https://api.hcu-dev.de/citypyo
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASS=G0rDkQtRcl!E
@@ -26,14 +28,10 @@ services:
     restart: "always"
     command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker1@%h
     environment:
-      # - CITY_PYO="YOUR_CITY_PYO_ENDPOINT"
+      # - CITY_PYO=YOUR_CITY_PYO_ENDPOINT
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASS=G0rDkQtRcl!E
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
 
   worker_2:
     build:
@@ -41,11 +39,7 @@ services:
     restart: "always"
     command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker2@%h
     environment:
-      # - CITY_PYO="YOUR_CITY_PYO_ENDPOINT"
+      # - CITY_PYO=YOUR_CITY_PYO_ENDPOINT
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASS=G0rDkQtRcl!E
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
