@@ -29,14 +29,15 @@ class CityPyo:
 
     # returns buildings geometries as geojson (properties are ignored, as irrelevant for noise calc)
     def get_buildings_for_user(self, user_id):
-        # prioritize a buildings.json
-        buildings = self.get_layer_for_user(user_id, "buildings")
+        """ # prioritize a buildings.json
+        buildings = self.get_layer_for_user(user_id, "upperfloor")
         if not buildings:
-            # else try upperfloor
-            buildings = self.get_layer_for_user(user_id, "upperfloor")
-            if not buildings:
-                # no buildings no calculation :p
-                raise FileNotFoundError("could not find buildings on %s for user %s" % (self.url, self.user_id))
+            # else try upperfloor """
+        # HOTFIX: use upperfloor as "buildings.json" seems to cause problems to H2GIS
+        buildings = self.get_layer_for_user(user_id, "upperfloor")
+        if not buildings:
+            # no buildings no calculation :p
+            raise FileNotFoundError("could not find buildings on %s for user %s" % (self.url, self.user_id))
 
         # return geojson containing only geometries, converted to utm
         return self.reproject_to_utm_and_delete_all_properties(buildings)
