@@ -1,12 +1,32 @@
-FROM python:3.8
+FROM ubuntu
 
-LABEL org.opencontainers.image.authors="vinh-ngu@hotmail.com"
+# Noise module needs java
+RUN apt-get update
+RUN apt-get install -y java-common
+RUN apt install -y default-jre
+RUN apt install -y openjdk-8-jre-headless
 
+
+# get python3 for ubuntu
+RUN : \
+    && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        software-properties-common \
+    && add-apt-repository -y ppa:deadsnakes \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        python3.8-venv \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && :
+
+RUN python3.8 -m venv /venv
+ENV PATH=/venv/bin:$PATH
+
+# move files to dir
+COPY . /app
 WORKDIR /app
-COPY . .
 
 RUN pip install -r requirements.txt
 RUN pip install -r noise_analysis/requirements.txt
 
-# TODO enable cors for entrypoint sh
 CMD ["bash", "entrypoint.sh"]
