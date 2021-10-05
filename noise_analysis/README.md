@@ -31,16 +31,6 @@ If already installed run ' sh ./docker/run_docker.sh'
 
 Run 'start_noise_module.sh'
 
-## Config.ini
-Chose the option of input detail
-include_rail_road = False
-include_lower_main_road = False
-upper_main_road_as_multi_line = False # MultiLineStrings seems to deliver more accurate results but need more computation time
-
-Chose your usage_mode 
-city_scope : Reads the grid of a cityIO endpoint and calculates results for the grid, posts results
-tuio: Reads the input file in for the buildings.json 
-
 ## Computation
 Start the computation by executing `noisemap.py`
 The noise propgation will be computed based on the input files in the the `input_geojson directory`
