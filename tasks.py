@@ -3,16 +3,16 @@ from celery.utils.log import get_task_logger
 
 from cache import Cache
 from mycelery import app
-from services import calculate_and_return_result, get_cache_key, is_valid_md5
+from services import calculate_and_return_result, get_cache_key_compute_task, is_valid_md5
 
 logger = get_task_logger(__name__)
 cache = Cache()
 
 
 @app.task()
-def compute_task(scenario_hash, buildings_hash, scenario, buildings) -> dict:
+def compute_task(scenario_hash, buildings_and_roads_hash, scenario, buildings, roads) -> dict:
     # create key of unique calculation constellation of scenario settings and buildings
-    key = scenario_hash + "_" + buildings_hash
+    key = scenario_hash + "_" + buildings_and_roads_hash
     
     # Check cache. If cached, return result from cache.
     result = cache.retrieve(key=key)
@@ -21,10 +21,10 @@ def compute_task(scenario_hash, buildings_hash, scenario, buildings) -> dict:
     if not result == {}:
         return result
 
-    print("computing for scenario hash %s and building hash %s" %
-          (scenario_hash, buildings_hash))
+    print("computing for scenario hash %s and building_and_roads hash %s" %
+          (scenario_hash, buildings_and_roads_hash))
 
-    return calculate_and_return_result(scenario, buildings)
+    return calculate_and_return_result(scenario, buildings, roads)
 
 
 @signals.task_postrun.connect
@@ -37,6 +37,6 @@ def task_postrun_handler(task_id, task, *args, **kwargs):
     if is_valid_md5(args[0]) and is_valid_md5(args[1]):
         # Cache only succeeded tasks
         if state == "SUCCESS":
-            key = get_cache_key(scenario_hash=args[0], buildings_hash=args[1])
+            key = get_cache_key_compute_task(scenario_hash=args[0], buildings_and_roads_hash=args[1])
             cache.save(key=key, value=result)
             print("cached result with key %s" % key)

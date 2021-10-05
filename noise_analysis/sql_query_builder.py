@@ -19,18 +19,6 @@ cwd = os.path.dirname(os.path.abspath(__file__))
 # settings for the static input data
 config = get_config()
 
-include_rail_road = config['NOISE_SETTINGS'].getboolean('INCLUDE_RAILROAD')
-include_lower_main_road = config['NOISE_SETTINGS'].getboolean('INCLUDE_LOWER_MAIN_ROAD')
-upper_main_road_as_multi_line = config['NOISE_SETTINGS'].getboolean('UPPER_MAIN_ROAD_AS_MULTI_LINE')
-
-# dynamic input data from designer
-buildings_json = cwd + '/' + config['NOISE_SETTINGS']['INPUT_JSON_BUILDINGS']
-design_roads_json = cwd + '/' + config['NOISE_SETTINGS']['INPUT_JSON_DESIGN_ROADS']
-
-# static input data
-regional_roads_json = cwd + '/' + config['NOISE_SETTINGS']['INPUT_JSON_REGIONAL_ROADS']
-railroad_multi_line_json = os.path.abspath(cwd + '/input_geojson/static/roads/railroads.json')
-
 # road_type_ids from IffStar NoiseModdeling
 road_types_iffstar_noise_modelling = {
     "boulevard": 56,  # in boulevard 70km/h
@@ -89,25 +77,19 @@ def apply_traffic_settings_to_design_roads(design_roads, traffic_settings):
     max_speed = traffic_settings["max_speed"]
     traffic_quota = traffic_settings["traffic_quota"]
 
-
     for road in design_roads["features"]:
-        road["properties"]["max_speed"] = max_speed
-        road["properties"]["truck_traffic_daily"] = road["properties"]["truck_traffic_daily"] * traffic_quota
-        road["properties"]["car_traffic_daily"] = road["properties"]["car_traffic_daily"] * traffic_quota
-
+        # only adjust traffic settings of manipulatable roads
+        if "traffic_settings_adjustable" in list(road.keys()) and road["traffic_settings_adjustable"]:
+            road["properties"]["max_speed"] = max_speed
+            road["properties"]["truck_traffic_daily"] = road["properties"]["truck_traffic_daily"] * traffic_quota
+            road["properties"]["car_traffic_daily"] = road["properties"]["car_traffic_daily"] * traffic_quota
     
     return design_roads
 
 
-def get_road_queries(traffic_settings):
-    design_roads = apply_traffic_settings_to_design_roads(open_geojson(design_roads_json), traffic_settings)["features"]
-    regional_roads = open_geojson(regional_roads_json)["features"]
-    if include_rail_road:
-        railroads = open_geojson(railroad_multi_line_json)["features"]
-    else:
-        railroads = []
-
-    road_features = design_roads + regional_roads + railroads
+def get_road_queries(traffic_settings, roads_geojson):
+    roads_geojson = apply_traffic_settings_to_design_roads(roads_geojson, traffic_settings)
+    road_features = roads_geojson["features"]
     add_third_dimension_to_features(road_features)
 
     for feature in road_features:

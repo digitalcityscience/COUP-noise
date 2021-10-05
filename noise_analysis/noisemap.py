@@ -42,7 +42,7 @@ def get_cwd():
 
 
 # calculates the noise propagation and returns a geojson containing isophones
-def calculate_noise_result(cursor, traffic_settings, buildings_geojson):
+def calculate_noise_result(cursor, traffic_settings, buildings_geojson, roads_geojson):
     # Scenario sample
     # Sending/Receiving geometry data using odbc connection is very slow
     # It is advised to use shape file or other storage format, so use SHPREAD or FILETABLE sql functions
@@ -70,7 +70,7 @@ def calculate_noise_result(cursor, traffic_settings, buildings_geojson):
         drop table if exists roads_geom;
         create table roads_geom ( the_geom GEOMETRY, NUM INTEGER, node_from INTEGER, node_to INTEGER, road_type INTEGER);
         """)
-    roads_queries = get_road_queries(traffic_settings)
+    roads_queries = get_road_queries(traffic_settings, roads_geojson)
     for road in roads_queries:
         # print('road:', road)
         cursor.execute("""{0}""".format(road))
@@ -274,14 +274,19 @@ def boot_h2_database_in_subprocess():
                 p.terminate()
 
 
-def noise_calculation(calculation_settings, buildings_geojson):
+def noise_calculation(calculation_settings, buildings_geojson, roads_geojson):
 
     h2_subprocess, psycopg2 = boot_h2_database_in_subprocess()
 
     conn, psycopg2_cursor = initiate_database_connection(psycopg2)
 
     # get noise result as json
-    noise_result = calculate_noise_result(psycopg2_cursor, calculation_settings["traffic_settings"], buildings_geojson)
+    noise_result = calculate_noise_result(
+        psycopg2_cursor,
+        calculation_settings["traffic_settings"],
+        buildings_geojson,
+         roads_geojson
+    )
 
     print("Result geojson save in ", get_result_path())
 
