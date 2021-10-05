@@ -40,7 +40,18 @@ class CityPyo:
             raise FileNotFoundError("could not find buildings on %s for user %s" % (self.url, self.user_id))
 
         # return geojson containing only geometries, converted to utm
-        return self.reproject_to_utm_and_delete_all_properties(buildings)
+        return self.reproject_to_utm(buildings, keep_properties=False)
+
+
+    # returns roads geojson 
+    def get_roads_for_user(self, user_id):
+        roads = self.get_layer_for_user(user_id, "roads")
+        if not roads:
+            # no roads no calculation :p
+            raise FileNotFoundError("could not find roads on %s for user %s" % (self.url, self.user_id))
+
+        # return geojson containing only geometries, converted to utm
+        return self.reproject_to_utm(roads, keep_properties=True)
 
 
     def get_layer_for_user(self, user_id, layer_name, recursive_iteration=0):
@@ -71,12 +82,16 @@ class CityPyo:
 
             return self.get_layer_for_user(user_id, layer_name, recursive_iteration)
 
-    def reproject_to_utm_and_delete_all_properties(self, geojson) -> dict:
+    
+    def reproject_to_utm(self, geojson, keep_properties=True) -> dict:
         gdf_cols = ["geometry"]
+
+        # add all properties to gdf cols
+        if keep_properties:
+            for property_key in geojson["features"][0]["properties"].keys():
+                gdf_cols.append(property_key)
 
         gdf = geopandas.GeoDataFrame.from_features(geojson["features"], crs="EPSG:4326", columns=gdf_cols)
         gdf = gdf.to_crs("EPSG:25832")  # reproject to utm coords
 
-        print(gdf)
-        print(json.loads(gdf.to_json())["features"][0])
         return json.loads(gdf.to_json())
