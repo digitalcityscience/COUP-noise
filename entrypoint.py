@@ -6,6 +6,4 @@ from endpoints import app
 # informations. For production please use it with gunicorn (see entrypoint.sh)
 
 if __name__ == '__main__':
-    CORS(app)
-    app.config['CORS_HEADERS'] = 'Content-Type'
     app.run(host='0.0.0.0', port=5001, debug=True)

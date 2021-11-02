@@ -7,8 +7,14 @@ from mycelery import app as celery_app
 from tasks import compute_task
 from services import get_calculation_input
 
-app = Flask(__name__)
+from flask_cors import CORS, cross_origin
+from flask_compress import Compress
 
+
+app = Flask(__name__)
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+Compress(app)
 
 @app.errorhandler(404)
 def not_found(message: str):
