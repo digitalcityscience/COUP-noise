@@ -7,14 +7,44 @@ from mycelery import app as celery_app
 from tasks import compute_task
 from services import get_calculation_input
 
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from flask_compress import Compress
 
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_httpauth import HTTPBasicAuth
+
+import os
 
 app = Flask(__name__)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 Compress(app)
+
+auth = HTTPBasicAuth()
+
+CLIENT_ID = os.getenv('CLIENT_ID')
+CLIENT_PASSWORD = os.getenv('CLIENT_PASSWORD')
+
+pw_hashes = {
+    CLIENT_ID: generate_password_hash(CLIENT_PASSWORD)
+}
+
+
+@auth.verify_password
+def verify_password(client_id, password):
+    if client_id in pw_hashes and \
+            check_password_hash(pw_hashes.get(client_id), password):
+        return client_id
+
+
+@auth.error_handler
+def auth_error(status):
+    return make_response(
+        jsonify({'error': 'Access denied.'}),
+        status
+    )
+
+
 
 @app.errorhandler(404)
 def not_found(message: str):
@@ -33,6 +63,7 @@ def bad_request(message: str):
 
 
 @app.route("/task", methods=['POST'])
+@auth.login_required
 def process_noisetask():
     # Validate request
     if not request.json:
@@ -61,6 +92,7 @@ def process_noisetask():
 
 
 @app.route("/grouptasks/<grouptask_id>", methods=['GET'])
+@auth.login_required
 def get_grouptask(grouptask_id: str):
     group_result = GroupResult.restore(grouptask_id, app=celery_app)
 
@@ -82,6 +114,7 @@ def get_grouptask(grouptask_id: str):
 
 
 @app.route("/tasks/<task_id>", methods=['GET'])
+@auth.login_required
 def get_task(task_id: str):
     async_result = AsyncResult(task_id, app=celery_app)
 
