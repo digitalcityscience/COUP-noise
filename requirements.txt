@@ -20,6 +20,7 @@ Fiona==1.8.20
 Flask==2.0.1
 Flask-Cors==3.0.10
 flask_compress==1.10.1
+Flask-HTTPAuth==4.5.0
 geomet==0.3.0
 geopandas==0.9.0
 gunicorn==20.1.0
