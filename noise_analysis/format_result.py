@@ -1,5 +1,8 @@
 import base64
+from noise_analysis import cityPyo as cp
 import os
+from geopandas.geodataframe import GeoDataFrame
+from geopandas.tools.clip import clip
 import numpy as np
 import math
 from io import BytesIO
@@ -10,7 +13,7 @@ import rasterio.features
 import rasterio.warp
 import geopandas
 
-from shapely.geometry import Polygon, Point, box
+from shapely.geometry import Polygon, Point
 from pyproj import Transformer
 from shapely.ops import transform
 
@@ -90,6 +93,19 @@ def get_bounds_coordinates_wgs(gdf_bounds):
     return list(bound_wgs.exterior.coords)
 
 
+def clip_gdf_to_project_area(result_geojson: str, cityPyo_user: str):
+
+    cityPyo = cp.CityPyo()
+    project_area_geojson = cityPyo.get_layer_for_user(cityPyo_user, "project_area")
+    project_area_gdf = make_gdf_from_geojson(project_area_geojson, "EPSG:25832")
+    
+    result_gdf = make_gdf_from_geojson(result_geojson, "EPSG:4326").to_crs("EPSG:25832")
+    clipped = geopandas.clip(result_gdf, project_area_gdf)
+    clipped = clipped.to_crs("EPSG:4326")
+
+    return json.loads(clipped.to_json())
+
+
 def convert_result_to_png(geojson=None):
     cwd = os.path.dirname(os.path.abspath(__file__))
 
@@ -97,15 +113,7 @@ def convert_result_to_png(geojson=None):
         with open(cwd + "/results/result.geojson") as fp:
             geojson = json.load(fp)
 
-    gdf = make_gdf_from_geojson(geojson, "EPSG:4326")
-    gdf = gdf.to_crs("EPSG:25832")  # reproject to utm coords
-
-    with open(cwd + "/project_area_utm.geojson") as fp:
-        project_area = json.load(fp)
-        project_area_gdf = make_gdf_from_geojson(project_area, "EPSG:25832")
-
-    # clip input dataset to project area
-    gdf = geopandas.clip(gdf, project_area_gdf)
+    gdf = make_gdf_from_geojson(geojson, "EPSG:4326").to_crs("EPSG:25832")
 
     # get total bounds of original dataset (to position image on cityScope later)
     gdf_total_bounds = gdf.total_bounds
