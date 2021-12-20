@@ -20,11 +20,11 @@ def get_calculation_input(complex_task):
     # hash buildings and roads geojson
     hash = hash_dict({"buildings": buildings, "roads": roads})
 
-    return scenario_hash, hash, calculation_settings, buildings, roads
+    return scenario_hash, hash, calculation_settings, buildings, roads, complex_task["city_pyo_user"]
 
 
-def calculate_and_return_result(scenario, buildings, roads):
-    return noise_calculation(scenario, buildings, roads)
+def calculate_and_return_result(scenario, buildings, roads, cityPyo_user):
+    return noise_calculation(scenario, buildings, roads, cityPyo_user)
 
 
 def get_calculation_settings(scenario):

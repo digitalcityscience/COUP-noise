@@ -10,7 +10,7 @@ cache = Cache()
 
 
 @app.task()
-def compute_task(scenario_hash, buildings_and_roads_hash, scenario, buildings, roads) -> dict:
+def compute_task(scenario_hash, buildings_and_roads_hash, scenario, buildings, roads, cityPyo_user) -> dict:
     # create key of unique calculation constellation of scenario settings and buildings
     key = scenario_hash + "_" + buildings_and_roads_hash
     
@@ -24,7 +24,7 @@ def compute_task(scenario_hash, buildings_and_roads_hash, scenario, buildings, r
     print("computing for scenario hash %s and building_and_roads hash %s" %
           (scenario_hash, buildings_and_roads_hash))
 
-    return calculate_and_return_result(scenario, buildings, roads)
+    return calculate_and_return_result(scenario, buildings, roads, cityPyo_user)
 
 
 @signals.task_postrun.connect
