@@ -79,7 +79,7 @@ def apply_traffic_settings_to_design_roads(design_roads, traffic_settings):
 
     for road in design_roads["features"]:
         # only adjust traffic settings of manipulatable roads
-        if "traffic_settings_adjustable" in list(road.keys()) and road["traffic_settings_adjustable"]:
+        if "traffic_settings_adjustable" in list(road["properties"].keys()) and road["properties"]["traffic_settings_adjustable"]:
             road["properties"]["max_speed"] = max_speed
             road["properties"]["truck_traffic_daily"] = road["properties"]["truck_traffic_daily"] * traffic_quota
             road["properties"]["car_traffic_daily"] = road["properties"]["car_traffic_daily"] * traffic_quota
