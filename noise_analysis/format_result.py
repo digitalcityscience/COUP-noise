@@ -27,7 +27,7 @@ def geojson_to_png(geojson, property_to_burn, resolution):
     # map image data to ints from 0-1 (for png), idiso value has 8 steps, including 0
     # set NaN as 0
     image_data = [
-        [x/10 if x and not math.isnan(x) else png_nan_value for x in image_line]
+        [x if x and not math.isnan(x) else png_nan_value for x in image_line]
         for image_line in image_data
     ]
     # create a np array from image data
