@@ -21,13 +21,13 @@ transformer_to_wgs = Transformer.from_crs(25832, 4326, always_xy=True).transform
 
 def geojson_to_png(geojson, property_to_burn, resolution):
     geom_value_pairs = [(feature["geometry"], feature["properties"][property_to_burn]) for feature in geojson["features"]]
+    png_nan_value = 255
+    image_data = rasterio.features.rasterize(shapes=geom_value_pairs, fill=png_nan_value, dtype='float64', out_shape=resolution)
 
-    image_data = rasterio.features.rasterize(shapes=geom_value_pairs, fill=0, dtype='float64', out_shape=resolution)
-
-    # map image data to ints from 0-255 (for png), idiso value has 8 steps, including 0
+    # map image data to ints from 0-1 (for png), idiso value has 8 steps, including 0
     # set NaN as 0
     image_data = [
-        [int(round(x * (255/7))) if x and not math.isnan(x) else 0 for x in image_line]
+        [x/10 if x and not math.isnan(x) else png_nan_value for x in image_line]
         for image_line in image_data
     ]
     # create a np array from image data
