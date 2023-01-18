@@ -14,18 +14,19 @@ RUN : \
         software-properties-common \
     && add-apt-repository -y ppa:deadsnakes \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        python3.8-venv \
+        python3.11-venv \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && :
 
-RUN python3.8 -m venv /venv
+RUN python3.11 -m venv /venv
 ENV PATH=/venv/bin:$PATH
 
 # move files to dir
 COPY . /app
 WORKDIR /app
 
+RUN pip install wheel
 RUN pip install -r requirements.txt
 
 CMD ["bash", "entrypoint.sh"]
