@@ -1,5 +1,3 @@
-#!/usr/bin/env python2.7
-
 import json
 import os
 import numpy
@@ -7,7 +5,6 @@ from geomet import wkt
 from shapely.geometry import Polygon, mapping
 from shapely.ops import cascaded_union
 
-from noise_analysis.config_loader import get_config
 from noise_analysis.RoadInfo import RoadInfo
 
 
@@ -16,8 +13,6 @@ cwd = os.path.dirname(os.path.abspath(__file__))
 
 # TODO: all coordinates for roads and buildings are currently set to z level 0
 
-# settings for the static input data
-config = get_config()
 
 # road_type_ids from IffStar NoiseModdeling
 road_types_iffstar_noise_modelling = {
