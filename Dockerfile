@@ -8,16 +8,15 @@ RUN apt install -y openjdk-8-jre-headless
 
 
 # get python3 for ubuntu
-RUN : \
-    && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        software-properties-common \
-    && add-apt-repository -y ppa:deadsnakes \
+RUN apt-get update && \
+    apt-get install -y software-properties-common && \
+    rm -rf /var/lib/apt/lists/*
+
+# RUN apt-get DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common
+RUN add-apt-repository -y ppa:deadsnakes \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         python3.11-venv \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && :
+    && apt-get clean 
 
 RUN python3.11 -m venv /venv
 ENV PATH=/venv/bin:$PATH
