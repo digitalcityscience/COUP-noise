@@ -7,7 +7,6 @@ from time import sleep
 import shlex, subprocess
 
 from noise_analysis.sql_query_builder import make_building_queries, get_road_queries, get_traffic_queries, reset_all_roads
-from noise_analysis.config_loader import get_config
 from noise_analysis.format_result import convert_result_to_png, clip_gdf_to_project_area
 
 def get_result_path():
@@ -173,8 +172,7 @@ def calculate_noise_result(cursor, traffic_settings, buildings_geojson, roads_ge
     drop table if exists contouring_noise_map;
     -- create table CONTOURING_NOISE_MAP as select ST_Transform(ST_SETSRID(the_geom,{0}),{1}),idiso, CELL_ID from ST_Explode('simple_noise_map'); 
     create table CONTOURING_NOISE_MAP as select ST_Transform(ST_SETSRID(the_geom,{0}),{1}),idiso, CELL_ID from ST_Explode('multipolygon_iso'); 
-    drop table multipolygon_iso;""".format(get_config()['SPATIAL']['LOCAL_EPSG'],
-                                           get_config()['SPATIAL']['OUTPUT_EPSG']))
+    drop table multipolygon_iso;""".format(25832, 4326))
 
     cwd = get_cwd()
 

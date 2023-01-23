@@ -5,7 +5,7 @@ services:
     ports:
       - 6379:6379
     restart: "always"
-    command: redis-server --requirepass G0rDkQtRcl!E --appendonly yes
+    command: redis-server --requirepass YOUR_PASS --appendonly yes
     volumes:
       - "./redis/data:/data"
 
@@ -13,14 +13,16 @@ services:
     build:
       context: .
     ports:
-      - 5001:5000
-    command: ["python", "entrypoint.py"]
+      - 5001:5001
+    command: ["python", "entrypoint.py"]  # use entrypoint.sh for production  
     restart: "always"
     environment:
-      # - CITY_PYO=https://api.hcu-dev.de/citypyo
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - REDIS_PASS=G0rDkQtRcl!E
+      - REDIS_PASS=YOUR_PASS
+      - CITY_PYO=https://YOUR_CITY_PYO_URL
+      - CLIENT_ID=YOUR_ID
+      - CLIENT_PASSWORD=YOUR_PASSWORD
 
   worker_1:
     build:
@@ -28,10 +30,10 @@ services:
     restart: "always"
     command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker1@%h
     environment:
-      # - CITY_PYO=YOUR_CITY_PYO_ENDPOINT
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - REDIS_PASS=G0rDkQtRcl!E
+      - REDIS_PASS=YOUR_PASS
+      - CITY_PYO=https://YOUR_CITY_PYO_URL
     deploy:
       resources:
         limits:
@@ -43,10 +45,10 @@ services:
     restart: "always"
     command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker2@%h
     environment:
-      # - CITY_PYO=YOUR_CITY_PYO_ENDPOINT
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - REDIS_PASS=G0rDkQtRcl!E
+      - REDIS_PASS=YOUR_PASS
+      - CITY_PYO=https://YOUR_CITY_PYO_URL
     deploy:
       resources:
         limits:

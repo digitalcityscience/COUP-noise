@@ -3,7 +3,7 @@ from http import HTTPStatus
 from celery.result import AsyncResult, GroupResult
 from flask import Flask, request, abort, make_response, jsonify
 
-from mycelery import app as celery_app
+from celery_app import app as celery_app
 from tasks import compute_task
 from services import get_calculation_input
 
