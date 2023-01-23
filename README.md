@@ -5,6 +5,8 @@ using a simplified implementation of the French national method NMPB-08.
 
 The software is developed by the French Institute of Science and Technology for Transport, Development and Networks (Ifsttar).
 
+In general each simulation module (noise, wind, water, ..) is realized by a celery-based app using 3 containers each: api,worker, redis. The api container excepts requests and creates tasks in the redis db. Workers look for tasks in the redis db, calculate result and publish it in redis. Results (also cached ones) can be accessed via the api container that get’s the result from the redis db.
+
 ### Simulation Inputs
 
 The inputs for the simulation are buildings and streets. The buildings are represented as 2D building footprints saved as a GeoJSON.
