@@ -12,7 +12,6 @@ RUN apt-get update && \
     apt-get install -y software-properties-common && \
     rm -rf /var/lib/apt/lists/*
 
-# RUN apt-get DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common
 RUN add-apt-repository -y ppa:deadsnakes \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         python3.11-venv \
