@@ -20,11 +20,13 @@ RUN add-apt-repository -y ppa:deadsnakes \
 RUN python3.11 -m venv /venv
 ENV PATH=/venv/bin:$PATH
 
-# move files to dir
-COPY . /app
 WORKDIR /app
+COPY ./requirements.txt /app/requirements.txt
 
 RUN pip install wheel
 RUN pip install -r requirements.txt
+
+# move files to dir
+COPY . /app
 
 CMD ["bash", "entrypoint.sh"]
