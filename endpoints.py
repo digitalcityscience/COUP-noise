@@ -87,8 +87,6 @@ def process_noisetask():
             jsonify(e),
             HTTPStatus.OK,
         )
-        return bad_request("Payload not correctly structured.")
-
 
 
 @app.route("/grouptasks/<grouptask_id>", methods=['GET'])
@@ -128,6 +126,39 @@ def get_task(task_id: str):
     }
     if async_result.ready():
         response['result'] = async_result.get()
+
+    return make_response(
+        response,
+        HTTPStatus.OK,
+    )
+
+"""
+    *PENDING*
+        The task is waiting for execution.
+    *STARTED*
+        The task has been started.
+    *RETRY*
+        The task is to be retried, possibly because of failure.
+    *FAILURE*
+        The task raised an exception, or has exceeded the retry limit.
+        The :attr:`result` attribute then contains the
+        exception raised by the task.
+    *SUCCESS*
+        The task executed successfully.  The :attr:`result` attribute
+        then contains the tasks return value.
+"""
+@app.route("/tasks/<task_id>/status", methods=['GET'])
+@auth.login_required
+def is_task_ready(task_id: str):
+    async_result = AsyncResult(task_id, app=celery_app)
+
+    state = async_result.state
+    if state == 'FAILURE':
+        state = 'FAILURE : ' + str(async_result.get())
+
+    response = {
+        "status": state
+    }
 
     return make_response(
         response,
