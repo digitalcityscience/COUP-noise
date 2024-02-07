@@ -32,6 +32,7 @@ def get_calculation_settings(scenario):
 
     return {
         "traffic_settings": {"max_speed": scenario["max_speed"], "traffic_quota": scenario["traffic_quota"]},
+        "calculation_settings": {"wall_absorption": scenario.get("wall_absorption", None)},
         "result_format": scenario["result_format"]
     }
 

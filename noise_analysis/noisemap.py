@@ -20,7 +20,7 @@ def get_result_path():
 
 
 # Returns computation settings
-def get_settings():
+def get_settings() -> dict:
     return {
         'settings_name': 'max triangle area',
         'max_prop_distance': 750,  # the lower the less accurate
@@ -41,12 +41,15 @@ def get_cwd():
 
 
 # calculates the noise propagation and returns a geojson containing isophones
-def calculate_noise_result(cursor, traffic_settings, buildings_geojson, roads_geojson) -> dict:
+def calculate_noise_result(cursor, traffic_settings, buildings_geojson, roads_geojson, wall_absorption=None) -> dict:
     # Scenario sample
     # Sending/Receiving geometry data using odbc connection is very slow
     # It is advised to use shape file or other storage format, so use SHPREAD or FILETABLE sql functions
 
     print("make buildings table ..")
+    calculation_settings = get_settings()
+    if wall_absorption:
+        calculation_settings["wall_absorption"] = wall_absorption
 
     reset_all_roads()
 
@@ -151,7 +154,7 @@ def calculate_noise_result(cursor, traffic_settings, buildings_geojson, roads_ge
     cursor.execute("""drop table if exists tri_lvl; create table tri_lvl as SELECT * from BR_TriGrid((select 
     st_expand(st_envelope(st_accum(the_geom)), 750, 750) the_geom from ROADS_SRC),'buildings','roads_src','DB_M','',
     {max_prop_distance},{max_wall_seeking_distance},{road_with},{receiver_densification},{max_triangle_area},
-    {sound_reflection_order},{sound_diffraction_order},{wall_absorption}); """.format(**get_settings()))
+    {sound_reflection_order},{sound_diffraction_order},{wall_absorption}); """.format(**calculation_settings))
 
     print("Computation done !")
 
@@ -283,7 +286,8 @@ def noise_calculation(calculation_settings, buildings_geojson, roads_geojson, ci
         psycopg2_cursor,
         calculation_settings["traffic_settings"],
         buildings_geojson,
-         roads_geojson
+        roads_geojson,
+        calculation_settings["calculation_settings"]["wall_absorption"]
     )
 
     noise_result_geojson = clip_gdf_to_project_area(noise_result_geojson, cityPyo_user)

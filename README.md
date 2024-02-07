@@ -21,6 +21,10 @@ Volume of motorized traffic (cars, trucks). Selecting 100% shows the traffic vol
 
 Max speed value in [km/h] that will be applied to the streets.
 
+#### Wall absorption
+
+["wall_absorption"] float value between 0-1 to indicate wall absorption qualities. The higher the more absorption.
+
 #### Grasbrook use case
 
 For Grasbrook, this file is generated from the BIM to geospatial conversion
@@ -116,7 +120,7 @@ curl --location --request POST 'http://localhost:5001\task' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Basic YOUR_AUTH_TOKEN' \
 --data-raw '{
-   "max_speed": 42, "traffic_quota": 40, "result_format": "png",
+   "max_speed": 42, "traffic_quota": 40, "wall_absorption": 0.23", "result_format": "png",
    "city_pyo_user": YOUR_USER
 }
 ```
