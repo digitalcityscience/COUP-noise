@@ -12,7 +12,7 @@ cache = Cache()
 @app.task()
 def compute_task(scenario_hash, buildings_and_roads_hash, scenario, buildings, roads, cityPyo_user) -> dict:
     # create key of unique calculation constellation of scenario settings and buildings
-    key = scenario_hash + "_" + buildings_and_roads_hash
+    key = get_cache_key_compute_task(scenario_hash=scenario_hash, buildings_and_roads_hash=buildings_and_roads_hash)
     
     # Check cache. If cached, return result from cache.
     result = cache.retrieve(key=key)

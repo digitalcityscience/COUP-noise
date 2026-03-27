@@ -309,10 +309,9 @@ def noise_calculation(calculation_settings, buildings_geojson, roads_geojson, ci
     #   https: // github.com / Ifsttar / NoiseModelling / blob / master / noisemap - core / src / main / java / org / orbisgis / noisemap / core / jdbc / JdbcNoiseMap.java  # L68
 
     if calculation_settings["result_format"] == "png":
-        return convert_result_to_png(noise_result_geojson)
+        return convert_result_to_png(noise_result_geojson, calculation_settings.get("png_style", "raw"))
 
     return noise_result_geojson
-
 
 
 

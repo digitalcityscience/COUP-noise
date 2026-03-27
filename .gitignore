@@ -13,6 +13,7 @@ access_token.txt
 
 #results
 noise_analysis/results
+NoiseModelling/wps_scripts/.codex-tools/
 
 #cityPyo logins
 cityPyoUser.json
@@ -242,4 +243,3 @@ dmypy.json
 .pyre/
 
 # End of https://www.gitignore.io/api/python,pycharm+all
-

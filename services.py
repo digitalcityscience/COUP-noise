@@ -1,11 +1,20 @@
 import json
 import hashlib
+import os
 import re
 
 import noise_analysis.cityPyo as cp
-from noise_analysis.noisemap import noise_calculation
+from noise_analysis.palette import normalize_png_style
 
 cityPyo = cp.CityPyo() ## put cityPyo container here
+
+
+def resolve_noise_engine():
+    return os.getenv("NOISE_ENGINE", "legacy").lower()
+
+
+def resolve_png_style(scenario):
+    return normalize_png_style(scenario.get("png_style", os.getenv("NOISE_PNG_STYLE", "raw")))
 
 
 def get_calculation_input(complex_task):
@@ -24,17 +33,41 @@ def get_calculation_input(complex_task):
 
 
 def calculate_and_return_result(scenario, buildings, roads, cityPyo_user):
-    return noise_calculation(scenario, buildings, roads, cityPyo_user)
+    engine = scenario.get("noise_engine", resolve_noise_engine()).lower()
+
+    if engine == "legacy":
+        from noise_analysis.noisemap import noise_calculation as legacy_noise_calculation
+        return legacy_noise_calculation(scenario, buildings, roads, cityPyo_user)
+
+    if engine == "nm5":
+        from noise_analysis.nm5_runner import noise_calculation as nm5_noise_calculation
+        return nm5_noise_calculation(scenario, buildings, roads, cityPyo_user)
+
+    if engine == "auto":
+        try:
+            from noise_analysis.nm5_runner import noise_calculation as nm5_noise_calculation
+            return nm5_noise_calculation(scenario, buildings, roads, cityPyo_user)
+        except FileNotFoundError:
+            from noise_analysis.noisemap import noise_calculation as legacy_noise_calculation
+            return legacy_noise_calculation(scenario, buildings, roads, cityPyo_user)
+
+    raise ValueError("Unsupported NOISE_ENGINE value: %s" % engine)
 
 
 def get_calculation_settings(scenario):
     print("scenario", scenario)
 
-    return {
+    settings = {
         "traffic_settings": {"max_speed": scenario["max_speed"], "traffic_quota": scenario["traffic_quota"]},
         "calculation_settings": {"wall_absorption": scenario.get("wall_absorption", None)},
-        "result_format": scenario["result_format"]
+        "result_format": scenario["result_format"],
+        "noise_engine": resolve_noise_engine(),
     }
+
+    if scenario["result_format"] == "png":
+        settings["png_style"] = resolve_png_style(scenario)
+
+    return settings
 
 def get_buildings_geojson_from_cityPyo(cityPyo_user_id):
     return cityPyo.get_buildings_for_user(cityPyo_user_id)
@@ -58,4 +91,3 @@ def is_valid_md5(checkme):
 
 def get_cache_key_compute_task(**kwargs):
     return kwargs["scenario_hash"] + "_" + kwargs["buildings_and_roads_hash"]
-

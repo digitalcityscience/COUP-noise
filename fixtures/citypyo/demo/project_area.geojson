@@ -1,0 +1,23 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "demo"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [10.0002, 53.5410],
+            [10.0115, 53.5410],
+            [10.0115, 53.5480],
+            [10.0002, 53.5480],
+            [10.0002, 53.5410]
+          ]
+        ]
+      }
+    }
+  ]
+}

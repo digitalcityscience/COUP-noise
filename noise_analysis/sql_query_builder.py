@@ -3,7 +3,11 @@ import os
 import numpy
 from geomet import wkt
 from shapely.geometry import Polygon, mapping
-from shapely.ops import cascaded_union
+
+try:
+    from shapely.ops import unary_union as merge_geometries
+except ImportError:
+    from shapely.ops import cascaded_union as merge_geometries
 
 from noise_analysis.RoadInfo import RoadInfo
 
@@ -232,7 +236,7 @@ def merge_adjacent_buildings(geo_json):
         "type": "FeatureCollection",
         "features": [
             {
-                "geometry": mapping(cascaded_union(polygons)),
+                "geometry": mapping(merge_geometries(polygons)),
                 "properties": {}
             }
         ]

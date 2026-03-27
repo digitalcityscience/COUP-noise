@@ -1,5 +1,6 @@
 import base64
 from noise_analysis import cityPyo as cp
+from noise_analysis.palette import NO_DATA_VALUE, legend_items, normalize_png_style, rgba_palette
 import os
 from geopandas.geodataframe import GeoDataFrame
 from geopandas.tools.clip import clip
@@ -9,8 +10,6 @@ from io import BytesIO
 from PIL import Image
 import json
 
-import rasterio.features
-import rasterio.warp
 import geopandas
 
 from shapely.geometry import Polygon, Point
@@ -19,30 +18,45 @@ from shapely.ops import transform
 
 transformer_to_wgs = Transformer.from_crs(25832, 4326, always_xy=True).transform
 
-def geojson_to_png(geojson, property_to_burn, resolution):
-    geom_value_pairs = [(feature["geometry"], feature["properties"][property_to_burn]) for feature in geojson["features"]]
-    png_nan_value = 255
-    image_data = rasterio.features.rasterize(shapes=geom_value_pairs, fill=png_nan_value, dtype='float64', out_shape=resolution)
-
-    # map image data to ints from 0-1 (for png), idiso value has 8 steps, including 0
-    # set NaN as 0
-    image_data = [
-        [x if x and not math.isnan(x) else png_nan_value for x in image_line]
-        for image_line in image_data
-    ]
-    # create a np array from image data
-    np_values = np.array(image_data, dtype="uint8")
-
-    # create a pillow image, save it and convert to base64 string
-    im = Image.fromarray(np_values)
+def _encode_image_to_base64(image):
     output_buffer = BytesIO()
-    im.save(output_buffer, format='PNG')
+    image.save(output_buffer, format='PNG')
     byte_data = output_buffer.getvalue()
     base64_bytes = base64.b64encode(byte_data)
-    base64_string = base64_bytes.decode('utf-8')
-    img_width, img_height = im.size
+    return base64_bytes.decode('utf-8'), image.size[0], image.size[1]
 
-    return base64_string, img_width, img_height
+
+def geojson_to_raster_values(geojson, property_to_burn, resolution):
+    import rasterio.features
+
+    geom_value_pairs = [(feature["geometry"], feature["properties"][property_to_burn]) for feature in geojson["features"]]
+    image_data = rasterio.features.rasterize(shapes=geom_value_pairs, fill=NO_DATA_VALUE, dtype='float64', out_shape=resolution)
+
+    image_data = [
+        [x if x is not None and not math.isnan(x) else NO_DATA_VALUE for x in image_line]
+        for image_line in image_data
+    ]
+
+    return np.array(image_data, dtype="uint8")
+
+
+def geojson_to_png(geojson, property_to_burn, resolution, png_style="raw"):
+    raster_values = geojson_to_raster_values(geojson, property_to_burn, resolution)
+    png_style = normalize_png_style(png_style)
+
+    if png_style == "raw":
+        image = Image.fromarray(raster_values, mode="L")
+        return _encode_image_to_base64(image)
+
+    rgba_values = np.zeros((raster_values.shape[0], raster_values.shape[1], 4), dtype="uint8")
+    rgba_values[:, :, :] = (255, 255, 255, 0)
+    palette = rgba_palette(alpha=220)
+
+    for idiso, rgba_color in palette.items():
+        rgba_values[raster_values == idiso] = rgba_color
+
+    image = Image.fromarray(rgba_values, mode="RGBA")
+    return _encode_image_to_base64(image)
 
 
 def make_gdf_from_geojson(geojson, crs) -> geopandas.GeoDataFrame:
@@ -96,7 +110,7 @@ def get_bounds_coordinates_wgs(gdf_bounds):
 def clip_gdf_to_project_area(result_geojson: str, cityPyo_user: str):
 
     cityPyo = cp.CityPyo()
-    project_area_geojson = cityPyo.get_layer_for_user(cityPyo_user, "project_area")
+    project_area_geojson = cityPyo.get_project_area_for_user(cityPyo_user)
     project_area_gdf = make_gdf_from_geojson(project_area_geojson, "EPSG:25832")
     
     result_gdf = make_gdf_from_geojson(result_geojson, "EPSG:4326").to_crs("EPSG:25832")
@@ -106,8 +120,9 @@ def clip_gdf_to_project_area(result_geojson: str, cityPyo_user: str):
     return json.loads(clipped.to_json())
 
 
-def convert_result_to_png(geojson=None):
+def convert_result_to_png(geojson=None, png_style="raw"):
     cwd = os.path.dirname(os.path.abspath(__file__))
+    png_style = normalize_png_style(png_style)
 
     if not geojson:
         with open(cwd + "/results/result.geojson") as fp:
@@ -131,14 +146,21 @@ def convert_result_to_png(geojson=None):
     resolution_y = math.ceil(gdf_total_bounds_translated[3] - gdf_total_bounds_translated[1])
 
     # rasterize data
-    base64_string, img_width, img_height = geojson_to_png(json.loads(gdf.to_json()), "idiso", [resolution_x, resolution_y])
+    base64_string, img_width, img_height = geojson_to_png(
+        json.loads(gdf.to_json()),
+        "idiso",
+        [resolution_x, resolution_y],
+        png_style=png_style,
+    )
 
     return {
         "bbox_sw_corner": south_west_corner_coords,
         "img_width": img_width,
         "img_height": img_height,
         "bbox_coordinates": bounds_coordinates,
-        "image_base64_string": base64_string
+        "image_base64_string": base64_string,
+        "png_style": png_style,
+        "legend": legend_items() if png_style == "palette" else None,
     }
 
 

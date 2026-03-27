@@ -1,24 +1,18 @@
-FROM ubuntu
+FROM python:3.11-slim
 
-# Noise module needs java
-RUN apt-get update
-RUN apt-get install -y java-common
-RUN apt install -y default-jre
-RUN apt install -y openjdk-8-jre-headless
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PATH=/venv/bin:$PATH
 
-
-# get python3 for ubuntu
 RUN apt-get update && \
-    apt-get install -y software-properties-common && \
+    apt-get install -y --no-install-recommends \
+        bash \
+        ca-certificates \
+        curl \
+        libexpat1 \
+        default-jdk-headless && \
     rm -rf /var/lib/apt/lists/*
 
-RUN add-apt-repository -y ppa:deadsnakes \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        python3.11-venv \
-    && apt-get clean 
-
-RUN python3.11 -m venv /venv
-ENV PATH=/venv/bin:$PATH
+RUN python -m venv /venv
 
 WORKDIR /app
 COPY ./requirements.txt /app/requirements.txt
@@ -28,5 +22,9 @@ RUN pip install -r requirements.txt
 
 # move files to dir
 COPY . /app
+
+RUN chmod +x /app/NoiseModelling/wps_scripts/gradlew && \
+    cd /app/NoiseModelling/wps_scripts && \
+    ./gradlew installDist --no-daemon
 
 CMD ["bash", "entrypoint.sh"]

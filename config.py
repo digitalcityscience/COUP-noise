@@ -7,6 +7,7 @@ import os
 redis_host = os.getenv('REDIS_HOST', 'localhost')
 redis_port = os.getenv('REDIS_PORT', 6379)
 redis_pass = os.getenv('REDIS_PASS', 'YOUR_PASS')
+celery_queue = os.getenv('CELERY_QUEUE', 'noise')
 
 broker_url = 'redis://:{}@{}:{}/0'.format(
     redis_pass,
@@ -27,3 +28,4 @@ result_backend = 'redis://:{}@{}:{}/1'.format(
 )
 
 enable_utc = True
+task_default_queue = celery_queue

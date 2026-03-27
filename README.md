@@ -92,10 +92,109 @@ Specify these in your docker-compose.yml
 - CLIENT_ID=YOUR_ID # Protect your noise api by basic auth
 - CLIENT_PASSWORD=YOUR_PASSWORD  # Protect your noise api by basic auth
 
+For local testing, `docker-compose.yml` now ships with safe defaults:
+
+- `REDIS_PASS=devredis`
+- `CLIENT_ID=dev`
+- `CLIENT_PASSWORD=dev`
+- `CITY_PYO=/app/fixtures/citypyo`
+
+That local fixture source includes a built-in `demo` user with:
+
+- `upperfloor.geojson`
+- `roads.geojson`
+- `project_area.geojson`
+
+You only need real CityPyo values if you want to test against a live upstream dataset.
+
 ## Start
 
 1. ``docker-compose build``
 2. ``docker-compose up -d``
+
+For the built-in local dataset, submit tasks with ``city_pyo_user=demo`` and use ``dev`` / ``dev`` as the basic-auth credentials.
+
+## Visual Assessment
+
+The repository now supports two calculation engines behind the same API:
+
+- ``NOISE_ENGINE=legacy`` uses the existing embedded engine
+- ``NOISE_ENGINE=nm5`` uses the new NoiseModelling 5 runner
+
+For honest comparison, run them explicitly one after the other. Do **not** use ``NOISE_ENGINE=auto`` for visual assessment because it may fall back to legacy if the NM5 runner is unavailable.
+
+### NM5 Status
+
+The current NM5 migration slice is **not the full migration** yet:
+
+- roads are supported
+- railroad features are skipped in the NM5 adapter
+- DEM and ground absorption are not wired yet
+- building heights are derived from source properties when possible and otherwise fall back to a default height
+
+### Recommended Compare Workflow
+
+If you do not have a CityPyo server, use the built-in local `demo` fixtures. The commands below assume that default setup.
+
+1. Build the image once:
+
+```bash
+docker compose build
+```
+
+2. Start the legacy stack:
+
+```bash
+NOISE_ENGINE=legacy CELERY_QUEUE=noise_legacy docker compose up -d
+```
+
+3. Save a legacy PNG result and also generate a sidecar GeoJSON plus an interactive HTML map:
+
+```bash
+python tools/save_noise_result.py \
+  --url http://localhost:5001 \
+  --result-format png \
+  --png-style palette \
+  --write-geojson \
+  --write-map \
+  --max-speed 10 \
+  --traffic-quota 0.5 \
+  --wall-absorption 0.69 \
+  --output outputs/legacy.png
+```
+
+4. Stop the stack:
+
+```bash
+docker compose down
+```
+
+5. Start the NM5 stack:
+
+```bash
+NOISE_ENGINE=nm5 CELERY_QUEUE=noise_nm5 docker compose up -d
+```
+
+6. Save an NM5 PNG result and also generate a sidecar GeoJSON plus an interactive HTML map:
+
+```bash
+python tools/save_noise_result.py \
+  --url http://localhost:5001 \
+  --result-format png \
+  --png-style palette \
+  --write-geojson \
+  --write-map \
+  --max-speed 10 \
+  --traffic-quota 0.5 \
+  --wall-absorption 0.69 \
+  --output outputs/nm5.png
+```
+
+The PNG metadata is saved next to the image as ``.json``. With ``--write-geojson`` and ``--write-map`` the tool also writes ``.geojson`` and ``.map.html`` files for inspection on a basemap.
+
+### Why Separate Queues Matter
+
+The Celery queue name can now be set with ``CELERY_QUEUE``. Use different values such as ``noise_legacy`` and ``noise_nm5`` if you compare engines. This prevents tasks from being consumed by the wrong worker set.
 
 ## Usage
 

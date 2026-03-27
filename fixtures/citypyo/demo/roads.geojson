@@ -1,0 +1,59 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1,
+        "road_type": "street",
+        "car_traffic_daily": 2400,
+        "truck_traffic_daily": 160,
+        "max_speed": 50,
+        "traffic_settings_adjustable": true
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [10.0010, 53.5440],
+          [10.0108, 53.5440]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 2,
+        "road_type": "alley",
+        "car_traffic_daily": 1200,
+        "truck_traffic_daily": 60,
+        "max_speed": 30,
+        "traffic_settings_adjustable": true
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [10.0060, 53.5414],
+          [10.0060, 53.5474]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 3,
+        "road_type": "boulevard",
+        "car_traffic_daily": 1800,
+        "truck_traffic_daily": 90,
+        "max_speed": 40,
+        "traffic_settings_adjustable": true
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [10.0025, 53.5420],
+          [10.0095, 53.5468]
+        ]
+      }
+    }
+  ]
+}

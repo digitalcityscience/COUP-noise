@@ -1,11 +1,10 @@
-version: "3.9"
 services:
   redis:
     image: redis:latest
     ports:
       - 6379:6379
     restart: "always"
-    command: redis-server --requirepass YOUR_PASS --appendonly yes
+    command: redis-server --requirepass ${REDIS_PASS:-devredis} --appendonly yes
     volumes:
       - "./redis/data:/data"
 
@@ -19,10 +18,13 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - REDIS_PASS=YOUR_PASS
-      - CITY_PYO=https://YOUR_CITY_PYO_URL
-      - CLIENT_ID=YOUR_ID
-      - CLIENT_PASSWORD=YOUR_PASSWORD
+      - REDIS_PASS=${REDIS_PASS:-devredis}
+      - CITY_PYO=${CITY_PYO:-/app/fixtures/citypyo}
+      - CLIENT_ID=${CLIENT_ID:-dev}
+      - CLIENT_PASSWORD=${CLIENT_PASSWORD:-dev}
+      - NOISE_ENGINE=${NOISE_ENGINE:-legacy}
+      - CELERY_QUEUE=${CELERY_QUEUE:-noise}
+      - NOISEMODELLING_RUNNER=/app/NoiseModelling/wps_scripts/build/install/NoiseModelling_without_gui/bin/wps_scripts
 
   worker_1:
     build:
@@ -32,8 +34,11 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - REDIS_PASS=YOUR_PASS
-      - CITY_PYO=https://YOUR_CITY_PYO_URL
+      - REDIS_PASS=${REDIS_PASS:-devredis}
+      - CITY_PYO=${CITY_PYO:-/app/fixtures/citypyo}
+      - NOISE_ENGINE=${NOISE_ENGINE:-legacy}
+      - CELERY_QUEUE=${CELERY_QUEUE:-noise}
+      - NOISEMODELLING_RUNNER=/app/NoiseModelling/wps_scripts/build/install/NoiseModelling_without_gui/bin/wps_scripts
     deploy:
       resources:
         limits:
@@ -47,8 +52,11 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - REDIS_PASS=YOUR_PASS
-      - CITY_PYO=https://YOUR_CITY_PYO_URL
+      - REDIS_PASS=${REDIS_PASS:-devredis}
+      - CITY_PYO=${CITY_PYO:-/app/fixtures/citypyo}
+      - NOISE_ENGINE=${NOISE_ENGINE:-legacy}
+      - CELERY_QUEUE=${CELERY_QUEUE:-noise}
+      - NOISEMODELLING_RUNNER=/app/NoiseModelling/wps_scripts/build/install/NoiseModelling_without_gui/bin/wps_scripts
     deploy:
       resources:
         limits:
