@@ -47,6 +47,22 @@ Common request-side adjustments:
 - `max_speed`: a speed override applied to adjustable roads.
 - `wall_absorption`: an acoustic tuning value used by the selected engine.
 
+## Data Quality Guidance
+
+This is still intentionally practical rather than exhaustive. The goal is to show what data is merely enough to run and what data is actually useful if you want NM5 to behave well on a new area.
+
+| Layer | Minimum needed to run | Strongly recommended for NM5 | What happens if data is missing or sparse |
+| --- | --- | --- | --- |
+| Buildings (`upperfloor`) | Building polygons | Height-related attributes such as explicit building height, roof height, or floor count | Legacy still runs with geometry only. NM5 derives height when possible and otherwise falls back to a default building height |
+| Roads (`roads`) | Line geometry plus enough attributes for road noise to exist at all | `road_type`, `car_traffic_daily`, `truck_traffic_daily`, `max_speed`, and where available `PVMT`, `JUNC_DIST`, `JUNC_TYPE`, `WAY`, `SLOPE` | Missing rich road attributes do not necessarily stop NM5, but the adapter fills several values internally, which can make results less area-specific |
+| Rail in transport feed | Rail geometries identified in the same transport layer | `road_type=railroad` and, where available, train speed, train frequency, track count, spacing, tunnel or bridge flags, roughness, transfer, impact, curvature, and train type | Rail can still run through adapter defaults and heuristics, but sparse source rail data increases the chance of non-representative results |
+| Project area (`project_area`) | Polygon geometry | A clipping area that matches the intended study area | Without it, COUP-noise cannot clip the final result to the requested area |
+| Terrain (`dem`) | Not required for the API to run | A DEM layer for areas where terrain matters | If no DEM is present, the NM5 path still runs but terrain effects are absent |
+| Ground absorption | Not currently consumed by the API | Ground absorption polygons would be useful in richer NM5 runs | Currently ignored because the COUP-noise API does not expose this NM5 input yet |
+| Directivity and atmospheric settings | Not currently consumed by the API | Source directivity and period-specific atmospheric settings for advanced NM5 studies | Currently ignored because the COUP-noise API does not expose these NM5 inputs yet |
+
+For quick exploratory maps, the current defaults are usually acceptable. For new areas where you want more defensible NM5 output, richer source data is strongly preferred over relying on adapter defaults.
+
 ## Results
 
 The API returns contour polygons classified into eight `idiso` buckets after clipping to the project area. Results can be returned directly as GeoJSON or converted to PNG for visual comparison and map overlays. Palette PNGs include legend metadata in the response.
