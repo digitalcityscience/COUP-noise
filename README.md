@@ -29,6 +29,7 @@ This table is intentionally high level. It is for orientation, not as a replacem
 | Source directivity | Not available | Support directivity tables and directional emission data | Not currently exposed |
 | Weather and period settings | Not available | Support period-aware atmospheric settings and richer time-period handling | Not currently exposed |
 | Receiver mesh and propagation tuning | Fixed internal settings | Many meshing and propagation parameters are available natively | COUP-noise keeps compatibility-oriented internal defaults rather than exposing these knobs |
+| New areas and default suitability | Best understood as the original compatibility workflow for this service | Can support much richer area-specific modelling when the right inputs are available | Current defaults are okay for rough exploratory maps, but for new areas and more defensible NM5 runs the API should eventually expose or enforce richer inputs such as heights, terrain, and better transport detail |
 | Native outputs | Final contour polygons for the service response | Intermediate and final tables such as sources, receivers, levels, and contours | The COUP-noise API returns clipped GeoJSON contours or PNG overlays, not raw engine tables |
 
 ## What The Service Consumes
