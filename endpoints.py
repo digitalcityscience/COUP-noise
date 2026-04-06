@@ -79,13 +79,13 @@ def process_noisetask():
             jsonify(response),
             HTTPStatus.OK,
         )
-    except KeyError as e:
+    except (KeyError, TypeError, ValueError) as e:
         print("THIS IS THE ERROR %s " % e)
         print("THIS IS THE request %s " % request)
 
         return make_response(
-            jsonify(e),
-            HTTPStatus.OK,
+            jsonify({"error": str(e)}),
+            HTTPStatus.BAD_REQUEST,
         )
 
 

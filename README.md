@@ -128,8 +128,10 @@ For honest comparison, run them explicitly one after the other. Do **not** use `
 The current NM5 migration slice is **not the full migration** yet:
 
 - roads are supported
-- railroad features are skipped in the NM5 adapter
-- DEM and ground absorption are not wired yet
+- railroad features are supported through generated ``RAIL_SECTIONS`` and ``RAIL_TRAFFIC`` inputs
+- rail parameters still use heuristics when the source data only contains generic railway tags
+- DEM is now supported when a ``dem.geojson`` layer is available for the selected CityPyo user
+- ground absorption is still not wired yet
 - building heights are derived from source properties when possible and otherwise fall back to a default height
 
 ### Recommended Compare Workflow

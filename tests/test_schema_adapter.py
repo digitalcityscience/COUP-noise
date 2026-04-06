@@ -1,5 +1,6 @@
 import unittest
 
+from noise_analysis.calculation_settings import TrafficSettings
 from noise_analysis.schema_adapter import (
     DEFAULT_BUILDING_HEIGHT,
     adapt_buildings_geojson,
@@ -80,10 +81,7 @@ class SchemaAdapterTests(unittest.TestCase):
 
         adapted_geojson, metadata = adapt_roads_geojson(
             roads_geojson,
-            {
-                "max_speed": 42,
-                "traffic_quota": 40,
-            },
+            TrafficSettings(max_speed=42, traffic_quota=40),
         )
         properties = adapted_geojson["features"][0]["properties"]
 

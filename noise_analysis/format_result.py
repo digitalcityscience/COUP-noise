@@ -114,6 +114,12 @@ def clip_gdf_to_project_area(result_geojson: str, cityPyo_user: str):
     project_area_gdf = make_gdf_from_geojson(project_area_geojson, "EPSG:25832")
     
     result_gdf = make_gdf_from_geojson(result_geojson, "EPSG:4326").to_crs("EPSG:25832")
+    if hasattr(result_gdf.geometry, "make_valid"):
+        result_gdf.geometry = result_gdf.geometry.make_valid()
+        project_area_gdf.geometry = project_area_gdf.geometry.make_valid()
+    else:
+        result_gdf.geometry = result_gdf.buffer(0)
+        project_area_gdf.geometry = project_area_gdf.buffer(0)
     clipped = geopandas.clip(result_gdf, project_area_gdf)
     clipped = clipped.to_crs("EPSG:4326")
 

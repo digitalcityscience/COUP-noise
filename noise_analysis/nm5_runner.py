@@ -8,6 +8,8 @@ from typing import Any, Dict, List, Mapping, Optional
 
 import geopandas
 
+from noise_analysis.calculation_settings import CalculationSettings
+from noise_analysis.cityPyo import CityPyo
 from noise_analysis.format_result import clip_gdf_to_project_area, convert_result_to_png
 from noise_analysis.schema_adapter import prepare_nm5_input_files
 
@@ -20,6 +22,7 @@ DEFAULT_DB_NAME = "nm5"
 DEFAULT_WALL_ABSORPTION = 0.23
 DEFAULT_OUTPUT_PERIOD = "D"
 ISO_CLASSES = "45,50,55,60,65,70,75,200"
+MERGED_SOURCES_TABLE = "SOURCES"
 
 
 def _workspace_root() -> Path:
@@ -32,6 +35,10 @@ def _wps_root() -> Path:
 
 def _script_path(*parts: str) -> Path:
     return _wps_root().joinpath(*parts)
+
+
+def _local_script_path(*parts: str) -> Path:
+    return _workspace_root().joinpath(*parts)
 
 
 def _find_runner_executable() -> Path:
@@ -221,9 +228,10 @@ def _cleanup_working_directory(path: Path) -> None:
 
 
 def _run_nm5_pipeline(
-    calculation_settings: Mapping[str, Any],
+    calculation_settings: CalculationSettings,
     buildings_geojson: Mapping[str, Any],
     roads_geojson: Mapping[str, Any],
+    dem_geojson: Optional[Mapping[str, Any]] = None,
 ) -> Dict[str, Any]:
     runner_path = _find_runner_executable()
     working_directory = _working_directory()
@@ -232,20 +240,24 @@ def _run_nm5_pipeline(
             working_directory,
             buildings_geojson,
             roads_geojson,
-            calculation_settings["traffic_settings"],
+            calculation_settings.traffic_settings,
+            dem_geojson=dem_geojson,
+        )
+        transport_source_count = (
+            prepared_inputs.metadata["roads"]["exported_features"]
+            + prepared_inputs.metadata["rail"]["exported_sections"]
         )
         if prepared_inputs.metadata["buildings"]["exported_features"] == 0:
             raise ValueError("No building footprints were available for the NoiseModelling 5 adapter.")
-        if prepared_inputs.metadata["roads"]["exported_features"] == 0:
+        if transport_source_count == 0:
             raise ValueError(
-                "No road features remained after NM5 normalization. "
-                "The current migration slice is road-only and skips railroad features."
+                "No transport features remained after NM5 normalization."
             )
 
         contouring_geojson_path = working_directory / "contouring_noise_map.geojson"
-        wall_absorption = calculation_settings["calculation_settings"].get("wall_absorption")
-        if wall_absorption is None:
-            wall_absorption = DEFAULT_WALL_ABSORPTION
+        wall_absorption = calculation_settings.calculation_settings.resolved_wall_absorption(
+            DEFAULT_WALL_ABSORPTION
+        )
 
         _run_wps_script(
             runner_path,
@@ -258,15 +270,87 @@ def _run_nm5_pipeline(
                 "tableName": "BUILDINGS",
             },
         )
+        if prepared_inputs.roads_path is not None:
+            _run_wps_script(
+                runner_path,
+                working_directory,
+                DEFAULT_DB_NAME,
+                _script_path("Import_and_Export", "Import_File.groovy"),
+                {
+                    "pathFile": prepared_inputs.roads_path,
+                    "inputSRID": 25832,
+                    "tableName": "ROADS",
+                },
+            )
+        if prepared_inputs.rail_sections_path is not None:
+            _run_wps_script(
+                runner_path,
+                working_directory,
+                DEFAULT_DB_NAME,
+                _script_path("Import_and_Export", "Import_File.groovy"),
+                {
+                    "pathFile": prepared_inputs.rail_sections_path,
+                    "inputSRID": 25832,
+                    "tableName": "RAIL_SECTIONS",
+                },
+            )
+        if prepared_inputs.rail_traffic_path is not None:
+            _run_wps_script(
+                runner_path,
+                working_directory,
+                DEFAULT_DB_NAME,
+                _script_path("Import_and_Export", "Import_File.groovy"),
+                {
+                    "pathFile": prepared_inputs.rail_traffic_path,
+                    "tableName": "RAIL_TRAFFIC",
+                },
+            )
+        if prepared_inputs.dem_path is not None:
+            _run_wps_script(
+                runner_path,
+                working_directory,
+                DEFAULT_DB_NAME,
+                _script_path("Import_and_Export", "Import_File.groovy"),
+                {
+                    "pathFile": prepared_inputs.dem_path,
+                    "inputSRID": 25832,
+                    "tableName": "DEM",
+                },
+            )
+        if prepared_inputs.roads_path is not None:
+            _run_wps_script(
+                runner_path,
+                working_directory,
+                DEFAULT_DB_NAME,
+                _script_path("NoiseModelling", "Road_Emission_from_Traffic.groovy"),
+                {
+                    "tableRoads": "ROADS",
+                },
+            )
+        if prepared_inputs.rail_sections_path is not None and prepared_inputs.rail_traffic_path is not None:
+            _run_wps_script(
+                runner_path,
+                working_directory,
+                DEFAULT_DB_NAME,
+                _local_script_path("noise_analysis", "wps", "Railway_Emission_from_Traffic.groovy"),
+                {
+                    "tableRailwayTrack": "RAIL_SECTIONS",
+                    "tableRailwayTraffic": "RAIL_TRAFFIC",
+                },
+            )
         _run_wps_script(
             runner_path,
             working_directory,
             DEFAULT_DB_NAME,
-            _script_path("Import_and_Export", "Import_File.groovy"),
+            _local_script_path("noise_analysis", "wps", "Merge_Transport_Sources.groovy"),
             {
-                "pathFile": prepared_inputs.roads_path,
-                "inputSRID": 25832,
-                "tableName": "ROADS",
+                "roadTable": "LW_ROADS" if prepared_inputs.roads_path is not None else None,
+                "railTable": (
+                    "LW_RAILWAY"
+                    if prepared_inputs.rail_sections_path is not None and prepared_inputs.rail_traffic_path is not None
+                    else None
+                ),
+                "outputTable": MERGED_SOURCES_TABLE,
             },
         )
         _run_wps_script(
@@ -276,7 +360,7 @@ def _run_nm5_pipeline(
             _script_path("Receivers", "Delaunay_Grid.groovy"),
             {
                 "tableBuilding": "BUILDINGS",
-                "sourcesTableName": "ROADS",
+                "sourcesTableName": MERGED_SOURCES_TABLE,
                 "maxCellDist": 750,
                 "roadWidth": 1.5,
                 "maxArea": 275,
@@ -287,20 +371,12 @@ def _run_nm5_pipeline(
             runner_path,
             working_directory,
             DEFAULT_DB_NAME,
-            _script_path("NoiseModelling", "Road_Emission_from_Traffic.groovy"),
-            {
-                "tableRoads": "ROADS",
-            },
-        )
-        _run_wps_script(
-            runner_path,
-            working_directory,
-            DEFAULT_DB_NAME,
             _script_path("NoiseModelling", "Noise_level_from_source.groovy"),
             {
                 "tableBuilding": "BUILDINGS",
-                "tableSources": "LW_ROADS",
+                "tableSources": MERGED_SOURCES_TABLE,
                 "tableReceivers": "RECEIVERS",
+                "tableDEM": "DEM" if prepared_inputs.dem_path is not None else None,
                 "paramWallAlpha": wall_absorption,
                 "confReflOrder": 0,
                 "confMaxSrcDist": 750,
@@ -335,10 +411,17 @@ def _run_nm5_pipeline(
 
 
 def noise_calculation(calculation_settings, buildings_geojson, roads_geojson, cityPyo_user):
-    noise_result_geojson = _run_nm5_pipeline(calculation_settings, buildings_geojson, roads_geojson)
+    calculation_settings = CalculationSettings.from_mapping(calculation_settings)
+    dem_geojson = CityPyo().get_dem_for_user(cityPyo_user, required=False)
+    noise_result_geojson = _run_nm5_pipeline(
+        calculation_settings,
+        buildings_geojson,
+        roads_geojson,
+        dem_geojson=dem_geojson,
+    )
     noise_result_geojson = clip_gdf_to_project_area(noise_result_geojson, cityPyo_user)
 
-    if calculation_settings["result_format"] == "png":
-        return convert_result_to_png(noise_result_geojson, calculation_settings.get("png_style", "raw"))
+    if calculation_settings.result_format == "png":
+        return convert_result_to_png(noise_result_geojson, calculation_settings.png_style or "raw")
 
     return noise_result_geojson

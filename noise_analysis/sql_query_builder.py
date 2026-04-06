@@ -108,7 +108,7 @@ def get_road_queries(traffic_settings, roads_geojson):
             # beginning point of the road
             start_point = coordinates[0]
             # end point of the road
-            end_point = coordinates[1]
+            end_point = coordinates[-1]
             # build string containing all coordinates
 
         geom = wkt.dumps(feature['geometry'], decimals=0)

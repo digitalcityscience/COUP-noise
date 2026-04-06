@@ -240,11 +240,9 @@ def initiate_database_connection(psycopg2):
 
 def boot_h2_database_in_subprocess():
     noise_analysis_dir = os.path.dirname(os.path.realpath(__file__))
-    orbisgis_dir = noise_analysis_dir + '/orbisgis_java/'
-
-    java_command = 'java -cp "bin/*:bundle/*:sys-bundle/*" org.h2.tools.Server -pg -trace'
-
-    args = shlex.split(java_command)
+    orbisgis_dir = os.path.join(noise_analysis_dir, "orbisgis_java")
+    classpath = os.pathsep.join(["bin/*", "bundle/*", "sys-bundle/*"])
+    args = ["java", "-cp", classpath, "org.h2.tools.Server", "-pg", "-trace"]
     f = open("log.txt", "w+")
     p = subprocess.Popen(args, cwd=orbisgis_dir, stdout=f)
     print("ProcessID H2-database ", p.pid)
@@ -291,7 +289,7 @@ def noise_calculation(calculation_settings, buildings_geojson, roads_geojson, ci
     )
 
     noise_result_geojson = clip_gdf_to_project_area(noise_result_geojson, cityPyo_user)
-    print("Result geojson save in ", noise_result_geojson)
+    print("Clipped legacy result features", len(noise_result_geojson.get("features", [])))
 
     # close connections to database
     print("closing cursor")

@@ -84,6 +84,16 @@ class CityPyo:
         return self.reproject_to_utm(project_area, keep_properties=True)
 
 
+    def get_dem_for_user(self, user_id, required=False):
+        dem = self.get_layer_for_user(user_id, "dem", quiet=not required)
+        if not dem:
+            if required:
+                raise FileNotFoundError("could not find dem on %s for user %s" % (self.url, user_id))
+            return None
+
+        return self.reproject_to_utm(dem, keep_properties=True)
+
+
     def _local_layer_paths(self, user_id, layer_name):
         return [
             self.local_root / str(user_id) / (layer_name + ".geojson"),
@@ -91,21 +101,22 @@ class CityPyo:
         ]
 
 
-    def _load_local_layer(self, user_id, layer_name):
+    def _load_local_layer(self, user_id, layer_name, quiet=False):
         for layer_path in self._local_layer_paths(user_id, layer_name):
             if layer_path.exists():
                 with layer_path.open(encoding="utf-8") as file_handle:
                     return json.load(file_handle)
 
-        print("could not get from local CityPyo fixtures")
-        print("wanted to get layer: ", layer_name)
-        print("searched in", [str(path) for path in self._local_layer_paths(user_id, layer_name)])
+        if not quiet:
+            print("could not get from local CityPyo fixtures")
+            print("wanted to get layer: ", layer_name)
+            print("searched in", [str(path) for path in self._local_layer_paths(user_id, layer_name)])
         return None
 
 
-    def get_layer_for_user(self, user_id, layer_name, recursive_iteration=0):
+    def get_layer_for_user(self, user_id, layer_name, recursive_iteration=0, quiet=False):
         if self.local_root:
-            return self._load_local_layer(user_id, layer_name)
+            return self._load_local_layer(user_id, layer_name, quiet=quiet)
 
         data = {
             "userid": user_id,
@@ -118,9 +129,10 @@ class CityPyo:
             if response.status_code == 200:
                 return response.json()
             else:
-                print("could not get from cityPyo")
-                print("wanted to get layer: ", layer_name)
-                print("Error code", response.status_code)
+                if not quiet:
+                    print("could not get from cityPyo")
+                    print("wanted to get layer: ", layer_name)
+                    print("Error code", response.status_code)
                 return None
         # exit on request exception (cityIO down)
         except requests.exceptions.RequestException as e:
@@ -132,7 +144,7 @@ class CityPyo:
             time.sleep(30 * recursive_iteration)
             recursive_iteration += 1
 
-            return self.get_layer_for_user(user_id, layer_name, recursive_iteration)
+            return self.get_layer_for_user(user_id, layer_name, recursive_iteration, quiet=quiet)
 
     def _infer_geojson_crs(self, geojson):
         crs = geojson.get("crs")
@@ -182,10 +194,13 @@ class CityPyo:
 
         gdf_cols = ["geometry"]
 
-        # add all properties to gdf cols
-        if keep_properties and geojson["features"]:
-            for property_key in geojson["features"][0]["properties"].keys():
-                gdf_cols.append(property_key)
+        # Include the union of property keys so mixed feature types do not lose fields
+        # during reprojection when later features contain keys not present on the first one.
+        if keep_properties:
+            property_keys = set()
+            for feature in geojson["features"]:
+                property_keys.update((feature.get("properties") or {}).keys())
+            gdf_cols.extend(sorted(property_keys))
 
         source_crs = self._infer_geojson_crs(geojson)
         gdf = geopandas.GeoDataFrame.from_features(geojson["features"], crs=source_crs, columns=gdf_cols)
