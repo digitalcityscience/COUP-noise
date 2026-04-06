@@ -1,79 +1,70 @@
-# Noise Simulation
+# COUP-noise
 
-The noise module is used for investigating traffic noise patterns. The goal of the module is to identify the areas of the neighborhood exposed to high noise levels. The noise simulation is adapted from the software [NoiseModelling](https://noise-planet.org/noisemodelling.html), a free and open-source tool (GPL 3) for producing environmental noise maps
-using a simplified implementation of the French national method NMPB-08.
+COUP-noise is a Flask + Celery + Redis service that wraps traffic-noise calculation engines for downstream clients. It fetches geometry from CityPyo, applies a small set of scenario adjustments, runs the selected engine, clips the result to the project area, and can rasterize the final contour polygons to PNG for visual comparison.
 
-The software is developed by the French Institute of Science and Technology for Transport, Development and Networks (Ifsttar).
+The project started from a legacy embedded NoiseModelling-based workflow and now also ships a headless NoiseModelling 5 integration. This README stays intentionally high level: it explains what the service does and what is currently wired through the COUP-noise API, but it is not meant to be a formal API or engine specification.
 
-In general each simulation module (noise, wind, water, ..) is realized by a celery-based app using 3 containers each: api,worker, redis. The api container excepts requests and creates tasks in the redis db. Workers look for tasks in the redis db, calculate result and publish it in redis. Results (also cached ones) can be accessed via the api container that get’s the result from the redis db.
+## Current NM5 Status
 
-### Simulation Inputs
+- COUP-noise currently supports both `legacy` and `nm5` behind the same task API.
+- `nm5` is the active migration path, but the COUP-noise API still exposes only a compatibility-oriented slice of native NoiseModelling 5.
+- Roads are supported.
+- Rail is supported through generated `RAIL_SECTIONS` and `RAIL_TRAFFIC` inputs, with defaults and heuristics when source data is sparse.
+- DEM support is available on the NM5 path when the selected CityPyo user provides a `dem.geojson` layer.
+- Ground absorption, source directivity, and atmospheric settings are not exposed through the public COUP-noise API yet.
+- Building heights are derived from source properties when possible and otherwise fall back to a default height on the NM5 path.
+- The built-in `demo` fixtures do not currently include a DEM layer, so the default local demo still runs without terrain.
 
-The inputs for the simulation are buildings and streets. The buildings are represented as 2D building footprints saved as a GeoJSON.
+## Capability Snapshot
 
-For the street network, a GeoJSON of the streets and rails is needed that includes values for the planned traffic volume and traffic speed. Custom inputs for traffic quota and max speed will be applied to all roads with a property traffic_settings_adjustable: true
+This table is intentionally high level. It is for orientation, not as a replacement for the code.
 
-#### Traffic Quota
+| Area | What the legacy model can theoretically do | What NM5 can theoretically do | What is currently supported through the COUP-noise API |
+| --- | --- | --- | --- |
+| Buildings and facades | Treat 2D buildings as obstacles in a fixed internal workflow | Use explicit building heights and richer propagation inputs | Buildings are loaded from CityPyo for both engines; legacy uses geometry only, NM5 derives heights when available |
+| Road traffic | Compute road noise from a simplified traffic and speed model | Use richer CNOSSOS road inputs, vehicle classes, pavement, slope, and period handling | The API exposes only a small shared setting set; the NM5 adapter fills richer road fields internally |
+| Rail traffic | Support a simple rail path mixed into the transport feed | Support dedicated railway track and railway traffic tables | Rail is supported, but only through the existing COUP-noise transport feed plus adapter logic |
+| Terrain | No terrain support | Use DEM and terrain-aware propagation | Optional on the NM5 path when a `dem.geojson` layer exists |
+| Ground absorption | Not available | Support dedicated ground absorption polygons | Not currently exposed |
+| Source directivity | Not available | Support directivity tables and directional emission data | Not currently exposed |
+| Weather and period settings | Not available | Support period-aware atmospheric settings and richer time-period handling | Not currently exposed |
+| Receiver mesh and propagation tuning | Fixed internal settings | Many meshing and propagation parameters are available natively | COUP-noise keeps compatibility-oriented internal defaults rather than exposing these knobs |
+| Native outputs | Final contour polygons for the service response | Intermediate and final tables such as sources, receivers, levels, and contours | The COUP-noise API returns clipped GeoJSON contours or PNG overlays, not raw engine tables |
 
-Volume of motorized traffic (cars, trucks). Selecting 100% shows the traffic volume according to current planning assumptions (predicted traffic volume). Selecting 25%, for example, shows 25% of the planned traffic volume specified in the streets geojson.
+## What The Service Consumes
 
-#### Max speed
+The service expects a CityPyo user or local fixture folder. COUP-noise then loads:
 
-Max speed value in [km/h] that will be applied to the streets.
+- buildings from `upperfloor.geojson`
+- transport features from `roads.geojson`
+- the clipping area from `project_area.geojson`
+- optionally `dem.geojson` for terrain on the NM5 path
 
-#### Wall absorption
+Common request-side adjustments:
 
-["wall_absorption"] float value between 0-1 to indicate wall absorption qualities. The higher the more absorption.
+- `traffic_quota`: a scalar multiplier applied to adjustable roads. In practice, examples such as `1.0` keep source traffic and `0.5` halves it.
+- `max_speed`: a speed override applied to adjustable roads.
+- `wall_absorption`: an acoustic tuning value used by the selected engine.
 
-#### Grasbrook use case
+## Results
 
-For Grasbrook, this file is generated from the BIM to geospatial conversion
-process.  We generated the street network manually, based on drawings provided for the Grasbrook. Default values are used for additional street parameters, such as surface types.
+The API returns contour polygons classified into eight `idiso` buckets after clipping to the project area. Results can be returned directly as GeoJSON or converted to PNG for visual comparison and map overlays. Palette PNGs include legend metadata in the response.
 
-### Results
+## Technical Setup
 
-Noise levels are divided into 8 categories. Specified in the "idiso" property.
-
-EU treshold for "relevant" noise is 55db
-
- < 45 dB(A) ’ WHERE IDISO=0
-
- 45 <> 50 dB(A) ’ WHERE IDISO=1
-
- 50 <> 55 dB(A) ’ WHERE IDISO=2
-
- 55 <> 60 dB(A) ’ WHERE IDISO=3
-
- 60 <> 65 dB(A) ’ WHERE IDISO=4
-
- 65 <> 70 dB(A) ’ WHERE IDISO=5
-
- 70 <> 75 dB(A) ’ WHERE IDISO=6
-
- '>' 75 dB(A) ’ WHERE IDISO=7
-
-# Technical Setup
-
-This project uses Celery to process tasks asynchronously.
-Using Celery, this tech stack offers high scalability.
-
-For ease of installation,
-Redis is used here. Through Redis the tasks are distributed to the workers and also the results are stored on Redis.
-
-Wrapped with an API (Flask), the stack provides an interface for other services.
-The whole thing is then deployed with Docker Compose.
+This project uses Celery to process tasks asynchronously. Redis is used as both the broker and the result backend. Flask provides the HTTP API, and Docker Compose is used for local orchestration.
 
 ## Design
 
-The tasks are commissioned via a endpoint (``POST, /task``) (see Usage).
-The client receives a response with a Task-Id .
-Using polling, the client can query the status of a Task (``GET, /tasks/<task_id>``).
+Tasks are submitted through `POST /task`.
+
+The client receives a task id and polls `GET /tasks/<task_id>` until the result is ready.
 
 ## Caching
 
-After a task has been successfully processed, the result is cached on Redis along with the input parameters. The result is then returned when a (different) task has the same input parameters and is requested.
+After a task has been processed successfully, the result is cached together with the normalized scenario and geometry inputs. Identical follow-up requests can therefore return from cache instead of recomputing the noise map.
 
-## TechStack
+## Tech Stack
 
 - Python
 - Celery
@@ -83,16 +74,18 @@ After a task has been successfully processed, the result is cached on Redis alon
 
 ## Environment Variables
 
-Specify these in your docker-compose.yml
+Specify these in `docker-compose.yml` or in your environment:
 
-- REDIS_HOST=redis  #  the redis container or URL of your redis endpoint
-- REDIS_PORT=6379
-- REDIS_PASS=YOUR_PASS
-- CITY_PYO=YOUR_CITYO_URL # host your own citypyo or use the HCU one
-- CLIENT_ID=YOUR_ID # Protect your noise api by basic auth
-- CLIENT_PASSWORD=YOUR_PASSWORD  # Protect your noise api by basic auth
+- `REDIS_HOST=redis`
+- `REDIS_PORT=6379`
+- `REDIS_PASS=YOUR_PASS`
+- `CITY_PYO=YOUR_CITYPYO_URL`
+- `CLIENT_ID=YOUR_ID`
+- `CLIENT_PASSWORD=YOUR_PASSWORD`
+- `NOISE_ENGINE=legacy|nm5|auto`
+- `CELERY_QUEUE=noise`
 
-For local testing, `docker-compose.yml` now ships with safe defaults:
+For local testing, `docker-compose.yml` ships with safe defaults:
 
 - `REDIS_PASS=devredis`
 - `CLIENT_ID=dev`
@@ -109,32 +102,19 @@ You only need real CityPyo values if you want to test against a live upstream da
 
 ## Start
 
-1. ``docker-compose build``
-2. ``docker-compose up -d``
+1. `docker compose build`
+2. `docker compose up -d`
 
-For the built-in local dataset, submit tasks with ``city_pyo_user=demo`` and use ``dev`` / ``dev`` as the basic-auth credentials.
+For the built-in local dataset, submit tasks with `city_pyo_user=demo` and use `dev` / `dev` as the basic-auth credentials.
 
-## Visual Assessment
+## Compare Workflow
 
-The repository now supports two calculation engines behind the same API:
+The repository can run two calculation engines behind the same task API:
 
-- ``NOISE_ENGINE=legacy`` uses the existing embedded engine
-- ``NOISE_ENGINE=nm5`` uses the new NoiseModelling 5 runner
+- `NOISE_ENGINE=legacy` uses the original embedded engine in this repo
+- `NOISE_ENGINE=nm5` uses the headless NoiseModelling 5 runner plus the local adapter pipeline
 
-For honest comparison, run them explicitly one after the other. Do **not** use ``NOISE_ENGINE=auto`` for visual assessment because it may fall back to legacy if the NM5 runner is unavailable.
-
-### NM5 Status
-
-The current NM5 migration slice is **not the full migration** yet:
-
-- roads are supported
-- railroad features are supported through generated ``RAIL_SECTIONS`` and ``RAIL_TRAFFIC`` inputs
-- rail parameters still use heuristics when the source data only contains generic railway tags
-- DEM is now supported when a ``dem.geojson`` layer is available for the selected CityPyo user
-- ground absorption is still not wired yet
-- building heights are derived from source properties when possible and otherwise fall back to a default height
-
-### Recommended Compare Workflow
+For honest comparison, run them explicitly one after the other. Do not use `NOISE_ENGINE=auto` for visual assessment because it may fall back to legacy if the NM5 runner is unavailable.
 
 If you do not have a CityPyo server, use the built-in local `demo` fixtures. The commands below assume that default setup.
 
@@ -192,41 +172,43 @@ python tools/save_noise_result.py \
   --output outputs/nm5.png
 ```
 
-The PNG metadata is saved next to the image as ``.json``. With ``--write-geojson`` and ``--write-map`` the tool also writes ``.geojson`` and ``.map.html`` files for inspection on a basemap.
+The PNG metadata is saved next to the image as `.json`. With `--write-geojson` and `--write-map` the tool also writes `.geojson` and `.map.html` files for inspection on a basemap.
 
 ### Why Separate Queues Matter
 
-The Celery queue name can now be set with ``CELERY_QUEUE``. Use different values such as ``noise_legacy`` and ``noise_nm5`` if you compare engines. This prevents tasks from being consumed by the wrong worker set.
+The Celery queue name can be set with `CELERY_QUEUE`. Use different values such as `noise_legacy` and `noise_nm5` if you compare engines. This prevents tasks from being consumed by the wrong worker set.
 
 ## Usage
 
 ### Create a Task
 
-specify your inputs.
+Submit a representative scenario payload. In normal use you request either `geojson` or `png` output.
 
-Results will be returned as geojson by default. If requested results are returned as png encoded as base-64 string.
+Common fields:
 
-> "max_speed" in km/h
->
-> "traffic_quota" in %
->
-> "city_pyo_user": YOUR_CITYPYO_USER_ID
->
-> "result_format": "geojson" | "png"
+- `max_speed` in km/h
+- `traffic_quota` as a scalar multiplier, for example `0.5`
+- `wall_absorption` as an optional acoustic tuning value
+- `city_pyo_user` for the CityPyo user or local fixture folder
+- `result_format` as `geojson` or `png`
+- `png_style` optionally when `result_format=png`
 
-Request:
+Example request:
 
-```
-curl --location --request POST 'http://localhost:5001\task' \
+```bash
+curl --location --request POST 'http://localhost:5001/task' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Basic YOUR_AUTH_TOKEN' \
 --data-raw '{
-   "max_speed": 42, "traffic_quota": 40, "wall_absorption": 0.23", "result_format": "png",
-   "city_pyo_user": YOUR_USER
-}
+  "max_speed": 10,
+  "traffic_quota": 0.5,
+  "wall_absorption": 0.69,
+  "result_format": "png",
+  "city_pyo_user": "demo"
+}'
 ```
 
-Response:
+Example response:
 
 ```json
 {
@@ -234,103 +216,57 @@ Response:
 }
 ```
 
-### Get Task-Result
+### Get Task Result
 
-Request:
-
+```bash
+curl -X GET http://localhost:5001/tasks/110fbbca-cd8c-4e57-9cdc-8a02cdc71ee7 \
+  --header 'Authorization: Basic YOUR_AUTH_TOKEN'
 ```
-curl -X GET http://localhost:5001/tasks/110fbbca-cd8c-4e57-9cdc-8a02cdc71ee7 --header 'Authorization: Basic YOUR_AUTH_TOKEN' \
-```
 
-Response:
-
-*result format = geojson*
+Representative GeoJSON result envelope:
 
 ```json
- {
+{
   "resultReady": true,
   "taskId": "98b34861-ba4d-441e-8493-05e465a998c1",
   "taskState": "SUCCESS",
   "taskSucceeded": true,
   "result": {
+    "type": "FeatureCollection",
     "features": [
-{
-        "geometry": {
-          "coordinates": [
-            [
-              [
-                10.015742554695208,
-                53.52879082871648
-              ],
-              ...
-            ]
-          ],
-          "type": "Polygon"
-        },
-        "id": "192",
+      {
+        "type": "Feature",
         "properties": {
           "cell_id": 0,
           "idiso": 3
         },
-        "type": "Feature"
-      },
-	,...
-     ]
-   }
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [ ... ]
+        }
+      }
+    ]
+  }
 }
 ```
 
-*result format = png*
+Representative PNG result envelope:
 
 ```json
 {
-
- "resultReady": true,
+  "resultReady": true,
   "taskId": "98b34861-ba4d-441e-8493-05e465a998c1",
   "taskState": "SUCCESS",
   "taskSucceeded": true,
   "result": {
-    "bbox_coordinates":  spatial coordinates of the pngs 4 corners,
-    "bbox_sw_corner": the coordinates of the south west corner of the png
-    "image_base64_string": "iVBORw0KGgoAAAANSUhEUgAABVQAAAVGCAAAAABUcW9oAACJCklEQVR4nO2d17ajOBQFD76h5/+/tqOZB8AGlKUjkKBqrZm+ToAJ5a3IMAoA...."
-
-}
-```
-
-Response:
-
-```json
-{
-  "result": {
-    "bbox_coordinates": [
-      [
-        10.000852899017993,
-        53.535469701309005
-      ],
-      [
-        10.021210412010495,
-        53.535297575247135
-      ],
-      [
-        10.020915561498251,
-        53.5230399813127
-      ],
-      [
-        10.000563923844467,
-        53.52321203082786
-      ],
-      [
-        10.000852899017993,
-        53.535469701309005
-      ]
-    ],
-    "bbox_sw_corner": [
-      [
-        10.000563923844467,
-        53.52321203082786
-      ]
-    ],
-    "image_base64_string": "iVBORw0KGgoAAAANSUhEUgAABVQAAAVGCAAAAABUcW9oAACJCklEQVR4nO2d17ajOBQFD76h5/+/tqOZB8AGlKUjkKBqrZm+ToAJ5a3IMAoA" 
+    "bbox_coordinates": [ ... ],
+    "bbox_sw_corner": [ ... ],
+    "img_width": 1200,
+    "img_height": 800,
+    "image_base64_string": "iVBORw0KGgoAAAANSUhEUg...",
+    "png_style": "palette",
+    "legend": [ ... ]
+  }
 }
 ```
 
@@ -338,32 +274,31 @@ Response:
 
 ### Start worker
 
-``celery -A tasks worker --loglevel=info``
+`celery -A tasks worker --loglevel=info`
 
 ### Monitoring Redis
 
-List Tasks:
+List tasks:
 
-- ``redis-cli -h HOST -p PORT -n DATABASE_NUMBER llen QUEUE_NAME``
+- `redis-cli -h HOST -p PORT -n DATABASE_NUMBER llen QUEUE_NAME`
 
-List Queues:
+List queues:
 
-- ``redis-cli -h HOST -p PORT -n DATABASE_NUMBER keys \*``
+- `redis-cli -h HOST -p PORT -n DATABASE_NUMBER keys *`
 
-## How does it work?
+## How It Works
 
 ### CityPyo
 
-CityPyo is a file database providing the buildings and streets geojsons that are the basic calculation inputs. The script automatically connects to CityPyo to obtain these files for the specified user.
+CityPyo is the upstream geometry source used by the service. COUP-noise reads the selected user's buildings, transport features, project area, and optional terrain layer from there or from the local fixture directory.
 
-### Apply request settings
+### Apply Request Settings
 
-The obtained streets geojson will be modified by setting the "max_speed" and "traffic_quota" values specified in the request, before performing the calculation.
+The obtained transport GeoJSON is normalized and modified with the requested `max_speed` and `traffic_quota` values before calculation.
 
-### Noise Modelling
+### Engines
 
-Based on the IFSTTAR NoiseModelling software.
+- `legacy` starts the original embedded H2GIS-based workflow used by this repository.
+- `nm5` materializes normalized inputs and runs the bundled headless NoiseModelling 5 scripts.
 
-And run in "python mode"  via psycopg2 , as described [here](https://github.com/Universite-Gustave-Eiffel/NoiseModelling/blob/master_stale/wiki/11-Scripting-with-Python.md)
-
-Each worker starts a h2gis instance in a subprocess, performs the calculation there and terminates the h2gis instance again.
+Both paths are wrapped by the same Celery task flow and end in project-area clipping plus optional PNG conversion.
