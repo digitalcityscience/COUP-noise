@@ -163,14 +163,34 @@ assigned traffic model to `car_traffic_daily` and `truck_traffic_daily`.
 For a defensible HafenCity `nm5_full` run, use official Hamburg sources where
 possible and use OSM only as a fallback or geometry enrichment source.
 
+A concrete pull for the current HafenCity demo AOI has been prepared locally
+under `downloads/hafencity_full/`. That folder is ignored by git because it
+contains large source archives and generated GeoJSON. The source-by-source
+provenance and generated layer list are documented in
+[docs/hafencity_nm5_data_sources.md](docs/hafencity_nm5_data_sources.md).
+The runnable local CityPyo-style package is
+`downloads/hafencity_full/citypyo/hafencity_full`; use it with
+`CITY_PYO=downloads/hafencity_full/citypyo`,
+`city_pyo_user=hafencity_full`, and `NOISE_ENGINE=nm5_full`.
+It includes LoD2 buildings, DGM terrain, ALKIS-derived ground absorption,
+traffic-count-enriched road features, GTFS-enriched rail features, and DWD
+atmospheric settings.
+The notebook
+[notebooks/hafencity_nm5_full_simulation.ipynb](notebooks/hafencity_nm5_full_simulation.ipynb)
+loads each prepared input layer in its own inspection cell and then submits a
+full `nm5_full` simulation through the local API.
+To regenerate the ignored `downloads/hafencity_full` package on another PC, see
+the reproduction section in
+[docs/hafencity_nm5_data_sources.md](docs/hafencity_nm5_data_sources.md#reproduction-on-another-pc).
+
 | Need | Recommended source | Notes |
 | --- | --- | --- |
 | AOI boundary | Hamburg Geoportal or a project-approved HafenCity polygon | Replace the demo rectangle with an approved boundary |
 | Building footprints and heights | [3D-Gebäudemodell LoD2-DE Hamburg](https://suche.transparenz.hamburg.de/dataset/3d-gebaeudemodell-lod2-de-hamburg) | CityGML LoD2; derive footprint and `HEIGHT` |
 | Alternative cadastral geometry / land use | [ALKIS - ausgewählte Daten Hamburg](https://suche.transparenz.hamburg.de/dataset/alkis-ausgewaehlte-daten-hamburg5) | Includes selected cadastral data, buildings, and actual use classes |
 | Road / rail geometry fallback | [Geofabrik Hamburg OSM extract](https://download.geofabrik.de/europe/germany/hamburg.html) | Use `.osm.pbf`, GeoPackage, or Shapefile as raw geometry source; still needs traffic enrichment |
-| Road traffic counts | [Verkehrsstärken Hamburg](https://suche.transparenz.hamburg.de/dataset/35b7dfe1-02c4-4cd1-92f8-0548cb92e2e8) and the [Kfz traffic-strength page](https://www.hamburg.de/politik-und-verwaltung/behoerden/bvm/verkehrsstaerken-kfz-193324) | Provides DTV/DTVw and WFS/Excel resources; map counts to road segments |
-| Terrain | [Digitales Höhenmodell Hamburg DGM 1](https://suche.transparenz.hamburg.de/dataset/digitales-hoehenmodell-hamburg-dgm-1) | Convert raster/grid data to 3D DEM points for `dem.geojson` |
+| Road traffic counts | [Verkehrsstärken Hamburg](https://suche.transparenz.hamburg.de/dataset/verkehrsstaerken-hamburg13) and the [Kfz traffic-strength page](https://www.hamburg.de/politik-und-verwaltung/behoerden/bvm/verkehrsstaerken-kfz-193324) | Provides DTV/DTVw and WFS/Excel resources; map counts to road segments |
+| Terrain | [Digitales Höhenmodell Hamburg DGM 1](https://suche.transparenz.hamburg.de/dataset/digitales-hoehenmodell-hamburg-dgm-15) | Convert raster/grid data to 3D DEM points for `dem.geojson` |
 | Ground absorption / land cover | [ALKIS actual use](https://suche.transparenz.hamburg.de/dataset/alkis-ausgewaehlte-daten-hamburg5) and [Copernicus Urban Atlas 2021](https://land.copernicus.eu/en/products/urban-atlas/urban-atlas-2021) | Convert land-use classes to NM5 `G` values; inspect hardscape/water/green areas manually for HafenCity |
 | Weather / wind rose | [DWD Climate Data Center](https://www.dwd.de/EN/ourservices/cdc/cdc_ueberblick-klimadaten_en.html) | Use Hamburg-area stations for temperature, humidity, pressure, wind direction and wind speed statistics |
 | Public transport rail schedules | [hvv GTFS](https://suche.transparenz.hamburg.de/dataset/hvv-fahrplandaten-gtfs-april-2026-bis-dezember-2026) | Can estimate U/S/regional train frequencies where relevant; still needs mapping to NM5 train types |

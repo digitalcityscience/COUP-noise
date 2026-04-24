@@ -5,6 +5,7 @@
 **/.mypy_cache
 **/*.pyc
 outputs
+downloads
 redis/data
 NoiseModelling/.gradle
 NoiseModelling/wps_scripts/build

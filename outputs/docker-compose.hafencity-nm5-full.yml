@@ -1,0 +1,27 @@
+services:
+  api:
+    environment:
+      - CITY_PYO=/app/downloads/hafencity_full/citypyo
+      - NOISE_ENGINE=nm5_full
+      - CELERY_QUEUE=noise_nm5_full
+      - CLIENT_ID=dev
+      - CLIENT_PASSWORD=dev
+      - REDIS_PASS=devredis
+    volumes:
+      - "C:/Users/dmz-admin/CodeProjects/coupnoise/COUP-noise/downloads:/app/downloads:ro"
+  worker_1:
+    environment:
+      - CITY_PYO=/app/downloads/hafencity_full/citypyo
+      - NOISE_ENGINE=nm5_full
+      - CELERY_QUEUE=noise_nm5_full
+      - REDIS_PASS=devredis
+    volumes:
+      - "C:/Users/dmz-admin/CodeProjects/coupnoise/COUP-noise/downloads:/app/downloads:ro"
+  worker_2:
+    environment:
+      - CITY_PYO=/app/downloads/hafencity_full/citypyo
+      - NOISE_ENGINE=nm5_full
+      - CELERY_QUEUE=noise_nm5_full
+      - REDIS_PASS=devredis
+    volumes:
+      - "C:/Users/dmz-admin/CodeProjects/coupnoise/COUP-noise/downloads:/app/downloads:ro"

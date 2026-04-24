@@ -3,6 +3,7 @@ import os
 import shutil
 import subprocess
 import tempfile
+import time
 from pathlib import Path
 from typing import Any, Dict, List, Mapping, Optional
 
@@ -108,8 +109,7 @@ def _serialize_runner_args(parameters: Mapping[str, Any]) -> List[str]:
             continue
 
         if isinstance(value, bool):
-            if value:
-                serialized_args.append(f"-{key}")
+            serialized_args.extend([f"-{key}", str(value).lower()])
             continue
 
         serialized_args.extend([f"-{key}", str(value)])
@@ -124,6 +124,9 @@ def _run_wps_script(
     script_path: Path,
     parameters: Mapping[str, Any],
 ) -> None:
+    started_at = time.monotonic()
+    step_name = script_path.name
+    print(f"[nm5] starting {step_name}", flush=True)
     command = _base_runner_command(runner_path)
     command.extend(
         [
@@ -144,12 +147,24 @@ def _run_wps_script(
         capture_output=True,
         text=True,
     )
+    elapsed_seconds = time.monotonic() - started_at
 
     if completed_process.returncode != 0:
         stderr = (completed_process.stderr or "").strip()
         stdout = (completed_process.stdout or "").strip()
-        output = stderr or stdout or "runner exited without output"
+        output_parts = []
+        if stderr:
+            output_parts.append(f"stderr:\n{stderr}")
+        if stdout:
+            output_parts.append(f"stdout:\n{stdout}")
+        output = "\n\n".join(output_parts) or "runner exited without output"
+        print(
+            f"[nm5] failed {step_name} after {elapsed_seconds:.1f}s",
+            flush=True,
+        )
         raise RuntimeError(f"NoiseModelling runner failed for {script_path.name}: {output}")
+
+    print(f"[nm5] finished {step_name} in {elapsed_seconds:.1f}s", flush=True)
 
 
 def _load_geojson(path: Path) -> Dict[str, Any]:
