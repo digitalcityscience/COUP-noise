@@ -1,10 +1,15 @@
 import unittest
+from tempfile import TemporaryDirectory
+from pathlib import Path
 
 from noise_analysis.calculation_settings import TrafficSettings
 from noise_analysis.schema_adapter import (
     DEFAULT_BUILDING_HEIGHT,
     adapt_buildings_geojson,
+    adapt_atmospheric_settings_table,
+    adapt_ground_absorption_geojson,
     adapt_roads_geojson,
+    prepare_nm5_input_files,
 )
 
 
@@ -92,6 +97,71 @@ class SchemaAdapterTests(unittest.TestCase):
         self.assertEqual(properties["LV_SPD_E"], 42)
         self.assertEqual(properties["PVMT"], "DEF")
         self.assertEqual(properties["WAY"], 3)
+
+    def test_adapt_ground_absorption_geojson_keeps_polygons_with_g(self):
+        ground_geojson = {
+            "type": "FeatureCollection",
+            "features": [
+                {"type": "Feature", "geometry": _polygon(0), "properties": {"G": 0.7}},
+                {"type": "Feature", "geometry": _polygon(2), "properties": {}},
+            ],
+        }
+
+        adapted_geojson, metadata = adapt_ground_absorption_geojson(ground_geojson)
+
+        self.assertEqual(metadata["exported_features"], 1)
+        self.assertEqual(metadata["skipped_missing_g"], 1)
+        self.assertEqual(adapted_geojson["features"][0]["properties"]["G"], 0.7)
+
+    def test_adapt_atmospheric_settings_accepts_windrose_list(self):
+        rows, metadata = adapt_atmospheric_settings_table(
+            [
+                {
+                    "period": "d",
+                    "temperature": 12,
+                    "pressure": 101325,
+                    "humidity": 80,
+                    "gdisc": True,
+                    "prime2520": False,
+                    "windrose": [0.5] * 16,
+                }
+            ]
+        )
+
+        self.assertEqual(metadata["exported_rows"], 1)
+        self.assertEqual(rows[0]["PERIOD"], "D")
+        self.assertEqual(rows[0]["WINDROSE_15"], 0.5)
+
+    def test_prepare_nm5_input_files_full_contract_requires_full_layers(self):
+        buildings_geojson = {
+            "type": "FeatureCollection",
+            "features": [{"type": "Feature", "geometry": _polygon(0), "properties": {"height": 12}}],
+        }
+        roads_geojson = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "geometry": _line(0),
+                    "properties": {
+                        "road_type": "street",
+                        "car_traffic_daily": 10,
+                        "truck_traffic_daily": 5,
+                        "max_speed": 30,
+                    },
+                }
+            ],
+        }
+
+        with TemporaryDirectory() as temp_dir:
+            with self.assertRaises(ValueError):
+                prepare_nm5_input_files(
+                    Path(temp_dir),
+                    buildings_geojson,
+                    roads_geojson,
+                    TrafficSettings(max_speed=30, traffic_quota=1),
+                    full_contract=True,
+                )
 
 
 if __name__ == "__main__":

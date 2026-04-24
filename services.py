@@ -30,9 +30,21 @@ def get_calculation_input(complex_task):
     buildings = get_buildings_geojson_from_cityPyo(complex_task["city_pyo_user"])
     roads = get_roads_geojson_from_cityPyo(complex_task["city_pyo_user"])
     dem = get_dem_geojson_from_cityPyo(complex_task["city_pyo_user"], required=False)
+    ground_absorption = get_ground_absorption_geojson_from_cityPyo(complex_task["city_pyo_user"], required=False)
+    source_directivity = get_source_directivity_from_cityPyo(complex_task["city_pyo_user"], required=False)
+    atmospheric_settings = get_atmospheric_settings_from_cityPyo(complex_task["city_pyo_user"], required=False)
     
     # hash all geometry inputs that can affect a run
-    hash = hash_dict({"buildings": buildings, "roads": roads, "dem": dem})
+    hash = hash_dict(
+        {
+            "buildings": buildings,
+            "roads": roads,
+            "dem": dem,
+            "ground_absorption": ground_absorption,
+            "source_directivity": source_directivity,
+            "atmospheric_settings": atmospheric_settings,
+        }
+    )
 
     return scenario_hash, hash, calculation_settings, buildings, roads, complex_task["city_pyo_user"]
 
@@ -49,7 +61,7 @@ def calculate_and_return_result(scenario, buildings, roads, cityPyo_user):
         from noise_analysis.noisemap import noise_calculation as legacy_noise_calculation
         return legacy_noise_calculation(normalized_payload, buildings, roads, cityPyo_user)
 
-    if engine == "nm5":
+    if engine in {"nm5", "nm5_full"}:
         from noise_analysis.nm5_runner import noise_calculation as nm5_noise_calculation
         return nm5_noise_calculation(normalized_payload, buildings, roads, cityPyo_user)
 
@@ -78,6 +90,15 @@ def get_roads_geojson_from_cityPyo(cityPyo_user_id):
 
 def get_dem_geojson_from_cityPyo(cityPyo_user_id, required=False):
     return get_citypyo().get_dem_for_user(cityPyo_user_id, required=required)
+
+def get_ground_absorption_geojson_from_cityPyo(cityPyo_user_id, required=False):
+    return get_citypyo().get_ground_absorption_for_user(cityPyo_user_id, required=required)
+
+def get_source_directivity_from_cityPyo(cityPyo_user_id, required=False):
+    return get_citypyo().get_source_directivity_for_user(cityPyo_user_id, required=required)
+
+def get_atmospheric_settings_from_cityPyo(cityPyo_user_id, required=False):
+    return get_citypyo().get_atmospheric_settings_for_user(cityPyo_user_id, required=required)
 
 
 def hash_dict(dict_to_hash):

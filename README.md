@@ -11,7 +11,7 @@ The project started from a legacy embedded NoiseModelling-based workflow and now
 - Roads are supported.
 - Rail is supported through generated `RAIL_SECTIONS` and `RAIL_TRAFFIC` inputs, with defaults and heuristics when source data is sparse.
 - DEM support is available on the NM5 path when the selected CityPyo user provides a `dem.geojson` layer.
-- Ground absorption, source directivity, and atmospheric settings are not exposed through the public COUP-noise API yet.
+- `nm5_full` is available for stricter NM5-native runs with DEM, ground absorption, atmospheric settings, optional source directivity, AOI-fenced receiver generation, and exposed NM5 propagation/meshing parameters.
 - Building heights are derived from source properties when possible and otherwise fall back to a default height on the NM5 path.
 - The built-in `demo` fixtures do not currently include a DEM layer, so the default local demo still runs without terrain.
 
@@ -24,11 +24,11 @@ This table is intentionally high level. It is for orientation, not as a replacem
 | Buildings and facades | Treat 2D buildings as obstacles in a fixed internal workflow | Use explicit building heights and richer propagation inputs | Buildings are loaded from CityPyo for both engines; legacy uses geometry only, NM5 derives heights when available |
 | Road traffic | Compute road noise from a simplified traffic and speed model | Use richer CNOSSOS road inputs, vehicle classes, pavement, slope, and period handling | The API exposes only a small shared setting set; the NM5 adapter fills richer road fields internally |
 | Rail traffic | Support a simple rail path mixed into the transport feed | Support dedicated railway track and railway traffic tables | Rail is supported, but only through the existing COUP-noise transport feed plus adapter logic |
-| Terrain | No terrain support | Use DEM and terrain-aware propagation | Optional on the NM5 path when a `dem.geojson` layer exists |
-| Ground absorption | Not available | Support dedicated ground absorption polygons | Not currently exposed |
-| Source directivity | Not available | Support directivity tables and directional emission data | Not currently exposed |
-| Weather and period settings | Not available | Support period-aware atmospheric settings and richer time-period handling | Not currently exposed |
-| Receiver mesh and propagation tuning | Fixed internal settings | Many meshing and propagation parameters are available natively | COUP-noise keeps compatibility-oriented internal defaults rather than exposing these knobs |
+| Terrain | No terrain support | Use DEM and terrain-aware propagation | Optional in `nm5`, required in `nm5_full` |
+| Ground absorption | Not available | Support dedicated ground absorption polygons | Supported in `nm5_full` through `ground_absorption.geojson` |
+| Source directivity | Not available | Support directivity tables and directional emission data | Supported in `nm5_full` through optional `source_directivity.csv/json` |
+| Weather and period settings | Not available | Support period-aware atmospheric settings and richer time-period handling | Supported in `nm5_full` through `atmospheric_settings.csv/json` |
+| Receiver mesh and propagation tuning | Fixed internal settings | Many meshing and propagation parameters are available natively | `nm5` uses compatibility defaults; `nm5_full` exposes the main NM5 meshing and propagation controls |
 | New areas and default suitability | Best understood as the original compatibility workflow for this service | Can support much richer area-specific modelling when the right inputs are available | Current defaults are okay for rough exploratory maps, but for new areas and more defensible NM5 runs the API should eventually expose or enforce richer inputs such as heights, terrain, and better transport detail |
 | Native outputs | Final contour polygons for the service response | Intermediate and final tables such as sources, receivers, levels, and contours | The COUP-noise API returns clipped GeoJSON contours or PNG overlays, not raw engine tables |
 
@@ -49,17 +49,24 @@ Common request-side adjustments:
 
 ## NM5 Input Contract
 
-The current COUP-noise NM5 adapter does not consume raw OSM files, `.pbf`
-extracts, Overpass JSON, shapefiles, or GeoTIFF DEMs directly. It expects
-CityPyo layers, or equivalent local fixture files, as GeoJSON feature
-collections.
+The current COUP-noise NM5 adapter has two modes:
+
+- `nm5`: compatibility mode. It accepts the original COUP-noise layer set and fills several NM5 fields internally.
+- `nm5_full`: stricter NM5-native mode. It requires richer terrain, ground, and weather inputs and passes more NM5 parameters through to the native scripts.
+
+The adapter does not consume raw OSM files, `.pbf` extracts, Overpass JSON,
+shapefiles, or GeoTIFF DEMs directly. It expects CityPyo layers, or equivalent
+local fixture files, as GeoJSON, JSON, or CSV files in the layer names below.
 
 | File / layer | Required | Geometry | Role |
 | --- | --- | --- | --- |
 | `project_area.geojson` | yes | `Polygon` or `MultiPolygon` | Area of interest used to clip the final result |
 | `upperfloor.geojson` | yes | `Polygon` or `MultiPolygon` | Building footprints used as propagation obstacles |
 | `roads.geojson` | yes | `LineString` or `MultiLineString` | Road and optional rail noise sources |
-| `dem.geojson` | no | 3D `Point` or `MultiPoint` | Optional terrain elevation input for NM5 |
+| `dem.geojson` | required in `nm5_full` | 3D `Point` or `MultiPoint` | Terrain elevation input |
+| `ground_absorption.geojson` | required in `nm5_full` | `Polygon` or `MultiPolygon` | Ground acoustic absorption polygons with `G` |
+| `atmospheric_settings.csv` or `.json` | required in `nm5_full` | table rows | Period-specific weather and wind rose settings |
+| `source_directivity.csv` or `.json` | optional | table rows | Source directivity attenuation spectra |
 
 GeoJSON supplied through CityPyo or local fixtures may be in WGS84
 (`EPSG:4326`) or the local projected CRS. The service infers the source CRS
@@ -104,18 +111,75 @@ Rail sources are currently represented inside `roads.geojson` by setting
 `BRIDGE`, and `TRAINTYPE`. Sparse rail data is accepted, but the adapter then
 uses default train type, speed, track count, track spacing, and frequency.
 
-`dem.geojson` is optional. When present, only 3D point-like features are passed
-to NM5. Example DEM coordinates should include elevation as the third ordinate:
+`dem.geojson` is optional in compatibility mode and required in `nm5_full`.
+When present, only 3D point-like features are passed to NM5. Example DEM
+coordinates should include elevation as the third ordinate:
 
 ```json
 [565000.0, 5935000.0, 8.4]
 ```
+
+`ground_absorption.geojson` contains non-overlapping ground polygons with a `G`
+property from `0` hard ground to `1` soft ground:
+
+```json
+{
+  "G": 0.7
+}
+```
+
+`atmospheric_settings.csv` can use one row per period. The required columns are
+`PERIOD`, `TEMPERATURE`, `PRESSURE`, `HUMIDITY`, `GDISC`, `PRIME2520`, and
+`WINDROSE_0` through `WINDROSE_15`. JSON input may also provide `windrose` as a
+16-value array. Typical periods are `D`, `E`, and `N`.
+
+```csv
+PERIOD,TEMPERATURE,PRESSURE,HUMIDITY,GDISC,PRIME2520,WINDROSE_0,WINDROSE_1,WINDROSE_2,WINDROSE_3,WINDROSE_4,WINDROSE_5,WINDROSE_6,WINDROSE_7,WINDROSE_8,WINDROSE_9,WINDROSE_10,WINDROSE_11,WINDROSE_12,WINDROSE_13,WINDROSE_14,WINDROSE_15
+D,15,101325,70,true,false,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5
+```
+
+`source_directivity.csv` is optional. If provided, it must contain `DIR_ID`,
+`THETA`, `PHI`, `HZ63`, `HZ125`, `HZ250`, `HZ500`, `HZ1000`, `HZ2000`,
+`HZ4000`, and `HZ8000`.
+
+`nm5_full` also accepts an optional nested `nm5_settings` object in the task
+payload. Supported keys are `receiver_height`, `max_cell_dist`, `road_width`,
+`building_buffer`, `max_area`, `skip_cell_no_sources_minimal_distance`,
+`fence_negative_buffer`, `iso_surface_in_buildings`,
+`export_triangles_geometries`, `reflection_order`, `max_source_distance`,
+`max_reflection_distance`, `thread_number`, `diff_vertical`,
+`diff_horizontal`, `export_source_id`, `humidity`, `temperature`,
+`favourable_occurrences`, `rays_name`, `max_error`, `iso_classes`, and
+`result_table_field`.
 
 If OSM is the source data, it must first be transformed into the layer contract
 above. Typical mapping is: OSM building footprints to `upperfloor.geojson`,
 `height` or `building:levels` to height/floor fields, OSM road centerlines to
 `roads.geojson`, `maxspeed` to `max_speed`, and an external or manually
 assigned traffic model to `car_traffic_daily` and `truck_traffic_daily`.
+
+## HafenCity Data Sources For NM5 Full
+
+For a defensible HafenCity `nm5_full` run, use official Hamburg sources where
+possible and use OSM only as a fallback or geometry enrichment source.
+
+| Need | Recommended source | Notes |
+| --- | --- | --- |
+| AOI boundary | Hamburg Geoportal or a project-approved HafenCity polygon | Replace the demo rectangle with an approved boundary |
+| Building footprints and heights | [3D-Gebäudemodell LoD2-DE Hamburg](https://suche.transparenz.hamburg.de/dataset/3d-gebaeudemodell-lod2-de-hamburg) | CityGML LoD2; derive footprint and `HEIGHT` |
+| Alternative cadastral geometry / land use | [ALKIS - ausgewählte Daten Hamburg](https://suche.transparenz.hamburg.de/dataset/alkis-ausgewaehlte-daten-hamburg5) | Includes selected cadastral data, buildings, and actual use classes |
+| Road / rail geometry fallback | [Geofabrik Hamburg OSM extract](https://download.geofabrik.de/europe/germany/hamburg.html) | Use `.osm.pbf`, GeoPackage, or Shapefile as raw geometry source; still needs traffic enrichment |
+| Road traffic counts | [Verkehrsstärken Hamburg](https://suche.transparenz.hamburg.de/dataset/35b7dfe1-02c4-4cd1-92f8-0548cb92e2e8) and the [Kfz traffic-strength page](https://www.hamburg.de/politik-und-verwaltung/behoerden/bvm/verkehrsstaerken-kfz-193324) | Provides DTV/DTVw and WFS/Excel resources; map counts to road segments |
+| Terrain | [Digitales Höhenmodell Hamburg DGM 1](https://suche.transparenz.hamburg.de/dataset/digitales-hoehenmodell-hamburg-dgm-1) | Convert raster/grid data to 3D DEM points for `dem.geojson` |
+| Ground absorption / land cover | [ALKIS actual use](https://suche.transparenz.hamburg.de/dataset/alkis-ausgewaehlte-daten-hamburg5) and [Copernicus Urban Atlas 2021](https://land.copernicus.eu/en/products/urban-atlas/urban-atlas-2021) | Convert land-use classes to NM5 `G` values; inspect hardscape/water/green areas manually for HafenCity |
+| Weather / wind rose | [DWD Climate Data Center](https://www.dwd.de/EN/ourservices/cdc/cdc_ueberblick-klimadaten_en.html) | Use Hamburg-area stations for temperature, humidity, pressure, wind direction and wind speed statistics |
+| Public transport rail schedules | [hvv GTFS](https://suche.transparenz.hamburg.de/dataset/hvv-fahrplandaten-gtfs-april-2026-bis-dezember-2026) | Can estimate U/S/regional train frequencies where relevant; still needs mapping to NM5 train types |
+| Railway infrastructure fallback | [OpenRailwayMap / OSM](https://wiki.openstreetmap.org/wiki/OpenRailwayMap) | Useful for track geometry and tags; validate before acoustic use |
+
+Directivity is usually not a public city dataset. For normal road sources,
+omnidirectional/direct model defaults are usually used. For rail, NM5 can use
+its built-in train directivity defaults unless a project-specific directivity
+table is supplied.
 
 ## Data Quality Guidance
 
@@ -127,9 +191,10 @@ This is still intentionally practical rather than exhaustive. The goal is to sho
 | Roads (`roads`) | Line geometry plus enough attributes for road noise to exist at all | `road_type`, `car_traffic_daily`, `truck_traffic_daily`, `max_speed`, and where available `PVMT`, `JUNC_DIST`, `JUNC_TYPE`, `WAY`, `SLOPE` | Missing rich road attributes do not necessarily stop NM5, but the adapter fills several values internally, which can make results less area-specific |
 | Rail in transport feed | Rail geometries identified in the same transport layer | `road_type=railroad` and, where available, train speed, train frequency, track count, spacing, tunnel or bridge flags, roughness, transfer, impact, curvature, and train type | Rail can still run through adapter defaults and heuristics, but sparse source rail data increases the chance of non-representative results |
 | Project area (`project_area`) | Polygon geometry | A clipping area that matches the intended study area | Without it, COUP-noise cannot clip the final result to the requested area |
-| Terrain (`dem`) | Not required for the API to run | A DEM layer for areas where terrain matters | If no DEM is present, the NM5 path still runs but terrain effects are absent |
-| Ground absorption | Not currently consumed by the API | Ground absorption polygons would be useful in richer NM5 runs | Currently ignored because the COUP-noise API does not expose this NM5 input yet |
-| Directivity and atmospheric settings | Not currently consumed by the API | Source directivity and period-specific atmospheric settings for advanced NM5 studies | Currently ignored because the COUP-noise API does not expose these NM5 inputs yet |
+| Terrain (`dem`) | Not required for `legacy` or compatibility `nm5`; required for `nm5_full` | A high-quality DEM layer for HafenCity terrain, bridges, embankments, and quay edges | If no DEM is present, compatibility `nm5` still runs but terrain effects are absent; `nm5_full` rejects the run |
+| Ground absorption (`ground_absorption`) | Required for `nm5_full` | Non-overlapping polygons with `G` values derived from land use or surface material | Missing ground absorption causes `nm5_full` to reject the run |
+| Atmospheric settings (`atmospheric_settings`) | Required for `nm5_full` | Period-specific temperature, pressure, humidity, and 16-sector wind rose | Missing atmospheric settings causes `nm5_full` to reject the run |
+| Directivity (`source_directivity`) | Optional | Project-specific source directivity spectra when sources reference `DIR_ID` values | If absent, NM5 uses its default behavior, including built-in rail directivity where applicable |
 
 For quick exploratory maps, the current defaults are usually acceptable. For new areas where you want more defensible NM5 output, richer source data is strongly preferred over relying on adapter defaults.
 
@@ -169,7 +234,7 @@ Specify these in `docker-compose.yml` or in your environment:
 - `CITY_PYO=YOUR_CITYPYO_URL`
 - `CLIENT_ID=YOUR_ID`
 - `CLIENT_PASSWORD=YOUR_PASSWORD`
-- `NOISE_ENGINE=legacy|nm5|auto`
+- `NOISE_ENGINE=legacy|nm5|nm5_full|auto`
 - `CELERY_QUEUE=noise`
 
 For local testing, `docker-compose.yml` ships with safe defaults:
@@ -200,6 +265,7 @@ The repository can run two calculation engines behind the same task API:
 
 - `NOISE_ENGINE=legacy` uses the original embedded engine in this repo
 - `NOISE_ENGINE=nm5` uses the headless NoiseModelling 5 runner plus the local adapter pipeline
+- `NOISE_ENGINE=nm5_full` uses the same runner with stricter NM5-native input requirements and exposed advanced settings
 
 For honest comparison, run them explicitly one after the other. Do not use `NOISE_ENGINE=auto` for visual assessment because it may fall back to legacy if the NM5 runner is unavailable.
 

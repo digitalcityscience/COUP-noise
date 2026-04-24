@@ -227,11 +227,116 @@ def _cleanup_working_directory(path: Path) -> None:
     shutil.rmtree(path, ignore_errors=True)
 
 
+def _is_full_mode(calculation_settings: CalculationSettings) -> bool:
+    return calculation_settings.noise_engine == "nm5_full"
+
+
+def _setting_or_default(value: Any, default: Any) -> Any:
+    if value is None:
+        return default
+    return value
+
+
+def _delaunay_parameters(
+    calculation_settings: CalculationSettings,
+    has_project_area: bool,
+) -> Dict[str, Any]:
+    full_mode = _is_full_mode(calculation_settings)
+    nm5_settings = calculation_settings.nm5_settings
+
+    parameters: Dict[str, Any] = {
+        "tableBuilding": "BUILDINGS",
+        "sourcesTableName": MERGED_SOURCES_TABLE,
+        "maxCellDist": _setting_or_default(nm5_settings.max_cell_dist, 750),
+        "roadWidth": _setting_or_default(nm5_settings.road_width, 1.5),
+        "maxArea": _setting_or_default(nm5_settings.max_area, 275),
+        "outputTableName": "RECEIVERS",
+    }
+
+    if full_mode and has_project_area:
+        parameters["fenceTableName"] = "PROJECT_AREA"
+
+    if full_mode:
+        parameters.update(
+            {
+                "height": _setting_or_default(nm5_settings.receiver_height, 4),
+                "buildingBuffer": nm5_settings.building_buffer,
+                "skipCellNoSourcesMinimalDistance": nm5_settings.skip_cell_no_sources_minimal_distance,
+                "fenceNegativeBuffer": nm5_settings.fence_negative_buffer,
+                "isoSurfaceInBuildings": nm5_settings.iso_surface_in_buildings,
+                "exportTrianglesGeometries": nm5_settings.export_triangles_geometries,
+            }
+        )
+
+    return parameters
+
+
+def _noise_level_parameters(
+    calculation_settings: CalculationSettings,
+    wall_absorption: float,
+    has_dem: bool,
+    has_ground_absorption: bool,
+    has_source_directivity: bool,
+    has_atmospheric_settings: bool,
+    has_rail_sources: bool,
+) -> Dict[str, Any]:
+    full_mode = _is_full_mode(calculation_settings)
+    nm5_settings = calculation_settings.nm5_settings
+
+    if not full_mode:
+        return {
+            "tableBuilding": "BUILDINGS",
+            "tableSources": MERGED_SOURCES_TABLE,
+            "tableReceivers": "RECEIVERS",
+            "tableDEM": "DEM" if has_dem else None,
+            "paramWallAlpha": wall_absorption,
+            "confReflOrder": 0,
+            "confMaxSrcDist": 750,
+            "confMaxReflDist": 50,
+        }
+
+    return {
+        "tableBuilding": "BUILDINGS",
+        "tableSources": MERGED_SOURCES_TABLE,
+        "tableReceivers": "RECEIVERS",
+        "tableDEM": "DEM" if has_dem else None,
+        "tableGroundAbs": "GROUND_ABSORPTION" if has_ground_absorption else None,
+        "tableSourceDirectivity": "SOURCE_DIRECTIVITY" if has_source_directivity else None,
+        "tablePeriodAtmosphericSettings": "ATMOSPHERIC_SETTINGS" if has_atmospheric_settings else None,
+        "paramWallAlpha": wall_absorption,
+        "confReflOrder": _setting_or_default(nm5_settings.reflection_order, 1),
+        "confMaxSrcDist": _setting_or_default(nm5_settings.max_source_distance, 750),
+        "confMaxReflDist": _setting_or_default(nm5_settings.max_reflection_distance, 350),
+        "confThreadNumber": _setting_or_default(nm5_settings.thread_number, 0),
+        "confDiffVertical": _setting_or_default(nm5_settings.diff_vertical, has_rail_sources),
+        "confDiffHorizontal": _setting_or_default(nm5_settings.diff_horizontal, True),
+        "confExportSourceId": nm5_settings.export_source_id,
+        "confHumidity": nm5_settings.humidity,
+        "confTemperature": nm5_settings.temperature,
+        "confFavourableOccurrencesDefault": nm5_settings.favourable_occurrences,
+        "confRaysName": nm5_settings.rays_name,
+        "confMaxError": _setting_or_default(nm5_settings.max_error, 0.1),
+    }
+
+
+def _isosurface_parameters(calculation_settings: CalculationSettings) -> Dict[str, Any]:
+    nm5_settings = calculation_settings.nm5_settings
+    return {
+        "resultTable": "RECEIVERS_LEVEL",
+        "isoClass": nm5_settings.iso_classes or ISO_CLASSES,
+        "resultTableField": nm5_settings.result_table_field or "LAEQ",
+    }
+
+
 def _run_nm5_pipeline(
     calculation_settings: CalculationSettings,
     buildings_geojson: Mapping[str, Any],
     roads_geojson: Mapping[str, Any],
+    project_area_geojson: Optional[Mapping[str, Any]] = None,
     dem_geojson: Optional[Mapping[str, Any]] = None,
+    ground_absorption_geojson: Optional[Mapping[str, Any]] = None,
+    source_directivity: Any = None,
+    atmospheric_settings: Any = None,
 ) -> Dict[str, Any]:
     runner_path = _find_runner_executable()
     working_directory = _working_directory()
@@ -241,7 +346,12 @@ def _run_nm5_pipeline(
             buildings_geojson,
             roads_geojson,
             calculation_settings.traffic_settings,
+            project_area_geojson=project_area_geojson,
             dem_geojson=dem_geojson,
+            ground_absorption_geojson=ground_absorption_geojson,
+            source_directivity=source_directivity,
+            atmospheric_settings=atmospheric_settings,
+            full_contract=_is_full_mode(calculation_settings),
         )
         transport_source_count = (
             prepared_inputs.metadata["roads"]["exported_features"]
@@ -259,6 +369,18 @@ def _run_nm5_pipeline(
             DEFAULT_WALL_ABSORPTION
         )
 
+        if prepared_inputs.project_area_path is not None:
+            _run_wps_script(
+                runner_path,
+                working_directory,
+                DEFAULT_DB_NAME,
+                _script_path("Import_and_Export", "Import_File.groovy"),
+                {
+                    "pathFile": prepared_inputs.project_area_path,
+                    "inputSRID": 25832,
+                    "tableName": "PROJECT_AREA",
+                },
+            )
         _run_wps_script(
             runner_path,
             working_directory,
@@ -317,6 +439,40 @@ def _run_nm5_pipeline(
                     "tableName": "DEM",
                 },
             )
+        if prepared_inputs.ground_absorption_path is not None:
+            _run_wps_script(
+                runner_path,
+                working_directory,
+                DEFAULT_DB_NAME,
+                _script_path("Import_and_Export", "Import_File.groovy"),
+                {
+                    "pathFile": prepared_inputs.ground_absorption_path,
+                    "inputSRID": 25832,
+                    "tableName": "GROUND_ABSORPTION",
+                },
+            )
+        if prepared_inputs.source_directivity_path is not None:
+            _run_wps_script(
+                runner_path,
+                working_directory,
+                DEFAULT_DB_NAME,
+                _script_path("Import_and_Export", "Import_File.groovy"),
+                {
+                    "pathFile": prepared_inputs.source_directivity_path,
+                    "tableName": "SOURCE_DIRECTIVITY",
+                },
+            )
+        if prepared_inputs.atmospheric_settings_path is not None:
+            _run_wps_script(
+                runner_path,
+                working_directory,
+                DEFAULT_DB_NAME,
+                _local_script_path("noise_analysis", "wps", "Atmospheric_Settings_From_Csv.groovy"),
+                {
+                    "pathFile": prepared_inputs.atmospheric_settings_path,
+                    "tableName": "ATMOSPHERIC_SETTINGS",
+                },
+            )
         if prepared_inputs.roads_path is not None:
             _run_wps_script(
                 runner_path,
@@ -358,41 +514,29 @@ def _run_nm5_pipeline(
             working_directory,
             DEFAULT_DB_NAME,
             _script_path("Receivers", "Delaunay_Grid.groovy"),
-            {
-                "tableBuilding": "BUILDINGS",
-                "sourcesTableName": MERGED_SOURCES_TABLE,
-                "maxCellDist": 750,
-                "roadWidth": 1.5,
-                "maxArea": 275,
-                "outputTableName": "RECEIVERS",
-            },
+            _delaunay_parameters(calculation_settings, prepared_inputs.project_area_path is not None),
         )
         _run_wps_script(
             runner_path,
             working_directory,
             DEFAULT_DB_NAME,
             _script_path("NoiseModelling", "Noise_level_from_source.groovy"),
-            {
-                "tableBuilding": "BUILDINGS",
-                "tableSources": MERGED_SOURCES_TABLE,
-                "tableReceivers": "RECEIVERS",
-                "tableDEM": "DEM" if prepared_inputs.dem_path is not None else None,
-                "paramWallAlpha": wall_absorption,
-                "confReflOrder": 0,
-                "confMaxSrcDist": 750,
-                "confMaxReflDist": 50,
-            },
+            _noise_level_parameters(
+                calculation_settings,
+                wall_absorption,
+                prepared_inputs.dem_path is not None,
+                prepared_inputs.ground_absorption_path is not None,
+                prepared_inputs.source_directivity_path is not None,
+                prepared_inputs.atmospheric_settings_path is not None,
+                prepared_inputs.metadata["rail"]["exported_sections"] > 0,
+            ),
         )
         _run_wps_script(
             runner_path,
             working_directory,
             DEFAULT_DB_NAME,
             _script_path("Acoustic_Tools", "Create_Isosurface.groovy"),
-            {
-                "resultTable": "RECEIVERS_LEVEL",
-                "isoClass": ISO_CLASSES,
-                "resultTableField": "LAEQ",
-            },
+            _isosurface_parameters(calculation_settings),
         )
         _run_wps_script(
             runner_path,
@@ -412,12 +556,22 @@ def _run_nm5_pipeline(
 
 def noise_calculation(calculation_settings, buildings_geojson, roads_geojson, cityPyo_user):
     calculation_settings = CalculationSettings.from_mapping(calculation_settings)
-    dem_geojson = CityPyo().get_dem_for_user(cityPyo_user, required=False)
+    citypyo = CityPyo()
+    full_mode = _is_full_mode(calculation_settings)
+    project_area_geojson = citypyo.get_project_area_for_user(cityPyo_user)
+    dem_geojson = citypyo.get_dem_for_user(cityPyo_user, required=full_mode)
+    ground_absorption_geojson = citypyo.get_ground_absorption_for_user(cityPyo_user, required=full_mode)
+    source_directivity = citypyo.get_source_directivity_for_user(cityPyo_user, required=False)
+    atmospheric_settings = citypyo.get_atmospheric_settings_for_user(cityPyo_user, required=full_mode)
     noise_result_geojson = _run_nm5_pipeline(
         calculation_settings,
         buildings_geojson,
         roads_geojson,
+        project_area_geojson=project_area_geojson,
         dem_geojson=dem_geojson,
+        ground_absorption_geojson=ground_absorption_geojson,
+        source_directivity=source_directivity,
+        atmospheric_settings=atmospheric_settings,
     )
     noise_result_geojson = clip_gdf_to_project_area(noise_result_geojson, cityPyo_user)
 

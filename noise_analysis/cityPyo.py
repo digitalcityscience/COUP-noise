@@ -2,6 +2,7 @@ import json
 import os
 import re
 import time
+import csv
 from pathlib import Path
 
 import geopandas
@@ -101,6 +102,16 @@ class CityPyo:
         ]
 
 
+    def _local_data_paths(self, user_id, layer_name):
+        return [
+            self.local_root / str(user_id) / (layer_name + extension)
+            for extension in (".geojson", ".json", ".csv")
+        ] + [
+            self.local_root / (layer_name + extension)
+            for extension in (".geojson", ".json", ".csv")
+        ]
+
+
     def _load_local_layer(self, user_id, layer_name, quiet=False):
         for layer_path in self._local_layer_paths(user_id, layer_name):
             if layer_path.exists():
@@ -111,6 +122,22 @@ class CityPyo:
             print("could not get from local CityPyo fixtures")
             print("wanted to get layer: ", layer_name)
             print("searched in", [str(path) for path in self._local_layer_paths(user_id, layer_name)])
+        return None
+
+
+    def _load_local_data(self, user_id, layer_name, quiet=False):
+        for data_path in self._local_data_paths(user_id, layer_name):
+            if data_path.exists():
+                if data_path.suffix.lower() == ".csv":
+                    with data_path.open(encoding="utf-8", newline="") as file_handle:
+                        return list(csv.DictReader(file_handle))
+                with data_path.open(encoding="utf-8") as file_handle:
+                    return json.load(file_handle)
+
+        if not quiet:
+            print("could not get from local CityPyo fixtures")
+            print("wanted to get data layer: ", layer_name)
+            print("searched in", [str(path) for path in self._local_data_paths(user_id, layer_name)])
         return None
 
 
@@ -145,6 +172,56 @@ class CityPyo:
             recursive_iteration += 1
 
             return self.get_layer_for_user(user_id, layer_name, recursive_iteration, quiet=quiet)
+
+
+    def get_data_for_user(self, user_id, layer_name, required=False, recursive_iteration=0):
+        if self.local_root:
+            data = self._load_local_data(user_id, layer_name, quiet=not required)
+            if data is None and required:
+                raise FileNotFoundError("could not find %s on %s for user %s" % (layer_name, self.url, user_id))
+            return data
+
+        data = {
+            "userid": user_id,
+            "layer": layer_name
+        }
+
+        try:
+            response = requests.get(self.url + "/getLayer", json=data)
+
+            if response.status_code == 200:
+                return response.json()
+            if required:
+                raise FileNotFoundError("could not find %s on %s for user %s" % (layer_name, self.url, user_id))
+            return None
+        except requests.exceptions.RequestException as e:
+            print("CityPyo error. " + str(e))
+
+            if recursive_iteration > 10:
+                raise requests.exceptions.RequestException
+
+            time.sleep(30 * recursive_iteration)
+            recursive_iteration += 1
+
+            return self.get_data_for_user(user_id, layer_name, required, recursive_iteration)
+
+
+    def get_ground_absorption_for_user(self, user_id, required=False):
+        ground = self.get_layer_for_user(user_id, "ground_absorption", quiet=not required)
+        if not ground:
+            if required:
+                raise FileNotFoundError("could not find ground_absorption on %s for user %s" % (self.url, user_id))
+            return None
+
+        return self.reproject_to_utm(ground, keep_properties=True)
+
+
+    def get_source_directivity_for_user(self, user_id, required=False):
+        return self.get_data_for_user(user_id, "source_directivity", required=required)
+
+
+    def get_atmospheric_settings_for_user(self, user_id, required=False):
+        return self.get_data_for_user(user_id, "atmospheric_settings", required=required)
 
     def _infer_geojson_crs(self, geojson):
         crs = geojson.get("crs")

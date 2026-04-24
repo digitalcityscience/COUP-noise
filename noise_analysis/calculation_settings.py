@@ -1,12 +1,12 @@
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Mapping, Optional
 
 from noise_analysis.palette import normalize_png_style
 
 
 VALID_RESULT_FORMATS = ("geojson", "png")
-VALID_NOISE_ENGINES = ("legacy", "nm5", "auto")
+VALID_NOISE_ENGINES = ("legacy", "nm5", "nm5_full", "auto")
 
 
 def _ensure_mapping(value: Any, field_name: str) -> Mapping[str, Any]:
@@ -35,6 +35,35 @@ def _coerce_optional_float(value: Any, field_name: str) -> Optional[float]:
     if value in (None, ""):
         return None
     return _coerce_float(value, field_name)
+
+
+def _coerce_optional_int(value: Any, field_name: str) -> Optional[int]:
+    if value in (None, ""):
+        return None
+    coerced_value = _coerce_float(value, field_name)
+    return int(coerced_value)
+
+
+def _coerce_optional_bool(value: Any, field_name: str) -> Optional[bool]:
+    if value in (None, ""):
+        return None
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return bool(value)
+
+    normalized_value = str(value).strip().lower()
+    if normalized_value in {"1", "true", "yes", "y", "on"}:
+        return True
+    if normalized_value in {"0", "false", "no", "n", "off"}:
+        return False
+    raise ValueError("%s must be a boolean" % field_name)
+
+
+def _coerce_optional_string(value: Any) -> Optional[str]:
+    if value in (None, ""):
+        return None
+    return str(value)
 
 
 def _normalize_choice(value: Any, field_name: str, valid_values) -> str:
@@ -97,12 +126,130 @@ class AcousticSettings:
 
 
 @dataclass(frozen=True)
+class Nm5Settings:
+    receiver_height: Optional[float] = None
+    max_cell_dist: Optional[float] = None
+    road_width: Optional[float] = None
+    building_buffer: Optional[float] = None
+    max_area: Optional[float] = None
+    skip_cell_no_sources_minimal_distance: Optional[float] = None
+    fence_negative_buffer: Optional[float] = None
+    iso_surface_in_buildings: Optional[bool] = None
+    export_triangles_geometries: Optional[bool] = None
+    reflection_order: Optional[int] = None
+    max_source_distance: Optional[float] = None
+    max_reflection_distance: Optional[float] = None
+    thread_number: Optional[int] = None
+    diff_vertical: Optional[bool] = None
+    diff_horizontal: Optional[bool] = None
+    export_source_id: Optional[bool] = None
+    humidity: Optional[float] = None
+    temperature: Optional[float] = None
+    favourable_occurrences: Optional[str] = None
+    rays_name: Optional[str] = None
+    max_error: Optional[float] = None
+    iso_classes: Optional[str] = None
+    result_table_field: Optional[str] = None
+
+    @classmethod
+    def from_mapping(cls, payload: Optional[Mapping[str, Any]]) -> "Nm5Settings":
+        payload = _ensure_mapping(payload or {}, "nm5_settings")
+
+        settings = cls(
+            receiver_height=_coerce_optional_float(payload.get("receiver_height"), "receiver_height"),
+            max_cell_dist=_coerce_optional_float(payload.get("max_cell_dist"), "max_cell_dist"),
+            road_width=_coerce_optional_float(payload.get("road_width"), "road_width"),
+            building_buffer=_coerce_optional_float(payload.get("building_buffer"), "building_buffer"),
+            max_area=_coerce_optional_float(payload.get("max_area"), "max_area"),
+            skip_cell_no_sources_minimal_distance=_coerce_optional_float(
+                payload.get("skip_cell_no_sources_minimal_distance"),
+                "skip_cell_no_sources_minimal_distance",
+            ),
+            fence_negative_buffer=_coerce_optional_float(
+                payload.get("fence_negative_buffer"),
+                "fence_negative_buffer",
+            ),
+            iso_surface_in_buildings=_coerce_optional_bool(
+                payload.get("iso_surface_in_buildings"),
+                "iso_surface_in_buildings",
+            ),
+            export_triangles_geometries=_coerce_optional_bool(
+                payload.get("export_triangles_geometries"),
+                "export_triangles_geometries",
+            ),
+            reflection_order=_coerce_optional_int(payload.get("reflection_order"), "reflection_order"),
+            max_source_distance=_coerce_optional_float(
+                payload.get("max_source_distance"),
+                "max_source_distance",
+            ),
+            max_reflection_distance=_coerce_optional_float(
+                payload.get("max_reflection_distance"),
+                "max_reflection_distance",
+            ),
+            thread_number=_coerce_optional_int(payload.get("thread_number"), "thread_number"),
+            diff_vertical=_coerce_optional_bool(payload.get("diff_vertical"), "diff_vertical"),
+            diff_horizontal=_coerce_optional_bool(payload.get("diff_horizontal"), "diff_horizontal"),
+            export_source_id=_coerce_optional_bool(payload.get("export_source_id"), "export_source_id"),
+            humidity=_coerce_optional_float(payload.get("humidity"), "humidity"),
+            temperature=_coerce_optional_float(payload.get("temperature"), "temperature"),
+            favourable_occurrences=_coerce_optional_string(payload.get("favourable_occurrences")),
+            rays_name=_coerce_optional_string(payload.get("rays_name")),
+            max_error=_coerce_optional_float(payload.get("max_error"), "max_error"),
+            iso_classes=_coerce_optional_string(payload.get("iso_classes")),
+            result_table_field=_coerce_optional_string(payload.get("result_table_field")),
+        )
+
+        if settings.reflection_order is not None and settings.reflection_order < 0:
+            raise ValueError("reflection_order must be non-negative")
+        if settings.thread_number is not None and settings.thread_number < 0:
+            raise ValueError("thread_number must be non-negative")
+        if settings.humidity is not None and not 0 <= settings.humidity <= 100:
+            raise ValueError("humidity must be between 0 and 100")
+        if settings.max_error is not None and settings.max_error < 0:
+            raise ValueError("max_error must be non-negative")
+
+        return settings
+
+    def to_dict(self) -> Mapping[str, Any]:
+        return {
+            key: value
+            for key, value in {
+                "receiver_height": self.receiver_height,
+                "max_cell_dist": self.max_cell_dist,
+                "road_width": self.road_width,
+                "building_buffer": self.building_buffer,
+                "max_area": self.max_area,
+                "skip_cell_no_sources_minimal_distance": self.skip_cell_no_sources_minimal_distance,
+                "fence_negative_buffer": self.fence_negative_buffer,
+                "iso_surface_in_buildings": self.iso_surface_in_buildings,
+                "export_triangles_geometries": self.export_triangles_geometries,
+                "reflection_order": self.reflection_order,
+                "max_source_distance": self.max_source_distance,
+                "max_reflection_distance": self.max_reflection_distance,
+                "thread_number": self.thread_number,
+                "diff_vertical": self.diff_vertical,
+                "diff_horizontal": self.diff_horizontal,
+                "export_source_id": self.export_source_id,
+                "humidity": self.humidity,
+                "temperature": self.temperature,
+                "favourable_occurrences": self.favourable_occurrences,
+                "rays_name": self.rays_name,
+                "max_error": self.max_error,
+                "iso_classes": self.iso_classes,
+                "result_table_field": self.result_table_field,
+            }.items()
+            if value is not None
+        }
+
+
+@dataclass(frozen=True)
 class CalculationSettings:
     traffic_settings: TrafficSettings
     calculation_settings: AcousticSettings
     result_format: str
     noise_engine: str
     png_style: Optional[str] = None
+    nm5_settings: Nm5Settings = field(default_factory=Nm5Settings)
 
     @classmethod
     def from_mapping(
@@ -142,6 +289,7 @@ class CalculationSettings:
             result_format=result_format,
             noise_engine=noise_engine,
             png_style=png_style,
+            nm5_settings=Nm5Settings.from_mapping(payload.get("nm5_settings")),
         )
 
     def to_dict(self) -> Mapping[str, Any]:
@@ -154,5 +302,9 @@ class CalculationSettings:
 
         if self.png_style is not None:
             payload["png_style"] = self.png_style
+
+        nm5_settings = self.nm5_settings.to_dict()
+        if nm5_settings:
+            payload["nm5_settings"] = dict(nm5_settings)
 
         return payload

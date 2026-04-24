@@ -44,6 +44,33 @@ class CalculationSettingsTests(unittest.TestCase):
         self.assertEqual(settings.result_format, "geojson")
         self.assertIsNone(settings.png_style)
 
+    def test_from_mapping_accepts_nm5_full_settings(self):
+        settings = CalculationSettings.from_mapping(
+            {
+                "traffic_settings": {
+                    "max_speed": 42,
+                    "traffic_quota": 1,
+                },
+                "result_format": "geojson",
+                "noise_engine": "nm5_full",
+                "nm5_settings": {
+                    "reflection_order": 2,
+                    "diff_horizontal": True,
+                    "max_source_distance": 800,
+                    "iso_classes": "40,45,50,55,60,65,70,75,200",
+                },
+            }
+        )
+
+        self.assertEqual(settings.noise_engine, "nm5_full")
+        self.assertEqual(settings.nm5_settings.reflection_order, 2)
+        self.assertTrue(settings.nm5_settings.diff_horizontal)
+        self.assertEqual(settings.nm5_settings.max_source_distance, 800)
+        self.assertEqual(
+            settings.to_dict()["nm5_settings"]["iso_classes"],
+            "40,45,50,55,60,65,70,75,200",
+        )
+
     def test_from_mapping_uses_env_default_png_style(self):
         with mock.patch.dict(os.environ, {"NOISE_PNG_STYLE": "palette"}, clear=False):
             settings = CalculationSettings.from_mapping(
