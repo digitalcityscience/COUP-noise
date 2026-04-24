@@ -47,6 +47,76 @@ Common request-side adjustments:
 - `max_speed`: a speed override applied to adjustable roads.
 - `wall_absorption`: an acoustic tuning value used by the selected engine.
 
+## NM5 Input Contract
+
+The current COUP-noise NM5 adapter does not consume raw OSM files, `.pbf`
+extracts, Overpass JSON, shapefiles, or GeoTIFF DEMs directly. It expects
+CityPyo layers, or equivalent local fixture files, as GeoJSON feature
+collections.
+
+| File / layer | Required | Geometry | Role |
+| --- | --- | --- | --- |
+| `project_area.geojson` | yes | `Polygon` or `MultiPolygon` | Area of interest used to clip the final result |
+| `upperfloor.geojson` | yes | `Polygon` or `MultiPolygon` | Building footprints used as propagation obstacles |
+| `roads.geojson` | yes | `LineString` or `MultiLineString` | Road and optional rail noise sources |
+| `dem.geojson` | no | 3D `Point` or `MultiPoint` | Optional terrain elevation input for NM5 |
+
+GeoJSON supplied through CityPyo or local fixtures may be in WGS84
+(`EPSG:4326`) or the local projected CRS. The service infers the source CRS
+and reprojects the data to `EPSG:25832` before running NM5. If files are
+prepared directly for the NM5 runner, use `EPSG:25832` because NM5 expects
+metric coordinates.
+
+Building features should contain footprint geometry and, ideally, one usable
+height attribute. The adapter accepts direct height fields such as `height`,
+`HEIGHT`, `building_height`, `roof_height`, `roof_z`, or `z`. It also accepts
+floor-count fields such as `floors`, `storeys`, `stories`, `levels`, or
+`num_floors`; those are converted using the configured default floor height.
+If no usable value is present, NM5 still runs with `NM5_DEFAULT_BUILDING_HEIGHT`
+(`10 m` by default).
+
+Road features should contain line geometry and traffic attributes. The minimum
+useful fields for road noise are:
+
+- `car_traffic_daily`
+- `truck_traffic_daily`
+- `max_speed`
+
+Recommended road fields are:
+
+- `road_type`
+- `traffic_settings_adjustable`
+- `PVMT`
+- `JUNC_DIST`
+- `JUNC_TYPE`
+- `WAY`
+- `SLOPE`
+
+The adapter converts these properties into the NM5 `ROADS` schema with
+day/evening/night vehicle classes (`LV_D`, `HGV_D`, speed fields, and related
+columns). Missing rich road attributes are filled with internal defaults, but
+missing traffic or speed data can make the acoustic result non-representative.
+
+Rail sources are currently represented inside `roads.geojson` by setting
+`road_type` to `railroad`. Optional rail fields include `train_speed`,
+`TRAINSPD`, `trains_per_hour`, `TDAY`, `NTRACK`, `tracks`, `TRACKSPC`,
+`ISTUNNEL`, `tunnel`, `TRANSFER`, `ROUGHNESS`, `IMPACT`, `CURVATURE`,
+`BRIDGE`, and `TRAINTYPE`. Sparse rail data is accepted, but the adapter then
+uses default train type, speed, track count, track spacing, and frequency.
+
+`dem.geojson` is optional. When present, only 3D point-like features are passed
+to NM5. Example DEM coordinates should include elevation as the third ordinate:
+
+```json
+[565000.0, 5935000.0, 8.4]
+```
+
+If OSM is the source data, it must first be transformed into the layer contract
+above. Typical mapping is: OSM building footprints to `upperfloor.geojson`,
+`height` or `building:levels` to height/floor fields, OSM road centerlines to
+`roads.geojson`, `maxspeed` to `max_speed`, and an external or manually
+assigned traffic model to `car_traffic_daily` and `truck_traffic_daily`.
+
 ## Data Quality Guidance
 
 This is still intentionally practical rather than exhaustive. The goal is to show what data is merely enough to run and what data is actually useful if you want NM5 to behave well on a new area.
