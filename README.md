@@ -49,6 +49,10 @@ Common request-side adjustments:
 
 ## NM5 Input Contract
 
+For the full field-by-field contract across `legacy`, `nm5`, and `nm5_full`,
+including datatypes, accepted file formats, defaults, and engine differences,
+see [docs/model_input_contract.md](docs/model_input_contract.md).
+
 The current COUP-noise NM5 adapter has two modes:
 
 - `nm5`: compatibility mode. It accepts the original COUP-noise layer set and fills several NM5 fields internally.
