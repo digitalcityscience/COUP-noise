@@ -4,6 +4,8 @@ This document describes the inputs currently accepted by the COUP-noise service 
 
 Scope note: this is the COUP-noise adapter contract, not a complete catalog of every input that native NoiseModelling can theoretically use. Native NM5 supports more tables and parameters than this service exposes.
 
+For runtime and result-quality tradeoffs, see [parameter_runtime_impact_matrix.md](parameter_runtime_impact_matrix.md).
+
 ## Engine Summary
 
 | Area | `legacy` | `nm5` | `nm5_full` |
