@@ -29,6 +29,7 @@ services:
   worker_1:
     build:
       context: .
+    cpus: '${WORKER_CPUS:-2}'
     restart: "always"
     command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker1@%h
     environment:
@@ -42,11 +43,12 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2'
+          cpus: '${WORKER_CPUS:-2}'
 
   worker_2:
     build:
       context: .
+    cpus: '${WORKER_CPUS:-2}'
     restart: "always"
     command: celery -A tasks worker --loglevel=info --concurrency=1 -n worker2@%h
     environment:
@@ -60,4 +62,4 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2'
+          cpus: '${WORKER_CPUS:-2}'

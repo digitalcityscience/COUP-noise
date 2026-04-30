@@ -17,6 +17,7 @@ broker_url = 'redis://:{}@{}:{}/0'.format(
 
 # Worker config
 worker_concurrency = 1
+worker_prefetch_multiplier = int(os.getenv('CELERY_WORKER_PREFETCH_MULTIPLIER', '1'))
 
 # Result config
 result_expires = None  # never expire

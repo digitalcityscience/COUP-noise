@@ -1,4 +1,5 @@
 import json
+import math
 import os
 import shutil
 import subprocess
@@ -18,6 +19,8 @@ from noise_analysis.schema_adapter import prepare_nm5_input_files
 RUNNER_ENV_VAR = "NOISEMODELLING_RUNNER"
 ENGINE_OUTPUT_PERIOD_ENV_VAR = "NM5_OUTPUT_PERIOD"
 KEEP_WORKDIR_ENV_VAR = "NOISEMODELLING_KEEP_WORKDIR"
+THREAD_NUMBER_ENV_VAR = "NM5_THREAD_NUMBER"
+THREAD_RESERVE_ENV_VAR = "NM5_THREAD_RESERVE"
 
 DEFAULT_DB_NAME = "nm5"
 DEFAULT_WALL_ABSORPTION = 0.23
@@ -252,6 +255,74 @@ def _setting_or_default(value: Any, default: Any) -> Any:
     return value
 
 
+def _read_optional_int_env(name: str) -> Optional[int]:
+    raw_value = os.getenv(name)
+    if raw_value in (None, ""):
+        return None
+
+    try:
+        return int(raw_value)
+    except ValueError as exc:
+        raise ValueError(f"{name} must be an integer") from exc
+
+
+def _cpu_quota_count() -> Optional[float]:
+    cgroup_v2_cpu_max = Path("/sys/fs/cgroup/cpu.max")
+    try:
+        quota_parts = cgroup_v2_cpu_max.read_text(encoding="utf-8").strip().split()
+        if len(quota_parts) >= 2 and quota_parts[0] != "max":
+            quota = int(quota_parts[0])
+            period = int(quota_parts[1])
+            if quota > 0 and period > 0:
+                return quota / period
+    except (OSError, ValueError):
+        pass
+
+    cgroup_v1_quota = Path("/sys/fs/cgroup/cpu/cpu.cfs_quota_us")
+    cgroup_v1_period = Path("/sys/fs/cgroup/cpu/cpu.cfs_period_us")
+    try:
+        quota = int(cgroup_v1_quota.read_text(encoding="utf-8").strip())
+        period = int(cgroup_v1_period.read_text(encoding="utf-8").strip())
+        if quota > 0 and period > 0:
+            return quota / period
+    except (OSError, ValueError):
+        pass
+
+    return None
+
+
+def _available_cpu_count() -> int:
+    host_cpu_count = os.cpu_count() or 1
+    quota_cpu_count = _cpu_quota_count()
+    if quota_cpu_count is None:
+        return host_cpu_count
+
+    return max(1, min(host_cpu_count, math.floor(quota_cpu_count)))
+
+
+def _auto_thread_number() -> int:
+    reserve = _read_optional_int_env(THREAD_RESERVE_ENV_VAR)
+    if reserve is None:
+        reserve = 0
+    if reserve < 0:
+        raise ValueError(f"{THREAD_RESERVE_ENV_VAR} must be non-negative")
+
+    return max(1, _available_cpu_count() - reserve)
+
+
+def _resolved_nm5_thread_number(configured_thread_number: Optional[int]) -> int:
+    if configured_thread_number is not None:
+        return configured_thread_number
+
+    env_thread_number = _read_optional_int_env(THREAD_NUMBER_ENV_VAR)
+    if env_thread_number is not None:
+        if env_thread_number < 0:
+            raise ValueError(f"{THREAD_NUMBER_ENV_VAR} must be non-negative")
+        return env_thread_number
+
+    return _auto_thread_number()
+
+
 def _delaunay_parameters(
     calculation_settings: CalculationSettings,
     has_project_area: bool,
@@ -297,6 +368,7 @@ def _noise_level_parameters(
 ) -> Dict[str, Any]:
     full_mode = _is_full_mode(calculation_settings)
     nm5_settings = calculation_settings.nm5_settings
+    thread_number = _resolved_nm5_thread_number(nm5_settings.thread_number)
 
     if not full_mode:
         return {
@@ -308,6 +380,7 @@ def _noise_level_parameters(
             "confReflOrder": 0,
             "confMaxSrcDist": 750,
             "confMaxReflDist": 50,
+            "confThreadNumber": thread_number,
         }
 
     return {
@@ -322,7 +395,7 @@ def _noise_level_parameters(
         "confReflOrder": _setting_or_default(nm5_settings.reflection_order, 1),
         "confMaxSrcDist": _setting_or_default(nm5_settings.max_source_distance, 750),
         "confMaxReflDist": _setting_or_default(nm5_settings.max_reflection_distance, 350),
-        "confThreadNumber": _setting_or_default(nm5_settings.thread_number, 0),
+        "confThreadNumber": thread_number,
         "confDiffVertical": _setting_or_default(nm5_settings.diff_vertical, has_rail_sources),
         "confDiffHorizontal": _setting_or_default(nm5_settings.diff_horizontal, True),
         "confExportSourceId": nm5_settings.export_source_id,

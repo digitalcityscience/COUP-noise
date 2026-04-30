@@ -503,8 +503,8 @@ def exec(Connection connection, Map input) {
         parameters.keepAbsorption = true
     }
 
-    pointNoiseMap.setComputeHorizontalDiffraction(compute_vertical_diffraction)
-    pointNoiseMap.setComputeVerticalDiffraction(compute_horizontal_diffraction)
+    pointNoiseMap.setComputeHorizontalDiffraction(compute_horizontal_diffraction)
+    pointNoiseMap.setComputeVerticalDiffraction(compute_vertical_diffraction)
     pointNoiseMap.setSoundReflectionOrder(reflexion_order)
     pointNoiseMap.setFrequencyFieldPrepend(frequencyFieldPrepend)
 

@@ -10,18 +10,30 @@ services:
     volumes:
       - "C:/Users/dmz-admin/CodeProjects/coupnoise/COUP-noise/downloads:/app/downloads:ro"
   worker_1:
+    cpus: "10"
     environment:
       - CITY_PYO=/app/downloads/hafencity_full/citypyo
       - NOISE_ENGINE=nm5_full
       - CELERY_QUEUE=noise_nm5_full
       - REDIS_PASS=devredis
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=10
     volumes:
       - "C:/Users/dmz-admin/CodeProjects/coupnoise/COUP-noise/downloads:/app/downloads:ro"
+    deploy:
+      resources:
+        limits:
+          cpus: "10"
   worker_2:
+    cpus: "10"
     environment:
       - CITY_PYO=/app/downloads/hafencity_full/citypyo
       - NOISE_ENGINE=nm5_full
       - CELERY_QUEUE=noise_nm5_full
       - REDIS_PASS=devredis
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=10
     volumes:
       - "C:/Users/dmz-admin/CodeProjects/coupnoise/COUP-noise/downloads:/app/downloads:ro"
+    deploy:
+      resources:
+        limits:
+          cpus: "10"

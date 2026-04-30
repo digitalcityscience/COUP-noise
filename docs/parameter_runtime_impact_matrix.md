@@ -135,6 +135,36 @@ The notebook presets are best understood as runtime/quality tradeoffs:
 
 ## Recommended Starting Points
 
+## Local Machine Tuning
+
+For this workstation, the host reports 22 logical CPUs. The currently running worker containers were configured with a 2 CPU cgroup quota, so increasing NM5 `thread_number` alone would oversubscribe the worker and is unlikely to help.
+
+The HafenCity notebook now has local tuning variables near the top:
+
+```python
+LOCAL_WORKER_CPUS = 10
+LOCAL_NM5_THREADS = 9
+RUN_SINGLE_WORKER = True
+```
+
+Practical rule:
+
+- set Docker worker CPU limit first
+- set `thread_number` to roughly `worker_cpus - 1`
+- run one worker for single-job benchmarking
+- use multiple workers only for throughput across several independent jobs
+
+The runner now sends an explicit NM5 thread count even when the request omits
+`nm5_settings.thread_number`: request value wins, then `NM5_THREAD_NUMBER`, then
+the detected container CPU quota or host CPU count. `NM5_THREAD_RESERVE` can be
+set to keep one or more CPUs free for H2/WPS/JVM overhead.
+
+The base Docker Compose worker CPU quota is configurable with `WORKER_CPUS`; the
+notebook override pins both `cpus` and `JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount`
+so Java and NM5 see the same local CPU budget.
+
+Good local benchmark candidates on this machine are `thread_number` values `1`, `2`, `4`, `8`, and `9`. The best value is not guaranteed to be the highest value because Java, WPS import/export, database work, and memory bandwidth can become bottlenecks.
+
 ### Interactive Preview
 
 Use this when users need feedback in roughly the same class as the old legacy workflow:
@@ -178,4 +208,3 @@ Use this only for asynchronous jobs:
 ```
 
 For even more detailed studies, reduce `max_area`, increase `max_source_distance`, and enable reflections/diffraction only after measuring the runtime cost.
-
