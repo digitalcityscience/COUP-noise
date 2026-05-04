@@ -11,11 +11,13 @@ Scope:
 - emission helper parameters for `Road_Emission_from_Traffic` and `Railway_Emission_from_Traffic`
 - contour parameters for `Create_Isosurface`
 
-It does not list every utility WPS block in NoiseModelling, such as import/export helpers, geometric cleanup tools, dynamic tutorials, or database management scripts.
+Except for the supported file-format summary, it does not list every utility WPS block in NoiseModelling, such as geometric cleanup tools, dynamic tutorials, or database management scripts.
 
 ## General Data Rules
 
-NM5 works on database tables. The examples below use CSV-like rows with WKT geometry for readability, but the same fields can come from GeoPackage, Shapefile, GeoJSON import, H2GIS, or PostGIS.
+NM5 works on database tables. File formats are only import/export containers. After import, the table still needs the expected table name, geometry column, CRS, and fields documented below.
+
+The examples below use CSV-like rows with WKT geometry for readability. A `csv` example should be read as a compact table-row example, not as a claim that CSV is the preferred or only supported file format.
 
 Common rules:
 
@@ -25,6 +27,58 @@ Common rules:
 - `D`, `E`, `N` mean day, evening, night.
 - Sound frequencies are usually octave-band columns such as `HZ63`, `HZ125`, `HZ250`, `HZ500`, `HZ1000`, `HZ2000`, `HZ4000`, `HZ8000`.
 - Some scripts also support third-octave bands from `HZ50` to `HZ10000`.
+
+## Supported File Formats
+
+The supported file formats depend on the WPS import/export helper used. This repo snapshot includes the following support in the bundled NM5 WPS scripts:
+
+| Use case | WPS block | Supported extensions | Notes |
+| --- | --- | --- | --- |
+| Single vector or tabular file import | `Import_File` | `.csv`, `.tsv`, `.dbf`, `.geojson`, `.gpx`, `.osm`, `.gz`, `.bz2`, `.shp`, `.fgb` | `.gz` and `.bz2` are handled by the OSM driver. `.fgb` is supported by the script code even though this snapshot's WPS description omits it. |
+| Folder vector or tabular import | `Import_Folder` | `.csv`, `.tsv`, `.dbf`, `.geojson`, `.gpx`, `.osm`, `.gz`, `.bz2`, `.shp` | Imports files in a folder that match the selected extension. |
+| OSM-to-NM input conversion | `Import_OSM` | `.osm`, `.osm.gz`, `.osm.pbf` | Convenience importer that creates NM-style `BUILDINGS`, `GROUND`, and `ROADS` tables from OSM. |
+| DEM raster import | `Import_Asc_File` | `.asc`, `.asc.gz` | ESRI ASCII grid DEM. Creates or fills the `DEM` table as 3D points. |
+| DEM raster folder import | `Import_Asc_Folder` | `.asc` | Imports all `.asc` tiles in a folder into the `DEM` table. |
+| Table export | `Export_Table` | `.csv`, `.tsv`, `.dbf`, `.geojson`, `.json`, `.kml`, `.shp`, `.fgb` | These are the extensions implemented in the export switch in this repo snapshot. |
+| Direct database input | H2GIS or PostGIS | not file-based | Create or load the required tables directly with SQL or external GIS tooling. |
+
+Practical notes:
+
+- GeoJSON is usually the easiest readable spatial file format for small examples. The geometry lives in the GeoJSON `geometry` object; NM fields such as `HEIGHT`, `G`, and `PK` live in `properties`.
+- Shapefile works, but keep the sidecar files together, especially `.shx`, `.dbf`, and ideally `.prj`.
+- CSV/TSV examples in this document store geometry as WKT text for readability. If you use them as real files, confirm after import that `THE_GEOM` is a spatial geometry column, not plain text.
+- GeoPackage `.gpkg` is not handled by the bundled `Import_File` or `Export_Table` switch in this repo snapshot. Convert it to a supported format or load it into H2GIS/PostGIS through another tool.
+- Regardless of file format, acoustic computation tables should be in a metric projected CRS. If a file is lon/lat, transform it before running the acoustic workflow.
+
+The first `BUILDINGS` row below:
+
+```csv
+THE_GEOM,HEIGHT,G
+"POLYGON ((0 0, 20 0, 20 15, 0 15, 0 0))",12,0.1
+```
+
+is equivalent to a GeoJSON feature like this:
+
+```json
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [[0, 0], [20, 0], [20, 15], [0, 15], [0, 0]]
+        ]
+      },
+      "properties": {
+        "HEIGHT": 12,
+        "G": 0.1
+      }
+    }
+  ]
+}
+```
 
 ## Main Workflows
 
@@ -73,7 +127,7 @@ Purpose: buildings and thin walls used for obstruction, reflection, diffraction,
 | `POP` | no | double | Population, useful for exposure workflows |
 | `G` | no | double | Wall absorption if `0-1`, or wall impedance if `20-20000` |
 
-Small example:
+Small table-row example, using WKT geometry:
 
 ```csv
 THE_GEOM,HEIGHT,G
@@ -564,3 +618,4 @@ Then run:
 - Generic source input: https://noisemodelling.readthedocs.io/en/latest/Input_source.html
 - Acoustic parameters: https://noisemodelling.readthedocs.io/en/latest/Input_acoustics.html
 - Local WPS scripts checked in this repository: `NoiseModelling/wps_scripts/src/main/groovy/org/noise_planet/noisemodelling/wps`
+- Local WPS import/export scripts checked for file formats: `NoiseModelling/wps_scripts/src/main/groovy/org/noise_planet/noisemodelling/wps/Import_and_Export` (`Import_File.groovy`, `Import_Folder.groovy`, `Import_Asc_File.groovy`, `Import_Asc_Folder.groovy`, `Import_OSM.groovy`, `Export_Table.groovy`)
